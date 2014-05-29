@@ -41,6 +41,18 @@
     <ClInclude Include="ZenDiary.h">
       <Filter>Helpers\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MenuHandler.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MethodHandler.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebWindow.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSHandlers.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +72,18 @@
     </ClCompile>
     <ClCompile Include="Serialization.cpp">
       <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuHandler.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MethodHandler.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebWindow.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JSHandlers.cpp">
+      <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

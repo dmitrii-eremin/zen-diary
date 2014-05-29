@@ -13,7 +13,7 @@ namespace ZenDiary
 				return boost::filesystem::exists(filepath);
 			}
 
-			ZD_STATUS GetFileSize(const std::string &filename, uint &filesize)
+			ZD_STATUS GetFileSize(const std::string &filename, uint_t &filesize)
 			{
 				if (!IsFileExist(filename))
 				{
@@ -21,7 +21,7 @@ namespace ZenDiary
 				}
 
 				boost::filesystem::path filepath(filename);
-				filesize = static_cast<uint>(boost::filesystem::file_size(filepath));
+				filesize = static_cast<uint_t>(boost::filesystem::file_size(filepath));
 
 				return ZD_NOERROR;
 			}
@@ -38,7 +38,7 @@ namespace ZenDiary
 					return ZD_ERROR_INVALID_ARGUMENT;
 				}
 
-				uint filesize = 0;
+				uint_t filesize = 0;
 				ZD_STATUS status = GetFileSize(filename, filesize);
 				if (ZD_FAILED(status))
 				{

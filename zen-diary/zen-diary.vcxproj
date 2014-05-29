@@ -88,16 +88,24 @@
   <ItemGroup>
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ISerializable.h" />
+    <ClInclude Include="JSHandlers.h" />
+    <ClInclude Include="MenuHandler.h" />
+    <ClInclude Include="MethodHandler.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WebWindow.h" />
     <ClInclude Include="ZenDiary.h" />
     <ClInclude Include="ZenDiaryApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Files.cpp" />
+    <ClCompile Include="JSHandlers.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuHandler.cpp" />
+    <ClCompile Include="MethodHandler.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="WebWindow.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

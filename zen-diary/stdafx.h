@@ -13,6 +13,10 @@
 
 #include <JsonBox.h>
 
+#include <Awesomium/STLHelpers.h>
+#include <Awesomium/WebCore.h>
+#include <js_delegate.h>
+
 #include <boost/filesystem.hpp>
 
 #include "ZenDiary.h"

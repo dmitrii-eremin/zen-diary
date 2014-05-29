@@ -1,0 +1,19 @@
+.tabbed
+{
+	margin-left: 15px;
+}
+
+.tabbedx2
+{
+	margin-left: 30px;
+}
+
+#created-projects-menu
+{
+	display: none;
+}
+
+#created-projects
+{
+	padding-bottom: 20px;
+}

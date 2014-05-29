@@ -1,4 +1,8 @@
 #pragma once
+#include "WebWindow.h"
+#include "MethodHandler.h"
+#include "MenuHandler.h"
+#include "JSHandlers.h"
 
 namespace ZenDiary
 {
@@ -20,7 +24,24 @@ namespace ZenDiary
 			virtual ZD_STATUS Terminate() override final;
 
 		private:
+			ZD_STATUS InitializeWindow();
+			ZD_STATUS FreeWindow();
+			
+			ZD_STATUS BindMethods();
+
+			std::string GetFullname(const std::string &path);
+			
+		private:
+			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
+
 			std::atomic_bool m_terminate;
+
+			Awesomium::WebCore *m_core;
+			WebWindow *m_window;
+
+			MethodHandler m_method_handler;
+			MenuHandler m_menu_handler;
+			JSHandlers m_js_handlers;
 		};
 	};
 };

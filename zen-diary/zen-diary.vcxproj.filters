@@ -98,6 +98,9 @@
     <ClInclude Include="WindowSettings.h">
       <Filter>Settings\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SQLite.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -147,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="WindowSettings.cpp">
       <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite.cpp">
+      <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

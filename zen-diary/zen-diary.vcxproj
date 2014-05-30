@@ -94,6 +94,7 @@
     <ClInclude Include="Md5.h" />
     <ClInclude Include="MenuHandler.h" />
     <ClInclude Include="MethodHandler.h" />
+    <ClInclude Include="SQLite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="utf8.h" />
     <ClInclude Include="utf8\checked.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="MenuHandler.cpp" />
     <ClCompile Include="MethodHandler.cpp" />
     <ClCompile Include="Serialization.cpp" />
+    <ClCompile Include="SQLite.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="WebWindow.cpp" />

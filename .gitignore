@@ -5,6 +5,7 @@
 *.lib
 *.def
 *.exp
+*.sqlite3
 
 # User-specific files
 *.suo

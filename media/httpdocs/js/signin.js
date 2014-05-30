@@ -69,6 +69,39 @@ $("#on-btn-signup").click(function(e)
 $("#on-btn-signin").click(function(e)
 {
 	e.preventDefault();
+
+	var login = $("#signin-login").val();
+	var password = $("#signin-password").val();
+	
+	if (login.length == 0)
+	{
+		$(".alerts-zone").alert({
+			text : "Введите имя пользователя."
+		});
+		$("#signin-login").focus();
+		return;
+	}
+
+	if (password.length == 0)
+	{
+		$(".alerts-zone").alert({
+			text : "Введите пароль пользователя."
+		});
+		$("#signin-password").focus();
+		return;
+	}
+	
+	var result = zen.loginUser(login, password);
+	if (result.success)
+	{
+			window.location.href = "index.html";
+	}
+	else
+	{
+		$(".alerts-zone").alert({
+			text : result.message
+		});
+	}
 });
 
 $("#signup-login, #signup-password, #signup-password-confirm").keydown(function(e)

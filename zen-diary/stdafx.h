@@ -11,6 +11,7 @@
 #include <string>
 #include <locale>
 #include <string>
+#include <mutex>
 #include <map>
 
 #include <windows.h>
@@ -23,5 +24,7 @@
 #include <js_delegate.h>
 
 #include <boost/filesystem.hpp>
+
+#include <sqlite3.h>
 
 #include "ZenDiary.h"

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class = "app">
+	<head>
+		<meta http-equiv = "Content-Type" content = "charset=utf-8">
+		<title>ZenDiary | Ваш личный дневник</title>
+
+		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/index.css" type = "text/css" />
+	</head>
+
+	<body class = "">
+
+		<section class = "vbox">
+			<section>
+				<section class = "hbox stretch">
+					
+					<script>
+						document.write(zen.getTemplate("../media/httpdocs/templates/sidebox.html"));
+					</script>
+
+					<section id="content">
+
+						<section class = "hbox stretch">
+							<section>
+								<section class = "vbox">
+									<section class = "scrollable padder">
+										<h1>Новая заметка</h1>
+
+										<form class = "padder">
+											<div class = "form-group">				
+												<label>Заголовок заметки</label>
+												<input id = "title" type = "text" class = "form-control" placeholder = "Заголовок заметки">
+											</div>
+											<div class = "form-group">
+
+												<div class = "row">
+													<div class = "col-sm-6">
+														<label>Текст заметки</label>
+													</div>
+													<div class = "col-sm-6 text-right">
+														<label>Вы можете использовать синтаксис <a href = "javascript:void(0)">Markdown</a></label>
+													</div>
+												</div>		
+
+												<div id = "text" class = "form-control">												
+												</div>
+											</div>
+
+											<div class = "text-right">
+												<button type = "button" class = "btn btn-default" id = "on-btn-post"><i class = "fa fa-pencil icon"></i> Сохранить заметку</button>
+											</div>
+										</form>
+
+									</section>
+								</section>
+							</section>
+						</section>     
+					</section>  
+				</section>
+			</section>
+		</section>
+
+		<script src = "js/jquery-1.11.0.min.js"></script>		
+		<script src = "js/app.v1.js"></script>
+		<script src = "js/app.plugin.js"></script>
+		<script src = "js/jquery.alert.js"></script>
+		<script src = "epiceditor/js/epiceditor.min.js"></script>
+		<script src = "js/general.js"></script>
+		<script src = "js/index.js"></script>
+	</body>
+</html>

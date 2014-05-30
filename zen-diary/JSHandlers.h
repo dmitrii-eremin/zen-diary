@@ -10,7 +10,7 @@ namespace ZenDiary
 {
 	namespace App
 	{
-		class Task5App;
+		class ZenDiaryApp;
 
 		class JSHandlers
 		{
@@ -22,18 +22,25 @@ namespace ZenDiary
 			JSHandlers &operator = (const JSHandlers &a) = default;	
 
 			ZD_STATUS SetGlobalSettings(GlobalSettings *settings);
+			ZD_STATUS SetZenApp(ZenDiaryApp *app);
 
 			/* Javascript function handlers */
-			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);			
+			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetVersionString(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetUsername(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnIsFirstRun(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnRegisterUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnLoginUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnLogoutUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 
 		private:
 			GlobalSettings *m_settings;
+			ZenDiaryApp *m_zen_app;
 		};
 	}
 }

@@ -17,6 +17,7 @@ typedef uint_t										version_t;
 #define ZD_ERROR_SMALL_BUFFER						0x04
 #define ZD_ERROR_NOT_INITIALIZED					0x05
 #define ZD_ERROR_FAILED_TO_CREATE					0x06
+#define ZD_ERROR_FAILED_TO_OPEN						0x07
 
 #define ZD_MAKE_VERSION(HI, MI, LO)					(((HI) << 16) + ((MI) << 8) + (LO))
 #define ZD_VERSION_HI(V)							((V) >> 16)

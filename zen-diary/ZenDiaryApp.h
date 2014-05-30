@@ -4,6 +4,7 @@
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
+#include "SQLite.h"
 
 namespace ZenDiary
 {
@@ -30,6 +31,7 @@ namespace ZenDiary
 			
 			ZD_STATUS InitializeDirectories();
 			ZD_STATUS InitializeJsHandlers();
+			ZD_STATUS InitializeDatabase();
 			ZD_STATUS BindMethods();
 
 			std::string GetFullname(const std::string &path);
@@ -38,6 +40,8 @@ namespace ZenDiary
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
 			const std::string m_settings_path = std::string("../media/settings/settings.json");
 			const std::string m_database_path = std::string("../media/db/zen-diary.sqlite3");
+
+			ZD_BOOL_PROPERTY(m_logged_in, LoggedIn);
 
 			const ushort_t m_remote_debugging_port = 9922;
 
@@ -51,6 +55,8 @@ namespace ZenDiary
 			JSHandlers m_js_handlers;
 
 			GlobalSettings m_settings;
+
+			SQLiteDatabase m_database;
 		};
 	};
 };

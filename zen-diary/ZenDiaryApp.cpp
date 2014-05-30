@@ -24,6 +24,7 @@ namespace ZenDiary
 			srand(static_cast<uint_t>(time(nullptr)));
 
 			ZD_RETURN_IF_FAILED(InitializeDirectories());
+			ZD_RETURN_IF_FAILED(InitializeDatabase());
 			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
 			ZD_RETURN_IF_FAILED(InitializeWindow());
 			
@@ -32,7 +33,9 @@ namespace ZenDiary
 
 		ZD_STATUS ZenDiaryApp::Deinitialize()
 		{
+			m_database.Close();
 			Helpers::Serialization::ToFile(m_settings, m_settings_path);
+
 			FreeWindow();
 			return ZD_NOERROR;
 		}
@@ -119,7 +122,17 @@ namespace ZenDiary
 
 		ZD_STATUS ZenDiaryApp::InitializeJsHandlers()
 		{
+			m_js_handlers.SetZenApp(this);
 			m_js_handlers.SetGlobalSettings(&m_settings);
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS ZenDiaryApp::InitializeDatabase()
+		{
+			if (!m_database.Open(m_database_path))
+			{
+				return ZD_ERROR_FAILED_TO_OPEN;
+			}
 			return ZD_NOERROR;
 		}
 
@@ -145,9 +158,14 @@ namespace ZenDiary
 			Awesomium::JSObject &zen_diary = result.ToObject();
 
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
+			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
+			ZD_BIND_JS_HANDLER("getVersionString", &JSHandlers::OnGetVersionString);
+			ZD_BIND_JS_HANDLER("getUsername", &JSHandlers::OnGetUsername);
 			ZD_BIND_JS_HANDLER("isFirstRun", &JSHandlers::OnIsFirstRun);
 
 			ZD_BIND_JS_HANDLER("registerUser", &JSHandlers::OnRegisterUser);
+			ZD_BIND_JS_HANDLER("loginUser", &JSHandlers::OnLoginUser);
+			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
 			return ZD_NOERROR;
 		}
 

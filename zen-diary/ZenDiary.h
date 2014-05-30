@@ -64,7 +64,10 @@ namespace ZenDiary
 			std::string To();
 
 			std::string ExtractPath(const std::string &fullname);
-			std::string FilenameToUrl(const std::string &filename);			
+			std::string FilenameToUrl(const std::string &filename);	
+
+			std::string GenerateString(const std::string &alphabet = std::string("0123456789abcdef"), size_t count = 32);
+			std::string ToUtf8(const std::wstring &src);
 
 			template <class T, class ...ARGS>
 			std::string To(const T &value, ARGS ...v)
@@ -85,6 +88,11 @@ namespace ZenDiary
 		{
 			ZD_STATUS ToFile(const Interfaces::ISerializable &object, const std::string &filename);
 			ZD_STATUS FromFile(Interfaces::ISerializable &object, const std::string &filename);
+		}
+
+		namespace Crypto
+		{
+			std::string md5(std::string src);
 		}
 	}
 }

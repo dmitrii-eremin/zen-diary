@@ -1,4 +1,4 @@
-#signup-form
+.signup-form, .signin-form
 {
 	display: none;
 }

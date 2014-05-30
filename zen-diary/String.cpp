@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ZenDiary.h"
+#include "utf8.h"
 
 namespace ZenDiary
 {
@@ -32,7 +33,35 @@ namespace ZenDiary
 				std::stringstream stream;
 				stream << "file:///" << filename;
 				return stream.str();
-			}			
+			}	
+
+			std::string GenerateString(const std::string &alphabet, size_t count)
+			{
+				if (alphabet.length() == 0 || count == 0)
+				{
+					return std::string();
+				}
+
+				std::stringstream result;
+
+				const size_t length = alphabet.length();
+
+				for (size_t i = 0; i < count; i++)
+				{
+					size_t index = rand() % length;
+					result << alphabet[index];
+				}
+
+				return result.str();
+			}
+
+			std::string ToUtf8(const std::wstring &src)
+			{
+				std::string result;				
+				utf8::utf32to8(src.c_str(), src.c_str() + src.length(), std::back_inserter(result));
+
+				return result;
+			}
 		}
 	}
 }

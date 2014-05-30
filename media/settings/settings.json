@@ -1,0 +1,15 @@
+{
+	"auth" : {
+		"first_run" : false,
+		"login" : "root",
+		"passhash" : "bd2869f89db38a2a2d65f682c2c90348",
+		"salt" : "f77cdbeda513dcbda73515055c0a0147"
+	},
+	"gui" : {
+		"window" : {
+			"height" : 720,
+			"title" : "Zen Diary | Ваш личный дневник",
+			"width" : 1280
+		}
+	}
+}

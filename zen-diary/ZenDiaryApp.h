@@ -1,8 +1,9 @@
 #pragma once
-#include "WebWindow.h"
+#include "GlobalSettings.h"
 #include "MethodHandler.h"
 #include "MenuHandler.h"
 #include "JSHandlers.h"
+#include "WebWindow.h"
 
 namespace ZenDiary
 {
@@ -27,12 +28,18 @@ namespace ZenDiary
 			ZD_STATUS InitializeWindow();
 			ZD_STATUS FreeWindow();
 			
+			ZD_STATUS InitializeDirectories();
+			ZD_STATUS InitializeJsHandlers();
 			ZD_STATUS BindMethods();
 
 			std::string GetFullname(const std::string &path);
 			
 		private:
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
+			const std::string m_settings_path = std::string("../media/settings/settings.json");
+			const std::string m_database_path = std::string("../media/db/zen-diary.sqlite3");
+
+			const ushort_t m_remote_debugging_port = 9922;
 
 			std::atomic_bool m_terminate;
 
@@ -42,6 +49,8 @@ namespace ZenDiary
 			MethodHandler m_method_handler;
 			MenuHandler m_menu_handler;
 			JSHandlers m_js_handlers;
+
+			GlobalSettings m_settings;
 		};
 	};
 };

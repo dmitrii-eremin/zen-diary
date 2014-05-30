@@ -86,26 +86,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AuthSettings.h" />
+    <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ISerializable.h" />
     <ClInclude Include="JSHandlers.h" />
+    <ClInclude Include="Md5.h" />
     <ClInclude Include="MenuHandler.h" />
     <ClInclude Include="MethodHandler.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="utf8.h" />
+    <ClInclude Include="utf8\checked.h" />
+    <ClInclude Include="utf8\core.h" />
+    <ClInclude Include="utf8\unchecked.h" />
     <ClInclude Include="WebWindow.h" />
+    <ClInclude Include="GuiSettings.h" />
+    <ClInclude Include="WindowSettings.h" />
     <ClInclude Include="ZenDiary.h" />
     <ClInclude Include="ZenDiaryApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AuthSettings.cpp" />
+    <ClCompile Include="Crypto.cpp" />
     <ClCompile Include="Files.cpp" />
+    <ClCompile Include="GlobalSettings.cpp" />
     <ClCompile Include="JSHandlers.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Md5.cpp" />
     <ClCompile Include="MenuHandler.cpp" />
     <ClCompile Include="MethodHandler.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="WebWindow.cpp" />
+    <ClCompile Include="GuiSettings.cpp" />
+    <ClCompile Include="WindowSettings.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

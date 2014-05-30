@@ -14,10 +14,14 @@
 				<a class = "navbar-brand block" href = "/signin.html">Zen Diary</a>
 				<section class = "m-b-lg">
 					<header class = "wrapper text-center">
-						<strong>Ваш личный зашифрованный дневник.</strong>
+						<strong class = "signin-form">Ваш личный зашифрованный дневник.</strong>
+						<strong class = "signup-form">Вы запустили программу в первый раз. Создайте свою учётную запись прямо сейчас.</strong>
 					</header>
 
-					<form role = "form" id = "signin-form">
+					<div class = "alerts-zone">
+					</div>
+
+					<form role = "form" class = "signin-form">
 						<div class = "list-group">
 							<div class = "list-group-item">
 								<input id = "signin-login" type = "text" placeholder = "Имя пользователя" class = "form-control no-border">
@@ -27,13 +31,13 @@
 							</div>
 						</div>
 
-						<button type = "button" class = "btn btn-lg btn-primary btn-block">Авторизироваться</button>						
+						<button id = "on-btn-signin" type = "button" class = "btn btn-lg btn-primary btn-block">Авторизироваться</button>						
 					</form>
 
-					<form role = "form" id = "signup-form">
+					<form role = "form" class = "signup-form">
 						<div class = "list-group">
 							<div class = "list-group-item">
-								<input id = "signup-slogin" type = "text" placeholder = "Имя пользователя" class = "form-control no-border">
+								<input id = "signup-login" type = "text" placeholder = "Имя пользователя" class = "form-control no-border">
 							</div>
 							<div class = "list-group-item">
 								<input id = "signup-password" type = "password" placeholder = "Пароль пользователя" class = "form-control no-border">
@@ -43,7 +47,7 @@
 							</div>
 						</div>
 
-						<button type = "button" class = "btn btn-lg btn-primary btn-block">Создать учётную запись</button>						
+						<button id = "on-btn-signup" type = "button" class = "btn btn-lg btn-primary btn-block">Создать учётную запись</button>						
 					</form>
 				</section>
 			</div>
@@ -57,9 +61,11 @@
 			</div>
 		</footer>
 
-		<script type = "text/javascript" src = "js/jquery-1.11.0.min.js"></script>
+		<script src = "js/jquery-1.11.0.min.js"></script>		
 		<script src = "js/app.v1.js"></script>
 		<script src = "js/app.plugin.js"></script>
+		<script src = "js/jquery.alert.js"></script>
+		<script src = "js/general.js"></script>
 		<script src = "js/signin.js"></script>
 	</body>
 </html>

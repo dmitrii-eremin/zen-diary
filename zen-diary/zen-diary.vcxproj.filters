@@ -24,6 +24,24 @@
     <Filter Include="Helpers\Source Files">
       <UniqueIdentifier>{38ea2f32-b113-4239-8ec1-3bc1616af486}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utf-8">
+      <UniqueIdentifier>{2faf212a-7b32-4144-abef-d68c2f6756a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utf-8\Header Files">
+      <UniqueIdentifier>{84bfeaa9-0e83-44fa-8616-632831ec0f05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utf-8\Source Files">
+      <UniqueIdentifier>{fd9518e0-aa72-46bd-8155-a0ab8b9161c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{d4f60552-9b84-445f-8d5e-555949c0520d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings\Header Files">
+      <UniqueIdentifier>{d30c5d75-43ba-4866-85a0-192bb87d2baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings\Source Files">
+      <UniqueIdentifier>{cff8d50d-be7d-411e-9ec2-42856e7651c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,6 +70,33 @@
     </ClInclude>
     <ClInclude Include="JSHandlers.h">
       <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Md5.h">
+      <Filter>Helpers\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utf8.h">
+      <Filter>utf-8\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utf8\checked.h">
+      <Filter>utf-8\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utf8\core.h">
+      <Filter>utf-8\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utf8\unchecked.h">
+      <Filter>utf-8\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AuthSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSettings.h">
+      <Filter>Settings\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +129,24 @@
     </ClCompile>
     <ClCompile Include="JSHandlers.cpp">
       <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto.cpp">
+      <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Md5.cpp">
+      <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AuthSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

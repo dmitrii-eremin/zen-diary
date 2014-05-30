@@ -1,17 +1,17 @@
-var index = {
+var new_post = {
 	editor : {}
 };
 
 $(document).ready(function()
 {
-	index.editor = new EpicEditor({
+	new_post.editor = new EpicEditor({
 		container : "text",
 		clientSideStorage : false,
 		useNativeFullscreen : true,		
 
 		button : {
 			preview : true,
-			fullscreen : true,
+			fullscreen : false,
 			bar : "auto"
 		},
 
@@ -26,7 +26,7 @@ $(document).ready(function()
 		theme : {
 			base : "/themes/base/epiceditor.css",
 			preview : "/themes/preview/bartik.css",
-			editor : "/themes/editor/epic-light.css"
+			editor : "/themes/editor/epic-light-user.css"
 		},
 
 		string : {
@@ -35,11 +35,46 @@ $(document).ready(function()
 			toggleFullscreen : "Развернуть во всё окно"
 		}
 	}).load();
+
+	var editor = new_post.editor.getElement("editor");
+
+	editor.addEventListener("keydown", function(e)
+	{
+		$("#on-btn-post").attr("class", "btn btn-default");		
+
+		$("#on-btn-post-icon").attr("class", "icon fa fa-pencil");
+
+		$("#on-btn-post-text").html("Сохранить заметку");	
+	});
 });
 
 $(window).resize(function(e)
 {
 	var height = $(this).height();
 	$("#text").css("height", (height - 235) + "px");
-	index.editor.reflow();
+	new_post
+	.editor.reflow();
+});
+
+$("#on-btn-post").click(function(e)
+{
+	e.preventDefault();
+
+	var result = {
+		success : true
+	};
+
+	if (result.success)
+	{
+		$("#on-btn-post").attr("class", "btn btn-success");		
+
+		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
+
+		$("#on-btn-post-text").html("Сохранено");
+	}
+});
+
+$("#text").keydown(function(e)
+{
+	zen.alert("DF");
 });

@@ -29,3 +29,29 @@ $(".on-btn-logout").click(function(e)
 	zen.logoutUser();
 	window.location.href = "signin.html";
 });
+
+$("a[data-toggle=\"ajax-modal\"]").click(function(e)
+{
+	e.preventDefault();
+	var href = $(this).attr("href");
+
+	var content = zen.getTemplate(href);
+	
+
+	$(".modal-background").remove();
+
+	var modal = $("<div>").addClass("modal-background");
+	$(modal).append(content);
+
+	$("body").append(modal);
+
+	$(modal).fadeIn(zenapi.animation_duration);
+});
+
+$(document).on("click", ".modal-background", function()
+{
+	$(this).fadeOut(zenapi.animation_duration, function()
+	{
+		$(this).remove();
+	});
+});

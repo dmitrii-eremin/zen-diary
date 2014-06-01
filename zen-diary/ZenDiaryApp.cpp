@@ -23,6 +23,7 @@ namespace ZenDiary
 
 			srand(static_cast<uint_t>(time(nullptr)));
 
+			ZD_RETURN_IF_FAILED(InitializeCryptography());
 			ZD_RETURN_IF_FAILED(InitializeDirectories());
 			ZD_RETURN_IF_FAILED(InitializeDatabase());
 			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
@@ -106,6 +107,13 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		ZD_STATUS ZenDiaryApp::InitializeCryptography()
+		{
+			aes_init();
+
+			return ZD_NOERROR;
+		}
+
 		ZD_STATUS ZenDiaryApp::InitializeDirectories()
 		{
 			const std::deque<std::string> directories = {
@@ -124,6 +132,7 @@ namespace ZenDiary
 		{
 			m_js_handlers.SetZenApp(this);
 			m_js_handlers.SetGlobalSettings(&m_settings);
+			m_js_handlers.SetDatabase(&m_database);
 			return ZD_NOERROR;
 		}
 
@@ -132,6 +141,13 @@ namespace ZenDiary
 			if (!m_database.Open(m_database_path))
 			{
 				return ZD_ERROR_FAILED_TO_OPEN;
+			}
+
+			std::string initialization_query;
+			ZD_STATUS status = Helpers::Files::GetFileContent(m_database_initialization_path, initialization_query);
+			if (ZD_SUCCEEDED(status))
+			{
+				int res = m_database.Execute(initialization_query);
 			}
 			return ZD_NOERROR;
 		}
@@ -166,6 +182,7 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("registerUser", &JSHandlers::OnRegisterUser);
 			ZD_BIND_JS_HANDLER("loginUser", &JSHandlers::OnLoginUser);
 			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
+			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
 			return ZD_NOERROR;
 		}
 

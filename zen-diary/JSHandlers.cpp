@@ -8,7 +8,8 @@ namespace ZenDiary
 	{
 		JSHandlers::JSHandlers() : 
 			m_settings(nullptr),
-			m_zen_app(nullptr)
+			m_zen_app(nullptr),
+			m_database(nullptr)
 		{
 
 		}
@@ -27,6 +28,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetZenApp(ZenDiaryApp *app)
 		{
 			m_zen_app = app;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetDatabase(SQLiteDatabase *db)
+		{
+			m_database = db;
 			return ZD_NOERROR;
 		}
 
@@ -219,6 +226,65 @@ namespace ZenDiary
 		Awesomium::JSValue JSHandlers::OnLogoutUser(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			ZD_SAFE_CALL(m_zen_app)->SetLoggedIn(false);
+
+			return CreateAnswerObject(true);
+		}
+
+		Awesomium::JSValue JSHandlers::OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			if (args.size() < 2)
+			{
+				return CreateAnswerObject(false, L"Функция получила недостаточно параметров, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_title = args.At(0);
+			Awesomium::JSValue js_text = args.At(1);
+
+			Awesomium::JSValue js_password(Awesomium::WSLit(""));
+			if (args.size() >= 3)
+			{
+				js_password = args.At(2);
+			}
+
+			if (!js_title.IsString() || !js_text.IsString() ||
+				(!js_password.IsString() && !js_password.IsUndefined()))
+			{
+				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитеськ разработчику.");
+			}
+
+			std::string title(Awesomium::ToString(js_title.ToString()));
+			std::string text(Awesomium::ToString(js_text.ToString()));
+
+			std::string password;
+			if (js_password.IsString())
+			{
+				password = Awesomium::ToString(js_password.ToString());
+			}
+
+			bool use_password = password.length() > 0;
+
+			std::string hash = Helpers::Crypto::md5(text);
+
+			if (use_password)
+			{
+				// TODO: encrypt text data
+			}
+
+			std::stringstream query;
+			query << "INSERT INTO `notes` (`title`, `note`, `hash`, `encrypted`) VALUES('" << 
+				title << "', '" << text << "', '" << hash << "', " << (use_password ? 1 : 0) << ");";
+
+			uint_t inserted = m_database->Execute(query.str());
+
+			if (inserted == 0)
+			{
+				return CreateAnswerObject(false, L"Не удалось добавить запись в БД, неверный запрос в базу данных, обратитесь к разработчику.");
+			}
 
 			return CreateAnswerObject(true);
 		}

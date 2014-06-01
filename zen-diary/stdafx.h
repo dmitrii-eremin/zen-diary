@@ -27,4 +27,6 @@
 
 #include <sqlite3.h>
 
+#include <aes.h>
+
 #include "ZenDiary.h"

@@ -41,6 +41,8 @@ typedef uint_t										version_t;
 
 #define ZD_VERSION									ZD_MAKE_VERSION(2, 0, 0)
 
+#define AES_BLOCK_LEN								16
+
 #include "IApplication.h"
 #include "ISerializable.h"
 
@@ -94,6 +96,9 @@ namespace ZenDiary
 		namespace Crypto
 		{
 			std::string md5(std::string src);
+
+			std::string EncryptString(const std::string &data, std::string key, char **new_data, size_t &new_data_size);
+			std::string DecryptString(char *data, size_t data_length, std::string key);
 		}
 	}
 }

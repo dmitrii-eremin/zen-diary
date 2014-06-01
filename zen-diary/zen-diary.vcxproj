@@ -41,13 +41,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Projects\zen-diary\libs\sqlite\include;C:\Projects\zen-diary\libs\luabind\include;C:\Projects\zen-diary\libs\lua\include;C:\Projects\zen-diary\libs\Awesomium\include;C:\Projects\zen-diary\libs\boost\include;C:\Projects\zen-diary\libs\JSonBox\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Projects\zen-diary\libs\sqlite\lib;C:\Projects\zen-diary\libs\luabind\lib;C:\Projects\zen-diary\libs\lua\lib;C:\Projects\zen-diary\libs\JSonBox\lib;C:\Projects\zen-diary\libs\boost\lib;C:\Projects\zen-diary\libs\Awesomium\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Projects\zen-diary\libs\aes\include;C:\Projects\zen-diary\libs\sqlite\include;C:\Projects\zen-diary\libs\luabind\include;C:\Projects\zen-diary\libs\lua\include;C:\Projects\zen-diary\libs\Awesomium\include;C:\Projects\zen-diary\libs\boost\include;C:\Projects\zen-diary\libs\JSonBox\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Projects\zen-diary\libs\aes\lib;C:\Projects\zen-diary\libs\sqlite\lib;C:\Projects\zen-diary\libs\luabind\lib;C:\Projects\zen-diary\libs\lua\lib;C:\Projects\zen-diary\libs\JSonBox\lib;C:\Projects\zen-diary\libs\boost\lib;C:\Projects\zen-diary\libs\Awesomium\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Projects\zen-diary\libs\sqlite\include;C:\Projects\zen-diary\libs\luabind\include;C:\Projects\zen-diary\libs\lua\include;C:\Projects\zen-diary\libs\Awesomium\include;C:\Projects\zen-diary\libs\boost\include;C:\Projects\zen-diary\libs\JSonBox\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Projects\zen-diary\libs\sqlite\lib;C:\Projects\zen-diary\libs\luabind\lib;C:\Projects\zen-diary\libs\lua\lib;C:\Projects\zen-diary\libs\JSonBox\lib;C:\Projects\zen-diary\libs\boost\lib;C:\Projects\zen-diary\libs\Awesomium\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Projects\zen-diary\libs\aes\include;C:\Projects\zen-diary\libs\sqlite\include;C:\Projects\zen-diary\libs\luabind\include;C:\Projects\zen-diary\libs\lua\include;C:\Projects\zen-diary\libs\Awesomium\include;C:\Projects\zen-diary\libs\boost\include;C:\Projects\zen-diary\libs\JSonBox\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Projects\zen-diary\libs\aes\lib;C:\Projects\zen-diary\libs\sqlite\lib;C:\Projects\zen-diary\libs\luabind\lib;C:\Projects\zen-diary\libs\lua\lib;C:\Projects\zen-diary\libs\JSonBox\lib;C:\Projects\zen-diary\libs\boost\lib;C:\Projects\zen-diary\libs\Awesomium\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html class = "app">
+	<head>
+		<meta http-equiv = "Content-Type" content = "charset=utf-8">
+		<title>ZenDiary | Ваш личный дневник</title>
+
+		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/view-notes.css" type = "text/css" />
+	</head>
+
+	<body class = "">		
+
+		<section class = "vbox">
+			<section>
+				<section class = "hbox stretch">
+					
+					<script>
+						document.write(zen.getTemplate("../media/httpdocs/templates/sidebox.html"));
+					</script>					
+
+					<section id="content">
+						<section class = "hbox stretch">
+
+							<aside class = "aside-lg aside b-r b-light bg-light" id = "notes-list">
+								<section class = "vbox">
+									<header class = "dker header clearfix">
+										<div class = "btn-group pull-right">
+											<button type = "button" class = "btn btn-sm btn-bg btn-default"><i class = "fa fa-chevron-left"></i></button>
+											<button type = "button" class = "btn btn-sm btn-bg btn-default"><i class = "fa fa-chevron-right"></i></button>
+										</div>
+
+										<div class = "btn-toolbar">
+											<div class = "btn-group select">
+												<button class = "btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle = "dropdown">
+													<span class = "dropdown-label" style = "width: 100px">Применить фильтр</span> <span class = "caret"></span>
+												</button>
+
+												<ul class = "dropdown-menu text-left text-sm">
+													<li><a href = "javascript:void(0)">Фильтр 1</a></li>
+													<li><a href = "javascript:void(0)">Фильтр 2</a></li>
+													<li><a href = "javascript:void(0)">Фильтр 3</a></li>
+												</ul>
+											</div>											
+										</div>
+									</header>
+
+									<section class = "scrollable hover w-f">
+										<ul class = "list-group auto no-radius m-b-none m-t-n-xxs list-group-lg">
+											<li class = "list-group-item">
+												
+											</li>
+										</ul>
+									</section>
+
+									<footer class = "footer dk clearfix">
+										<form class = "m-t-sm">
+											<div class = "input-group">
+												<input type = "text" class = "input-sm form-control input-s-sm" placeholder = "Поиск...">
+												<div class = "input-group-btn">
+													<button class = "btn btn-sm btn-default">
+														<i class = "fa fa-search"></i>
+													</button>
+												</div>
+											</div>
+										</form>
+									</footer>
+								</section>
+							</aside>
+
+							<section>
+								<section class = "vbox">
+									<section class = "scrollable padder">
+										
+
+
+									</section>
+								</section>
+							</section>
+						</section>     
+					</section>  
+				</section>
+			</section>
+		</section>
+
+		<script src = "js/jquery-1.11.0.min.js"></script>		
+		<script src = "js/app.v1.js"></script>
+		<script src = "js/app.plugin.js"></script>
+		<script src = "js/jquery.alert.js"></script>
+		<script src = "epiceditor/js/epiceditor.min.js"></script>		
+		<script src = "js/notify.min.js"></script>
+		<script src = "js/general.js"></script>		
+		<script src = "js/view-notes.js"></script>
+	</body>
+</html>

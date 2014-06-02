@@ -21,6 +21,14 @@ $(function()
 	{
 		$("#nav-menu-index").addClass("active");
 	}
+	else if (location.indexOf("/view-notes.html") != -1)
+	{
+		$("#nav-menu-diary").addClass("active");
+	}
+	else if (location.indexOf("/settings.html") != -1)
+	{
+		$("#nav-menu-settings").addClass("active");
+	}
 });
 
 $(".on-btn-logout").click(function(e)
@@ -46,6 +54,14 @@ $("a[data-toggle=\"ajax-modal\"]").click(function(e)
 	$("body").append(modal);
 
 	$(modal).fadeIn(zenapi.animation_duration);
+});
+
+$(".awesomium-link").click(function(e)
+{
+	e.preventDefault();
+	var path = $(this).attr("path");
+
+	window.location.href = path;
 });
 
 $(document).on("click", ".modal-background", function()

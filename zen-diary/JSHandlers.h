@@ -38,6 +38,7 @@ namespace ZenDiary
 			Awesomium::JSValue OnLogoutUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnUpdateNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());

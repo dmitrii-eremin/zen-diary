@@ -254,7 +254,7 @@ namespace ZenDiary
 			if (!js_title.IsString() || !js_text.IsString() ||
 				(!js_password.IsString() && !js_password.IsUndefined()))
 			{
-				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитеськ разработчику.");
+				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитесь к разработчику.");
 			}
 
 			std::string title(Awesomium::ToString(js_title.ToString()));
@@ -272,7 +272,14 @@ namespace ZenDiary
 
 			if (use_password)
 			{
-				// TODO: encrypt text data
+				char *encrypted_data = nullptr;
+				size_t encrypted_data_size = 0;
+
+				Helpers::Crypto::EncryptString(text, password, &encrypted_data, encrypted_data_size);
+
+				text = Helpers::Crypto::Base64Encode(encrypted_data, encrypted_data_size);
+
+				delete []encrypted_data;
 			}
 
 			std::stringstream query;
@@ -286,7 +293,88 @@ namespace ZenDiary
 				return CreateAnswerObject(false, L"Не удалось добавить запись в БД, неверный запрос в базу данных, обратитесь к разработчику.");
 			}
 
-			return CreateAnswerObject(true);
+			Awesomium::JSObject answer(CreateAnswerObject(true));
+
+			int last_row_id = m_database->GetLastInsertId();
+
+			answer.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(last_row_id));
+
+			return answer;
+		}
+
+		Awesomium::JSValue JSHandlers::OnUpdateNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			if (args.size() < 3)
+			{
+				return CreateAnswerObject(false, L"Функция получила недостаточно параметров, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_id = args.At(0);
+			Awesomium::JSValue js_title = args.At(1);
+			Awesomium::JSValue js_text = args.At(2);
+
+			Awesomium::JSValue js_password(Awesomium::WSLit(""));
+			if (args.size() >= 4)
+			{
+				js_password = args.At(3);
+			}
+
+			if (!js_id.IsInteger() || !js_title.IsString() || !js_text.IsString() ||
+				(!js_password.IsString() && !js_password.IsUndefined()))
+			{
+				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитесь к разработчику.");
+			}
+
+			int id = js_id.ToInteger();
+			std::string title(Awesomium::ToString(js_title.ToString()));
+			std::string text(Awesomium::ToString(js_text.ToString()));
+
+			std::string password;
+			if (js_password.IsString())
+			{
+				password = Awesomium::ToString(js_password.ToString());
+			}
+
+			bool use_password = password.length() > 0;
+
+			std::string hash = Helpers::Crypto::md5(text);
+
+			if (use_password)
+			{
+				char *encrypted_data = nullptr;
+				size_t encrypted_data_size = 0;
+
+				Helpers::Crypto::EncryptString(text, password, &encrypted_data, encrypted_data_size);
+
+				text = Helpers::Crypto::Base64Encode(encrypted_data, encrypted_data_size);
+
+				delete[]encrypted_data;
+			}
+
+			std::stringstream query;			
+
+			query << "UPDATE `notes` SET `title` = '" << title << "', `note` = '" << text
+				<< "', `hash` = '" << hash << "', `encrypted` = " << (use_password ? 1 : 0) << " WHERE `id` = " << id << ";";;
+
+			uint_t updated = m_database->Execute(query.str());
+
+			if (updated == 0)
+			{
+				return CreateAnswerObject(false, L"Не удалось обновить запись в БД, неверный запрос в базу данных, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSObject answer(CreateAnswerObject(true));
+
+			int last_row_id = m_database->GetLastInsertId();
+
+			answer.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(last_row_id));
+
+			return answer;
 		}
 
 		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::wstring &message)

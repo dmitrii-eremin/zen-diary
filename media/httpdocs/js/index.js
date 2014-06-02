@@ -1,17 +1,19 @@
 var new_post = {
 	editor : {},
 
+	current_note_id : 0,
+
 	setSavedButtonState : function()
 	{
 		$("#on-btn-post").attr("class", "btn btn-success");	
-		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
+		$("#on-btn-post-icon").attr("class", "icon i i-checkmark2");
 		$("#on-btn-post-text").html("Сохранено");
 	},
 
 	setUnsavedButtonState : function()
 	{
 		$("#on-btn-post").attr("class", "btn btn-default");		
-		$("#on-btn-post-icon").attr("class", "icon fa fa-pencil");
+		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
 		$("#on-btn-post-text").html("Сохранить заметку");	
 	}
 };
@@ -70,21 +72,12 @@ $("#on-btn-post").click(function(e)
 {
 	e.preventDefault();
 
+	var editor = new_post.editor;
+
 	var title = $("#title").val();
-	var text = $("#text").val();
+	var text = editor.exportFile();
 	var pass = $("#password").val();
-	var passconfirm = $("#password-confirm").val();
-
-	if (title.length == 0)
-	{
-		$.notify("Вы должны обязательно ввести заголовок заметки.", 
-		{
-			position : "top right"
-		});
-
-		$("#title").focus();
-		return;
-	}	
+	var passconfirm = $("#password-confirm").val();		
 
 	if (pass.length > 0 && pass != passconfirm)
 	{
@@ -96,11 +89,31 @@ $("#on-btn-post").click(function(e)
 		return;
 	}
 
-	var result = zen.postNote(title, text, pass);
+	var result = {};
+
+	if (new_post.current_note_id == 0)
+	{
+		result = zen.postNote(title, text, pass);		
+	}
+	else
+	{
+		result = zen.updateNote(new_post.current_note_id, title, text, pass);		
+	}
 
 	if (result.success)
 	{
 		new_post.setSavedButtonState();
+
+		if (new_post.current_note_id == 0)
+		{
+			new_post.current_note_id = result.id;
+		}
+
+		$.notify("Заметка сохранена.", 
+		{
+			position : "top right",
+			className : "success"
+		});
 	}
 	else
 	{

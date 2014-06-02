@@ -14,7 +14,7 @@ namespace ZenDiary
 
 		ZenDiaryApp::~ZenDiaryApp()
 		{
-
+			
 		}
 
 		ZD_STATUS ZenDiaryApp::Initialize(const std::string &argv)
@@ -110,7 +110,6 @@ namespace ZenDiary
 		ZD_STATUS ZenDiaryApp::InitializeCryptography()
 		{
 			aes_init();
-
 			return ZD_NOERROR;
 		}
 
@@ -183,6 +182,7 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("loginUser", &JSHandlers::OnLoginUser);
 			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
 			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
+			ZD_BIND_JS_HANDLER("updateNote", &JSHandlers::OnUpdateNote);
 			return ZD_NOERROR;
 		}
 

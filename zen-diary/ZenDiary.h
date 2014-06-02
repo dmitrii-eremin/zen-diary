@@ -97,8 +97,11 @@ namespace ZenDiary
 		{
 			std::string md5(std::string src);
 
-			std::string EncryptString(const std::string &data, std::string key, char **new_data, size_t &new_data_size);
+			ZD_STATUS EncryptString(std::string data, std::string key, char **new_data, size_t &new_data_size);
 			std::string DecryptString(char *data, size_t data_length, std::string key);
+
+			std::string Base64Encode(char *bytes_to_encode, size_t in_len);
+			ZD_STATUS Base64Decode(const std::string &encoded_string, char **data, size_t &data_size);
 		}
 	}
 }

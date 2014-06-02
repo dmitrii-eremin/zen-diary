@@ -44,6 +44,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnGetNotes(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnIsNoteEncrypted(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnHideNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 

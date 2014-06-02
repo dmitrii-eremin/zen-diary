@@ -598,6 +598,58 @@ namespace ZenDiary
 			return Awesomium::JSValue(encrypted);
 		}
 
+		Awesomium::JSValue JSHandlers::OnHideNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1)
+			{
+				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+			}
+
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_id(args.At(0));
+
+			bool use_password = false;
+
+			Awesomium::JSValue js_password;
+			if (args.size() >= 2)
+			{
+				js_password = args.At(1);
+
+				use_password = true;
+			}
+
+			if (!js_id.IsInteger() && !js_id.IsString())
+			{
+				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+			}
+
+			int id = 0;
+			if (js_id.IsInteger())
+			{
+				id = js_id.ToInteger();
+			}
+			else if (js_id.IsString())
+			{
+				id = atoi(Awesomium::ToString(js_id.ToString()).c_str());
+			}
+
+			std::stringstream query;
+			query << "UPDATE `notes` SET `deleted` = 1 WHERE `id` = " << id << ";";
+
+			int updated = m_database->Execute(query.str());
+
+			if (updated == 0)
+			{
+				return CreateAnswerObject(false, L"Не удалось скрыть заметку, неверный ID заметки.");
+			}
+
+			return CreateAnswerObject(true);
+		}
+
 		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::wstring &message)
 		{
 			Awesomium::JSObject result;

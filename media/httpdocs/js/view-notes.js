@@ -5,7 +5,7 @@ var notes = {
 	{
 		const desc_max_length = 40;
 
-		var li = $("<li>").addClass("list-group-item note-item");
+		var li = $("<li>").addClass("list-group-item note-item").attr("note-id", note.id);
 		var a = $("<a>").attr("href", "javascript:void(0)").attr("note-id", note.id).addClass("clear text-ellipsis on-btn-show-note");
 		var updated = $("<small>").addClass("pull-right").html(note.updated);
 		var title = $("<strong>").addClass("block").html(note.title);
@@ -42,10 +42,20 @@ var notes = {
 	{
 		notes.current_note = note.id;
 
+		var html_text = markdown.toHTML(note.note);
+
 		$("#note-title").html(note.title);
-		$("#note-text").html(note.note);
+		$("#note-text").html(html_text);
 
 		$("#view-note").fadeIn(zenapi.animation_duration);
+	},
+
+	clearNote : function()
+	{
+		notes.current_note = 0;
+		$("#note-title").html("");
+		$("#note-text").html("");
+		$("#view-note").hide();
 	}
 };
 
@@ -83,13 +93,18 @@ $(document).on("click", ".on-btn-show-note", function(e)
 		var dialog = new BootstrapDialog({
 			title : "Заметка зашифрована",
 			message : dialog_message,
-			type : BootstrapDialog.TYPE_WARNING,
+			type : BootstrapDialog.TYPE_DEFAULT,
 			buttons : [
 				{
 					id : "on-btn-enter-password",
 					label : "OK"
 				}
-			]			
+			],
+
+			onshown : function(dlg)
+			{
+				$("#input-note-password").focus();
+			}		
 		});
 
 		dialog.realize();
@@ -97,7 +112,7 @@ $(document).on("click", ".on-btn-show-note", function(e)
 		var btn_enter_pasword = dialog.getButton("on-btn-enter-password");
 		btn_enter_pasword.click({}, function(e)
 		{
-			var password = $("#input-note-password").val();		
+			var password = $("#input-note-password").val();
 			var result = zen.getNote(id, password);			
 			if (result.success)
 			{
@@ -190,6 +205,14 @@ $(".on-btn-filter-all").click(function(e)
 	});
 });
 
+
+$(".on-btn-only-deleted").click(function(e)
+{
+	e.preventDefault();
+
+	// TODO: Implement this
+});
+
 $(".on-btn-edit").click(function(e)
 {
 	e.preventDefault();
@@ -202,6 +225,44 @@ $(".on-btn-edit").click(function(e)
 $(".on-btn-hide").click(function(e)
 {
 	e.preventDefault();
+	if (notes.current_note != 0)
+	{
+		var result = zen.hideNote(notes.current_note);
+		if (result.success)
+		{		
+			var note_id = notes.current_note;
+
+			notes.clearNote();
+
+			$(".note-item").each(function()
+			{
+				var id = $(this).attr("note-id");
+				if (id == note_id)
+				{
+					var real_this = this;
+					$(this).slideUp(zenapi.animation_duration, function()
+					{
+						$(real_this).remove();
+					});				
+				}
+			});
+
+			notes.current_note = 0;
+
+			$.notify("Сообщение скрыто из дневника.", 
+			{
+				position: "top right",
+				className : "success"
+			});
+		}
+		else
+		{
+			$.notify(result.message, 
+			{
+				position: "top right"
+			});
+		}
+	}
 });
 
 $(".on-btn-delete").click(function(e)

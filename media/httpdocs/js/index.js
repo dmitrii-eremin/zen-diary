@@ -72,13 +72,18 @@ $(document).ready(function()
 			var dialog = new BootstrapDialog({
 				title : "Заметка зашифрована",
 				message : dialog_message,
-				type : BootstrapDialog.TYPE_WARNING,
+				type : BootstrapDialog.TYPE_DEFAULT,
 				buttons : [
 					{
 						id : "on-btn-enter-password",
 						label : "OK"
 					}
-				]			
+				],
+
+				onshown : function(dlg)
+				{
+					$("#input-note-password").focus();
+				}			
 			});
 
 			dialog.realize();

@@ -356,7 +356,9 @@ namespace ZenDiary
 				delete[]encrypted_data;
 			}
 
-			std::stringstream query;			
+			std::stringstream query;
+
+			// TODO: update `update` column
 
 			query << "UPDATE `notes` SET `title` = '" << title << "', `note` = '" << text
 				<< "', `hash` = '" << hash << "', `encrypted` = " << (use_password ? 1 : 0) << " WHERE `id` = " << id << ";";;
@@ -375,6 +377,225 @@ namespace ZenDiary
 			answer.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(last_row_id));
 
 			return answer;
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1)
+			{
+				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+			}
+
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_id(args.At(0));
+
+			bool use_password = false;
+
+			Awesomium::JSValue js_password;
+			if (args.size() >= 2)
+			{
+				js_password = args.At(1);
+
+				use_password = true;
+			}
+
+			if ((!js_id.IsInteger() && !js_id.IsString()) ||
+				(args.size() >= 2 && !js_password.IsString()))
+			{
+				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+			}
+
+			int id = 0;
+			if (js_id.IsInteger())
+			{
+				id = js_id.ToInteger();
+			}
+			else if (js_id.IsString())
+			{
+				id = atoi(Awesomium::ToString(js_id.ToString()).c_str());
+			}
+
+			std::stringstream query;
+			query << "SELECT `title`, `note`, `hash`, `encrypted`, `created`, `updated` FROM `notes` WHERE `id` = " << id << " AND `deleted` = 0;";
+
+			IDatabaseResult *stmt = m_database->ExecuteSelect(query.str());
+
+			const wchar_t *error_not_exist = L"Не удалось получить заметку из базы данных, возможно она была удалена.";
+
+			if (!stmt || !stmt->Next())
+			{
+				ZD_SAFE_CALL(stmt)->Release();
+				return CreateAnswerObject(false, error_not_exist);
+			}
+
+			const char *ctitle = stmt->ColumnData(0);
+			const char *cnote = stmt->ColumnData(1);
+			const char *chash = stmt->ColumnData(2);
+			const char *cencrypted = stmt->ColumnData(3);
+			const char *ccreated = stmt->ColumnData(4);
+			const char *cupdated = stmt->ColumnData(5);
+
+			if (!ctitle || !cnote || !chash || !cencrypted || !ccreated || !cupdated)
+			{
+				ZD_SAFE_CALL(stmt)->Release();
+				return CreateAnswerObject(false, error_not_exist);
+			}
+
+			std::string title(ctitle);
+			std::string note(cnote);
+			std::string hash(chash);
+			bool encrypted = atoi(cencrypted) > 0;
+			std::string created(ccreated);
+			std::string updated(cupdated);
+			
+			ZD_SAFE_CALL(stmt)->Release();
+
+			if (encrypted && !use_password)
+			{
+				return CreateAnswerObject(false, L"Невозможно открыть зашифрованную заметку без пароля.");
+			}
+
+			Awesomium::JSObject answer = CreateAnswerObject(true);
+
+			answer.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(id));
+			answer.SetProperty(Awesomium::WSLit("title"), Awesomium::JSValue(Awesomium::WSLit(title.c_str())));
+			answer.SetProperty(Awesomium::WSLit("hash"), Awesomium::JSValue(Awesomium::WSLit(hash.c_str())));
+			answer.SetProperty(Awesomium::WSLit("encrypted"), Awesomium::JSValue(encrypted));
+			answer.SetProperty(Awesomium::WSLit("created"), Awesomium::JSValue(Awesomium::WSLit(created.c_str())));
+			answer.SetProperty(Awesomium::WSLit("updated"), Awesomium::JSValue(Awesomium::WSLit(updated.c_str())));	
+
+			if (encrypted)
+			{
+				std::string password(Awesomium::ToString(js_password.ToString()));
+
+				char *encoded_bytes = nullptr;
+				size_t encoded_size = 0;
+
+				Helpers::Crypto::Base64Decode(note, &encoded_bytes, encoded_size);
+				std::string decoded_note = Helpers::Crypto::DecryptString(encoded_bytes, encoded_size, password);
+
+				std::string decoded_note_hash = Helpers::Crypto::md5(decoded_note);
+				if (decoded_note_hash != hash)
+				{
+					return CreateAnswerObject(false, L"Не удалось расшифровать заметку, вы ввели неверный пароль.");
+				}
+
+				answer.SetProperty(Awesomium::WSLit("note"), Awesomium::JSValue(Awesomium::WSLit(decoded_note.c_str())));
+			}
+			else
+			{
+				answer.SetProperty(Awesomium::WSLit("note"), Awesomium::JSValue(Awesomium::WSLit(note.c_str())));
+			}
+
+			return answer;
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetNotes(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_database)
+			{
+				return Awesomium::JSValue::Undefined();
+			}			
+
+			Awesomium::JSArray result;
+
+			IDatabaseResult *stmt = m_database->ExecuteSelect("SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash` FROM `notes` WHERE `deleted` = 0;");
+			while (stmt && stmt->Next())
+			{
+				const char *cid = stmt->ColumnData(0);
+				const char *ctitle = stmt->ColumnData(1);
+				const char *cencrypted = stmt->ColumnData(2);
+				const char *ccreated = stmt->ColumnData(3);
+				const char *cupdated = stmt->ColumnData(4);
+				const char *cnote = stmt->ColumnData(5);
+				const char *chash = stmt->ColumnData(6);
+
+				if (!cid || !ctitle || !cencrypted || 
+					!ccreated || !cupdated || !cnote || !chash)
+				{
+					continue;
+				}
+
+				int id = atoi(cid);
+				bool encrypted = atoi(cencrypted) != 0;
+				
+				std::string title(ctitle);				
+				std::string created(ccreated);
+				std::string updated(cupdated);
+
+				std::string note(cnote);
+				std::string hash(chash);
+
+				Awesomium::JSObject item;
+				item.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(id));
+				item.SetProperty(Awesomium::WSLit("encrypted"), Awesomium::JSValue(encrypted));
+				item.SetProperty(Awesomium::WSLit("title"), Awesomium::JSValue(Awesomium::WSLit(title.c_str())));
+				item.SetProperty(Awesomium::WSLit("note"), Awesomium::JSValue(Awesomium::WSLit(note.c_str())));
+				item.SetProperty(Awesomium::WSLit("hash"), Awesomium::JSValue(Awesomium::WSLit(hash.c_str())));
+				item.SetProperty(Awesomium::WSLit("created"), Awesomium::JSValue(Awesomium::WSLit(created.c_str())));
+				item.SetProperty(Awesomium::WSLit("updated"), Awesomium::JSValue(Awesomium::WSLit(updated.c_str())));
+
+				result.Push(item);
+			}
+
+			ZD_SAFE_CALL(stmt)->Release();
+
+			return result;
+		}
+
+		Awesomium::JSValue JSHandlers::OnIsNoteEncrypted(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_database || args.size() < 1)
+			{
+				return Awesomium::JSValue(false);
+			}
+
+			Awesomium::JSValue js_id(args.At(0));
+
+			if (!js_id.IsInteger() && !js_id.IsString())
+			{
+				return Awesomium::JSValue(false);
+			}
+
+			int id = 0;
+			if (js_id.IsInteger())
+			{
+				id = js_id.ToInteger();
+			}
+			else if (js_id.IsString())
+			{
+				id = atoi(Awesomium::ToString(js_id.ToString()).c_str());
+			}
+
+			std::stringstream query;
+			query << "SELECT `encrypted` FROM `notes` WHERE `deleted` = 0 AND `id` = " << id << ";";
+
+			IDatabaseResult *stmt = m_database->ExecuteSelect(query.str());
+			if (!stmt)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			bool encrypted = false;
+
+			if (stmt->Next())
+			{
+				const char *cencrypted = stmt->ColumnData(0);
+				if (cencrypted)
+				{
+					int enc = atoi(cencrypted);
+
+					encrypted = enc > 0;
+				}
+			}
+
+			stmt->Release();
+
+			return Awesomium::JSValue(encrypted);
 		}
 
 		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::wstring &message)

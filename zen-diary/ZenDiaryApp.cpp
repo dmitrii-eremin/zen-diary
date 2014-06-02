@@ -183,6 +183,10 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
 			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
 			ZD_BIND_JS_HANDLER("updateNote", &JSHandlers::OnUpdateNote);
+
+			ZD_BIND_JS_HANDLER("getNotes", &JSHandlers::OnGetNotes);
+			ZD_BIND_JS_HANDLER("getNote", &JSHandlers::OnGetNote);
+			ZD_BIND_JS_HANDLER("isNoteEncrypted", &JSHandlers::OnIsNoteEncrypted);
 			return ZD_NOERROR;
 		}
 

@@ -40,6 +40,10 @@ namespace ZenDiary
 			Awesomium::JSValue OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnUpdateNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnGetNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetNotes(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnIsNoteEncrypted(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 

@@ -9,3 +9,8 @@
 	top: 0;
 	display: none;
 }
+
+.no-margin
+{
+	margin: 0 !important;
+}

@@ -59,6 +59,57 @@ $(document).ready(function()
 		new_post.setUnsavedButtonState();
 		zenapi.clearAlerts();
 	});
+
+	var search = window.location.search;
+
+	if (search.length > 0 && (search = search.substr(1)).length > 0)
+	{
+		var encrypted = zen.isNoteEncrypted(search);
+		if (encrypted)
+		{
+			var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-password.html");
+
+			var dialog = new BootstrapDialog({
+				title : "Заметка зашифрована",
+				message : dialog_message,
+				type : BootstrapDialog.TYPE_WARNING,
+				buttons : [
+					{
+						id : "on-btn-enter-password",
+						label : "OK"
+					}
+				]			
+			});
+
+			dialog.realize();
+
+			var btn_enter_pasword = dialog.getButton("on-btn-enter-password");
+			btn_enter_pasword.click({}, function(e)
+			{			
+				var password = $("#input-note-password").val();		
+				var result = zen.getNote(search, password);			
+				if (result.success)
+				{
+					$("#title").val(result.title);
+				}
+				else
+				{
+					$.notify(result.message, 
+					{
+						position: "top right"
+					});
+				}
+
+				dialog.close();
+			});
+
+			dialog.open();
+		}
+		else
+		{
+			zen.alert("plain");
+		}
+	}
 });
 
 $(window).resize(function(e)
@@ -133,4 +184,13 @@ $("#title").keydown(function(e)
 $("#password, #password-confirm").keydown(function(e)
 {
 	zenapi.clearAlerts();
+});
+
+$(document).on("keydown", "#input-note-password", function(e)
+{
+	if (e.keyCode == 13)
+	{
+		e.preventDefault();
+		$("#on-btn-enter-password").click();
+	}
 });

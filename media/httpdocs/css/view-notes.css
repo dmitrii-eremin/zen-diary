@@ -2,3 +2,8 @@
 {
 	padding-right: 10px;
 }
+
+#view-note
+{
+	display: none;
+}

@@ -91,6 +91,12 @@ $(document).ready(function()
 				if (result.success)
 				{
 					$("#title").val(result.title);
+					new_post.editor.importFile(null, result.note);
+					$("#password").val(password);
+					$("#password-confirm").val(password);
+					new_post.current_note_id = result.id;
+
+					$("#page-title").html("Редактирование заметки");
 				}
 				else
 				{
@@ -107,7 +113,22 @@ $(document).ready(function()
 		}
 		else
 		{
-			zen.alert("plain");
+			var result = zen.getNote(search);			
+			if (result.success)
+			{
+				$("#title").val(result.title);
+				new_post.editor.importFile(null, result.note);
+				new_post.current_note_id = result.id;
+
+				$("#page-title").html("Редактирование заметки");
+			}
+			else
+			{
+				$.notify(result.message, 
+				{
+					position: "top right"
+				});
+			}
 		}
 	}
 });

@@ -71,34 +71,36 @@
 								<section class = "vbox">
 									<section class = "scrollable">
 
-										<div>
-											<section class = "panel panel-default no-margin">
-												<header class = "panel-heading bg-light no-border">
-													<div class = "clearfix">
-														<div class = "clear">
-															<div class = "h3 m-t-xs m-b-xs" id = "note-title"></div>
+										<div id = "view-note">
+											<div>
+												<section class = "panel panel-default no-margin">
+													<header class = "panel-heading bg-light no-border">
+														<div class = "clearfix">
+															<div class = "clear">
+																<div class = "h3 m-t-xs m-b-xs" id = "note-title"></div>
+															</div>
 														</div>
+													</header>
+
+													<div class = "list-group no-radius alt">
+														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-edit">
+															<i class = "fa fa-edit icon"></i> Редактировать заметку
+														</a>
+														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-hide">
+															<i class = "fa fa-eye-slash icon"></i> Скрыть заметку
+														</a>
+														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-delete">
+															<i class = "fa fa-trash-o icon"></i> Удалить заметку
+														</a>
 													</div>
-												</header>
+												</section>
+											</div>	
 
-												<div class = "list-group no-radius alt">
-													<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-edit">
-														<i class = "fa fa-edit icon"></i> Редактировать заметку
-													</a>
-													<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-hide">
-														<i class = "fa fa-eye-slash icon"></i> Скрыть заметку
-													</a>
-													<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-delete">
-														<i class = "fa fa-trash-o icon"></i> Удалить заметку
-													</a>
+											<div class = "panel panel-default no-margin">
+												<div class = "panel-body" id = "note-text">												
 												</div>
-											</section>
-										</div>	
-
-										<div class = "panel panel-default no-margin">
-											<div class = "panel-body" id = "note-text">												
 											</div>
-										</div>														
+										</div>
 
 									</section>
 								</section>

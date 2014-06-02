@@ -44,6 +44,8 @@ var notes = {
 
 		$("#note-title").html(note.title);
 		$("#note-text").html(note.note);
+
+		$("#view-note").fadeIn(zenapi.animation_duration);
 	}
 };
 

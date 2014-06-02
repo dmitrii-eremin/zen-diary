@@ -3,6 +3,11 @@
 	padding-right: 10px;
 }
 
+.hidden-note
+{
+	display: none;
+}
+
 #view-note
 {
 	display: none;

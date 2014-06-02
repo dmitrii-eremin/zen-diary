@@ -420,7 +420,7 @@ namespace ZenDiary
 			}
 
 			std::stringstream query;
-			query << "SELECT `title`, `note`, `hash`, `encrypted`, `created`, `updated` FROM `notes` WHERE `id` = " << id << " AND `deleted` = 0;";
+			query << "SELECT `title`, `note`, `hash`, `encrypted`, `created`, `updated`, `hidden` FROM `notes` WHERE `id` = " << id << " AND `deleted` = 0;";
 
 			IDatabaseResult *stmt = m_database->ExecuteSelect(query.str());
 
@@ -438,8 +438,10 @@ namespace ZenDiary
 			const char *cencrypted = stmt->ColumnData(3);
 			const char *ccreated = stmt->ColumnData(4);
 			const char *cupdated = stmt->ColumnData(5);
+			const char *chidden = stmt->ColumnData(6);
 
-			if (!ctitle || !cnote || !chash || !cencrypted || !ccreated || !cupdated)
+			if (!ctitle || !cnote || !chash || !cencrypted || 
+				!ccreated || !cupdated || !chidden)
 			{
 				ZD_SAFE_CALL(stmt)->Release();
 				return CreateAnswerObject(false, error_not_exist);
@@ -449,8 +451,9 @@ namespace ZenDiary
 			std::string note(cnote);
 			std::string hash(chash);
 			bool encrypted = atoi(cencrypted) > 0;
+			bool hidden = atoi(chidden) > 0;
 			std::string created(ccreated);
-			std::string updated(cupdated);
+			std::string updated(cupdated);			
 			
 			ZD_SAFE_CALL(stmt)->Release();
 
@@ -465,6 +468,7 @@ namespace ZenDiary
 			answer.SetProperty(Awesomium::WSLit("title"), Awesomium::JSValue(Awesomium::WSLit(title.c_str())));
 			answer.SetProperty(Awesomium::WSLit("hash"), Awesomium::JSValue(Awesomium::WSLit(hash.c_str())));
 			answer.SetProperty(Awesomium::WSLit("encrypted"), Awesomium::JSValue(encrypted));
+			answer.SetProperty(Awesomium::WSLit("hidden"), Awesomium::JSValue(hidden));
 			answer.SetProperty(Awesomium::WSLit("created"), Awesomium::JSValue(Awesomium::WSLit(created.c_str())));
 			answer.SetProperty(Awesomium::WSLit("updated"), Awesomium::JSValue(Awesomium::WSLit(updated.c_str())));	
 
@@ -506,7 +510,7 @@ namespace ZenDiary
 
 			Awesomium::JSArray result;
 
-			IDatabaseResult *stmt = m_database->ExecuteSelect("SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash` FROM `notes` WHERE `deleted` = 0;");
+			IDatabaseResult *stmt = m_database->ExecuteSelect("SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0;");
 			while (stmt && stmt->Next())
 			{
 				const char *cid = stmt->ColumnData(0);
@@ -516,15 +520,18 @@ namespace ZenDiary
 				const char *cupdated = stmt->ColumnData(4);
 				const char *cnote = stmt->ColumnData(5);
 				const char *chash = stmt->ColumnData(6);
+				const char *chidden = stmt->ColumnData(7);
 
 				if (!cid || !ctitle || !cencrypted || 
-					!ccreated || !cupdated || !cnote || !chash)
+					!ccreated || !cupdated || !cnote || 
+					!chash || !chidden)
 				{
 					continue;
 				}
 
 				int id = atoi(cid);
 				bool encrypted = atoi(cencrypted) != 0;
+				bool hidden = atoi(chidden) != 0;
 				
 				std::string title(ctitle);				
 				std::string created(ccreated);
@@ -536,6 +543,7 @@ namespace ZenDiary
 				Awesomium::JSObject item;
 				item.SetProperty(Awesomium::WSLit("id"), Awesomium::JSValue(id));
 				item.SetProperty(Awesomium::WSLit("encrypted"), Awesomium::JSValue(encrypted));
+				item.SetProperty(Awesomium::WSLit("hidden"), Awesomium::JSValue(hidden));
 				item.SetProperty(Awesomium::WSLit("title"), Awesomium::JSValue(Awesomium::WSLit(title.c_str())));
 				item.SetProperty(Awesomium::WSLit("note"), Awesomium::JSValue(Awesomium::WSLit(note.c_str())));
 				item.SetProperty(Awesomium::WSLit("hash"), Awesomium::JSValue(Awesomium::WSLit(hash.c_str())));
@@ -641,13 +649,117 @@ namespace ZenDiary
 			}
 
 			std::stringstream query;
-			query << "UPDATE `notes` SET `deleted` = 1 WHERE `id` = " << id << ";";
+			query << "UPDATE `notes` SET `hidden` = 1 WHERE `id` = " << id << ";";
 
 			int updated = m_database->Execute(query.str());
 
 			if (updated == 0)
 			{
 				return CreateAnswerObject(false, L"Не удалось скрыть заметку, неверный ID заметки.");
+			}
+
+			return CreateAnswerObject(true);
+		}
+
+		Awesomium::JSValue JSHandlers::OnShowNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1)
+			{
+				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+			}
+
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_id(args.At(0));
+
+			bool use_password = false;
+
+			Awesomium::JSValue js_password;
+			if (args.size() >= 2)
+			{
+				js_password = args.At(1);
+
+				use_password = true;
+			}
+
+			if (!js_id.IsInteger() && !js_id.IsString())
+			{
+				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+			}
+
+			int id = 0;
+			if (js_id.IsInteger())
+			{
+				id = js_id.ToInteger();
+			}
+			else if (js_id.IsString())
+			{
+				id = atoi(Awesomium::ToString(js_id.ToString()).c_str());
+			}
+
+			std::stringstream query;
+			query << "UPDATE `notes` SET `hidden` = 0 WHERE `id` = " << id << ";";
+
+			int updated = m_database->Execute(query.str());
+
+			if (updated == 0)
+			{
+				return CreateAnswerObject(false, L"Не удалось скрыть заметку, неверный ID заметки.");
+			}
+
+			return CreateAnswerObject(true);
+		}
+
+		Awesomium::JSValue JSHandlers::OnDeleteNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1)
+			{
+				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+			}
+
+			if (!m_database)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_id(args.At(0));
+
+			bool use_password = false;
+
+			Awesomium::JSValue js_password;
+			if (args.size() >= 2)
+			{
+				js_password = args.At(1);
+
+				use_password = true;
+			}
+
+			if (!js_id.IsInteger() && !js_id.IsString())
+			{
+				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+			}
+
+			int id = 0;
+			if (js_id.IsInteger())
+			{
+				id = js_id.ToInteger();
+			}
+			else if (js_id.IsString())
+			{
+				id = atoi(Awesomium::ToString(js_id.ToString()).c_str());
+			}
+
+			std::stringstream query;
+			query << "DELETE FROM `notes` WHERE `id` = " << id << ";";
+
+			int updated = m_database->Execute(query.str());
+
+			if (updated == 0)
+			{
+				return CreateAnswerObject(false, L"Не удалось удалить заметку, неверный ID заметки.");
 			}
 
 			return CreateAnswerObject(true);

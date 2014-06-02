@@ -189,6 +189,8 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("isNoteEncrypted", &JSHandlers::OnIsNoteEncrypted);
 
 			ZD_BIND_JS_HANDLER("hideNote", &JSHandlers::OnHideNote);
+			ZD_BIND_JS_HANDLER("showNote", &JSHandlers::OnShowNote);
+			ZD_BIND_JS_HANDLER("deleteNote", &JSHandlers::OnDeleteNote);
 			return ZD_NOERROR;
 		}
 

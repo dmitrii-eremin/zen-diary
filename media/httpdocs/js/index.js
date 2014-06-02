@@ -102,6 +102,12 @@ $(document).ready(function()
 					new_post.current_note_id = result.id;
 
 					$("#page-title").html("Редактирование заметки");
+
+					$.notify("Заметка расшифрована успешно.", 
+					{
+						position: "top right",
+						className : "success"
+					});
 				}
 				else
 				{

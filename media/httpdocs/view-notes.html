@@ -41,9 +41,8 @@
 												<ul class = "dropdown-menu text-left text-sm">
 													<li><a href = "javascript:void(0)" class = "on-btn-filter-all">Все</a></li>
 													<li><a href = "javascript:void(0)" class = "on-btn-only-plain">Только незашифрованные</a></li>
-													<li><a href = "javascript:void(0)" class = "on-btn-only-encrypted">Только зашифрованные</a></li>													
-													
-													<li><a href = "javascript:void(0)" class = "on-btn-only-deleted">Только скрытые</a></li>
+													<li><a href = "javascript:void(0)" class = "on-btn-only-encrypted">Только зашифрованные</a></li>			
+													<li><a href = "javascript:void(0)" class = "on-btn-only-hidden">Только скрытые</a></li>
 												</ul>
 											</div>											
 										</div>
@@ -57,9 +56,9 @@
 									<footer class = "footer dk clearfix">
 										<form class = "m-t-sm">
 											<div class = "input-group">
-												<input type = "text" class = "input-sm form-control input-s-sm" placeholder = "Поиск...">
+												<input type = "text" class = "input-sm form-control input-s-sm" placeholder = "Поиск..." id = "search">
 												<div class = "input-group-btn">
-													<button class = "btn btn-sm btn-default">
+													<button class = "btn btn-sm btn-default" id = "on-btn-search">
 														<i class = "fa fa-search"></i>
 													</button>
 												</div>
@@ -90,6 +89,9 @@
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-hide">
 															<i class = "fa fa-eye-slash icon"></i> Скрыть заметку
+														</a>
+														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-show">
+															<i class = "fa fa-eye icon"></i> Показывать заметку
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-delete">
 															<i class = "fa fa-trash-o icon"></i> Удалить заметку

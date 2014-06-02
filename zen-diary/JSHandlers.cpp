@@ -478,9 +478,12 @@ namespace ZenDiary
 				Helpers::Crypto::Base64Decode(note, &encoded_bytes, encoded_size);
 				std::string decoded_note = Helpers::Crypto::DecryptString(encoded_bytes, encoded_size, password);
 
+				delete []encoded_bytes;
+				encoded_bytes = nullptr;
+
 				std::string decoded_note_hash = Helpers::Crypto::md5(decoded_note);
 				if (decoded_note_hash != hash)
-				{
+				{					
 					return CreateAnswerObject(false, L"Не удалось расшифровать заметку, вы ввели неверный пароль.");
 				}
 

@@ -62,6 +62,27 @@ namespace ZenDiary
 
 				return result;
 			}
+
+			std::string FormatTime(const SYSTEMTIME &value)
+			{
+				auto z = [](const int &v) -> std::string
+				{
+					std::string s;
+					s = Helpers::String::To(v);
+					if (s.length() < 2)
+					{
+						return "0" + s;
+					}
+
+					return s;
+				};
+
+				std::stringstream stream;
+				stream << z(value.wYear) << "-" << z(value.wMonth) << "-" << z(value.wDay) << " " <<
+					z(value.wHour) << ":" << z(value.wMinute) << ":" << z(value.wSecond);
+
+				return stream.str();
+			}
 		}
 	}
 }

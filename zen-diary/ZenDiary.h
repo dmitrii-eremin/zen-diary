@@ -39,7 +39,8 @@ typedef uint_t										version_t;
 #define ZD_SAFE_DELETE(X)							if (X) { delete X; X = nullptr; }
 #define ZD_SAFE_DELETE_ARRAY(X)						if (X) { delete []X; X = nullptr; }
 
-#define ZD_VERSION									ZD_MAKE_VERSION(2, 0, 0)
+#define ZD_VERSION									ZD_MAKE_VERSION(2, 1, 3)
+#define ZD_VERSION_STATUS							"Beta"
 
 #define AES_BLOCK_LEN								16
 
@@ -85,6 +86,8 @@ namespace ZenDiary
 			{
 				return To(value, v...);
 			}
+			
+			std::string FormatTime(const SYSTEMTIME &value);
 		}
 
 		namespace Serialization

@@ -27,6 +27,7 @@ namespace ZenDiary
 			ZD_STATUS SetDatabase(SQLiteDatabase *db);
 
 			/* Javascript function handlers */
+			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetVersionString(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -35,6 +36,7 @@ namespace ZenDiary
 
 			Awesomium::JSValue OnRegisterUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnLoginUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnChangeCredits(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnLogoutUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);

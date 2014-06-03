@@ -37,6 +37,23 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		Awesomium::JSValue JSHandlers::OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() == 0)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			Awesomium::JSValue arg(args.At(0));
+			if (!arg.IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string s = Awesomium::ToString(arg.ToString());
+			return Awesomium::JSValue(atoi(s.c_str()));
+		}
+
 		Awesomium::JSValue JSHandlers::OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() < 1)
@@ -107,7 +124,7 @@ namespace ZenDiary
 		Awesomium::JSValue JSHandlers::OnGetVersionString(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			std::stringstream stream;
-			stream << ZD_VERSION_HI(ZD_VERSION) << "." << ZD_VERSION_MID(ZD_VERSION) << "." << ZD_VERSION_LOW(ZD_VERSION);
+			stream << ZD_VERSION_HI(ZD_VERSION) << "." << ZD_VERSION_MID(ZD_VERSION) << "." << ZD_VERSION_LOW(ZD_VERSION) << " " << ZD_VERSION_STATUS;
 			
 			return Awesomium::JSValue(Awesomium::WSLit(stream.str().c_str()));
 		}
@@ -217,6 +234,43 @@ namespace ZenDiary
 			{
 				return CreateAnswerObject(false, L"Неверное имя пользователя или пароль.");
 			}
+
+			ZD_SAFE_CALL(m_zen_app)->SetLoggedIn(true);
+
+			return CreateAnswerObject(true);
+		}
+
+		Awesomium::JSValue JSHandlers::OnChangeCredits(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+			}			
+
+			AuthSettings &auth = m_settings->GetAuthSettings();
+
+			if (args.size() < 2)
+			{
+				return CreateAnswerObject(false, L"Изменение настроек невозможно. Функции передано недостаточно параметров, обратитесь к разработчику.");
+			}
+
+			Awesomium::JSValue js_login = args.At(0);
+			Awesomium::JSValue js_password = args.At(1);
+
+			if (!js_login.IsString() || !js_password.IsString())
+			{
+				return CreateAnswerObject(false, L"Функции переданы параметры неверного типа, обратитесь к разработчику.");
+			}
+
+			std::string login(Awesomium::ToString(js_login.ToString()));
+			std::string password(Awesomium::ToString(js_password.ToString()));
+
+			std::string salt(Helpers::String::GenerateString());
+			std::string passhash(Helpers::Crypto::md5(salt + password));
+
+			auth.SetLogin(login);
+			auth.SetPasshash(passhash);
+			auth.SetSalt(salt);
 
 			ZD_SAFE_CALL(m_zen_app)->SetLoggedIn(true);
 
@@ -510,7 +564,58 @@ namespace ZenDiary
 
 			Awesomium::JSArray result;
 
-			IDatabaseResult *stmt = m_database->ExecuteSelect("SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0;");
+			const size_t args_count = args.size();
+			Awesomium::JSValue js_day;
+			Awesomium::JSValue js_month;
+			Awesomium::JSValue js_year;
+
+			bool use_day_filter = false;
+
+			SYSTEMTIME day = { 0 };
+
+			if (args_count == 3)
+			{
+				js_day = args.At(0);
+				js_month = args.At(1);
+				js_year = args.At(2);
+
+				if (js_day.IsInteger() && js_month.IsInteger() && js_year.IsInteger())
+				{
+					use_day_filter = true;
+					day.wDay = js_day.ToInteger();
+					day.wMonth = js_month.ToInteger();
+					day.wYear = js_year.ToInteger();
+				}
+			}
+
+			std::stringstream query;
+			if (!use_day_filter)
+			{
+				query << "SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0;";
+			}
+			else
+			{
+				SYSTEMTIME from_time(day);
+
+				from_time.wHour = 0;
+				from_time.wMinute = 0;
+				from_time.wSecond = 0;
+
+				SYSTEMTIME to_time(day);
+
+				to_time.wHour = 23;
+				to_time.wMinute = 59;
+				to_time.wSecond = 59;
+
+				std::string from = Helpers::String::FormatTime(from_time);
+				std::string to = Helpers::String::FormatTime(to_time);
+
+				query << "SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0 AND `updated` > '" <<
+					from << "' AND `updated` < '" << to << "';";
+			}
+			
+
+			IDatabaseResult *stmt = m_database->ExecuteSelect(query.str());
 			while (stmt && stmt->Next())
 			{
 				const char *cid = stmt->ColumnData(0);

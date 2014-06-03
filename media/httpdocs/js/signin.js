@@ -19,9 +19,10 @@ $("#on-btn-signup").click(function(e)
 	var password_confirm = $("#signup-password-confirm").val();
 
 	if (login.length == 0)
-	{
-		$(".alerts-zone").alert({
-			text : "Введите имя пользователя."
+	{		
+		$.notify("Введите имя пользователя.", 
+		{
+			position: "top right"
 		});
 		$("#signup-login").focus();
 		return;
@@ -29,8 +30,9 @@ $("#on-btn-signup").click(function(e)
 
 	if (password.length == 0)
 	{
-		$(".alerts-zone").alert({
-			text : "Введите пароль пользователя."
+		$.notify("Введите пароль пользователя.", 
+		{
+			position: "top right"
 		});
 		$("#signup-password").focus();
 		return;
@@ -38,8 +40,9 @@ $("#on-btn-signup").click(function(e)
 
 	if (password != password_confirm)
 	{
-		$(".alerts-zone").alert({
-			text : "Введённые вами пароли не совпадают."
+		$.notify("Введённые вами пароли не совпадают.", 
+		{
+			position: "top right"
 		});
 		$("#signup-password").focus();
 		return;
@@ -48,15 +51,7 @@ $("#on-btn-signup").click(function(e)
 	var result = zen.registerUser(login, password);
 	if (result.success)
 	{
-			$(".alerts-zone").alert({
-				text : "Вы успешно прошли регистрацию. Через несколько секунд вы войдёте в свою учётную запись.</p><p>Или нажмите <a href = \"index.html\" class = \"alert-link\">здесь</a>, если не хотите ждать.",
-				type : "success"
-			});
-
-			window.setTimeout(function()
-			{
-				window.location.href = "index.html";
-			}, 5000);
+		window.location.href = "index.html";			
 	}
 	else
 	{
@@ -75,17 +70,20 @@ $("#on-btn-signin").click(function(e)
 	
 	if (login.length == 0)
 	{
-		$(".alerts-zone").alert({
-			text : "Введите имя пользователя."
+		$.notify("Введите имя пользователя.", 
+		{
+			position: "top right",			
 		});
+
 		$("#signin-login").focus();
 		return;
 	}
 
 	if (password.length == 0)
 	{
-		$(".alerts-zone").alert({
-			text : "Введите пароль пользователя."
+		$.notify("Введите пароль пользователя.", 
+		{
+			position: "top right",			
 		});
 		$("#signin-password").focus();
 		return;
@@ -98,8 +96,9 @@ $("#on-btn-signin").click(function(e)
 	}
 	else
 	{
-		$(".alerts-zone").alert({
-			text : result.message
+		$.notify(result.message, 
+		{
+			position: "top right",			
 		});
 	}
 });

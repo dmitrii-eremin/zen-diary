@@ -1,5 +1,6 @@
 var notes = {
 	current_note : 0,
+	current_date : "",
 
 	clearNotes : function()
 	{
@@ -10,7 +11,7 @@ var notes = {
 	{
 		const desc_max_length = 40;
 
-		var li = $("<li>").addClass("list-group-item note-item").attr("note-id", note.id);
+		var li = $("<li>").addClass("list-group-item note-item").attr("note-id", note.id).attr("updated", note.updated);
 		var a = $("<a>").attr("href", "javascript:void(0)").attr("note-id", note.id).addClass("clear text-ellipsis on-btn-show-note");
 		var updated = $("<small>").addClass("pull-right").html(note.updated);
 		var title = $("<strong>").addClass("block").html(note.title);
@@ -49,11 +50,11 @@ var notes = {
 		$("#notes-list").append(li);
 	},
 
-	refreshNotes : function()
+	refreshNotes : function(day, month, year)
 	{
 		notes.clearNotes();
 
-		var zen_notes = zen.getNotes();
+		var zen_notes = zen.getNotes(day, month, year);
 
 		for (var i = 0; i < zen_notes.length; i++)
 		{
@@ -92,12 +93,58 @@ var notes = {
 		$("#note-title").html("");
 		$("#note-text").html("");
 		$("#view-note").hide();
+	},
+
+	refreshNotesByDay : function()
+	{
+		var date = $("#day-search").val();
+
+		var numbers = date.split("-");
+		if (numbers.length == 3)
+		{
+			var year = zen.toInt(numbers[0]);			
+			var month = zen.toInt(numbers[1]);
+			var day = zen.toInt(numbers[2]);
+
+			notes.refreshNotes(day, month, year);			
+		}
+		else
+		{
+			notes.refreshNotes();			
+		}
+
+		$(".on-btn-filter-all").click();
 	}
 };
 
 $(document).ready(function()
 {
 	notes.refreshNotes();
+
+	$("#datetimepicker1").datetimepicker({
+		language: "ru",
+		pickTime: false,
+		format : "YYYY-MM-DD"
+	});
+
+	$("#datetimepicker1").on("dp.change", function(e)
+	{
+		notes.refreshNotesByDay();			
+	});
+});
+
+$("#day-search").change(function(e)
+{
+	notes.refreshNotesByDay();
+});
+
+$("#day-search").keydown(function(e)
+{
+	if (e.keyCode == 13)
+	{
+		e.preventDefault();
+		notes.refreshNotesByDay();
+	}
 });
 
 $(document).on("keydown", "#input-note-password", function(e)
@@ -298,10 +345,8 @@ $(".on-btn-hide").click(function(e)
 				{
 					var real_this = this;
 					$(this).prop("hidden", true);
-					$(this).slideUp(zenapi.animation_duration, function()
-					{
-						$(real_this).remove();
-					});				
+					console.log(this);
+					$(this).slideUp(zenapi.animation_duration);				
 				}
 			});
 
@@ -342,10 +387,7 @@ $(".on-btn-show").click(function(e)
 				{
 					var real_this = this;
 					$(this).prop("hidden", false);
-					$(this).slideUp(zenapi.animation_duration, function()
-					{
-						$(real_this).remove();
-					});				
+					$(this).slideUp(zenapi.animation_duration);				
 				}
 			});
 
@@ -370,42 +412,75 @@ $(".on-btn-show").click(function(e)
 $(".on-btn-delete").click(function(e)
 {
 	e.preventDefault();
-	if (notes.current_note != 0)
+
+	var cb = function()
 	{
-		var result = zen.deleteNote(notes.current_note);
-		if (result.success)
-		{		
-			var note_id = notes.current_note;
-
-			notes.clearNote();
-
-			$(".note-item").each(function()
-			{
-				var id = $(this).attr("note-id");
-				if (id == note_id)
-				{
-					var real_this = this;
-					$(this).slideUp(zenapi.animation_duration, function()
-					{
-						$(real_this).remove();
-					});				
-				}
-			});
-
-			notes.current_note = 0;
-
-			$.notify("Сообщение удалено из дневника навсегда.", 
-			{
-				position: "top right",
-				className : "success"
-			});
-		}
-		else
+		if (notes.current_note != 0)
 		{
-			$.notify(result.message, 
+			var result = zen.deleteNote(notes.current_note);
+			
+			if (result.success)
+			{		
+				var note_id = notes.current_note;
+
+				notes.clearNote();
+
+				$(".note-item").each(function()
+				{
+					var id = $(this).attr("note-id");
+					if (id == note_id)
+					{
+						var real_this = this;
+						$(this).slideUp(zenapi.animation_duration, function()
+						{
+							$(real_this).remove();
+						});				
+					}
+				});
+
+				notes.current_note = 0;
+
+				$.notify("Сообщение удалено из дневника навсегда.", 
+				{
+					position: "top right",
+					className : "success"
+				});
+			}
+			else
 			{
-				position: "top right"
-			});
+				$.notify(result.message, 
+				{
+					position: "top right"
+				});
+			}
 		}
-	}
+	};
+
+	new BootstrapDialog({
+		title : "Подтвердите действие",
+		message : "Вы уверены, что хотите удалить эту заметку? Это действие невозможно отменить.",
+		type : BootstrapDialog.TYPE_DEFAULT,
+		closable : false,
+		data : {
+			callback : cb
+		},
+
+		buttons : [{
+			label : "Отмена",
+			action : function(dlg)
+			{
+				dlg.close();
+			}
+		},
+		{
+			label : "OK",
+			cssClass : "btn-primary",
+			action : function(dlg)
+			{
+				typeof dlg.getData("callback") === "function" && dlg.getData("callback")();
+				dlg.close();
+			}
+		}
+		]
+	}).open();
 });

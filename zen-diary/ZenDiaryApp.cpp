@@ -172,6 +172,7 @@ namespace ZenDiary
 
 			Awesomium::JSObject &zen_diary = result.ToObject();
 
+			ZD_BIND_JS_HANDLER("toInt", &JSHandlers::OnToInt);
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
 			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
 			ZD_BIND_JS_HANDLER("getVersionString", &JSHandlers::OnGetVersionString);
@@ -180,6 +181,7 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("registerUser", &JSHandlers::OnRegisterUser);
 			ZD_BIND_JS_HANDLER("loginUser", &JSHandlers::OnLoginUser);
+			ZD_BIND_JS_HANDLER("changeCredits", &JSHandlers::OnChangeCredits);
 			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
 			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
 			ZD_BIND_JS_HANDLER("updateNote", &JSHandlers::OnUpdateNote);

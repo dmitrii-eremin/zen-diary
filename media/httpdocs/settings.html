@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class = "app">
+	<head>
+		<meta http-equiv = "Content-Type" content = "charset=utf-8">
+		<title>ZenDiary | Ваш личный дневник</title>
+
+		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/bootstrap-dialog.min.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/bootstrap-datetimepicker.min.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/settings.css" type = "text/css" />
+	</head>
+
+	<body class = "">		
+
+		<section class = "vbox">
+			<section>
+				<section class = "hbox stretch">
+					
+					<script>
+						document.write(zen.getTemplate("../media/httpdocs/templates/sidebox.html"));
+					</script>					
+
+					<section id="content">
+						<section class = "hbox stretch">							
+							<section>
+								<section class = "vbox">
+									<section class = "scrollable">										
+
+									<div class = "row">
+										<div class = "col-sm-12">
+											<div class = "panel panel-default">
+												<header class = "panel-heading">
+													Настройки учётной записи
+												</header>
+												<div class = "panel-body">
+													<form role = "form">
+														<div class = "form-group">
+															<label>Имя пользователя</label>
+															<input type = "text" class = "form-control" id = "login" placeholder = "Имя пользователя">
+														</div>
+														<div class = "form-group">
+															<label>Текущий пароль пользователя</label>
+															<input type = "password" class = "form-control" id = "current-password" placeholder = "Текущий пароль пользователя">
+														</div>
+														<div class = "form-group">
+															<label>Новый пароль пользователя</label>
+															<input type = "password" class = "form-control" id = "new-password" placeholder = "Новый пароль пользователя">
+														</div>
+														<div class = "form-group">
+															<label>Подтверждение нового пароля пользователя</label>
+															<input type = "password" class = "form-control" id = "new-password-confirm" placeholder = "Подтверждение нового пароля пользователя">
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class = "row">
+										<div class = "text-center">
+											<button type = "button" class = "btn btn-success" id = "on-btn-save"><span class = "icon fa fa-save"></span> Применить настройки</button>
+										</div>
+									</div>
+
+									</section>
+								</section>
+							</section>
+						</section>     
+					</section>  
+				</section>
+			</section>
+		</section>
+
+		<script src = "js/jquery-1.11.0.min.js"></script>		
+		<script src = "js/app.v1.js"></script>
+		<script src = "js/app.plugin.js"></script>
+		<script src = "js/jquery.alert.js"></script>
+		<script src = "epiceditor/js/epiceditor.min.js"></script>		
+		<script src = "js/notify.min.js"></script>
+		<script src = "js/general.js"></script>
+		<script src = "js/markdown.js"></script>
+		<script src = "js/bootstrap-dialog.min.js"></script>
+		<script src = "js/moment-with-langs.min.js"></script>
+		<script src = "js/bootstrap-datetimepicker.min.js"></script>
+		<script src = "js/settings.js"></script>
+	</body>
+</html>

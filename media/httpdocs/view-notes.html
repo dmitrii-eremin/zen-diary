@@ -8,6 +8,7 @@
 		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
 		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
 		<link rel = "stylesheet" href = "css/bootstrap-dialog.min.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/bootstrap-datetimepicker.min.css" type = "text/css" />
 		<link rel = "stylesheet" href = "css/view-notes.css" type = "text/css" />
 	</head>
 
@@ -43,7 +44,7 @@
 													<li><a href = "javascript:void(0)" class = "on-btn-only-plain">Только незашифрованные</a></li>
 													<li><a href = "javascript:void(0)" class = "on-btn-only-encrypted">Только зашифрованные</a></li>			
 													<li><a href = "javascript:void(0)" class = "on-btn-only-hidden">Только скрытые</a></li>
-												</ul>
+												</ul>		
 											</div>											
 										</div>
 									</header>
@@ -55,6 +56,14 @@
 
 									<footer class = "footer dk clearfix">
 										<form class = "m-t-sm">
+											<div class = "input-group date" id = "datetimepicker1">
+												<input type = "text" class = "form-control" placeholder = "Выберите день..." id = "day-search">
+												<span class = "input-group-addon">
+													<span class = "fa fa-calendar icon"></span>
+												</span>
+											</div>
+										</form>
+										<!--<form class = "m-t-sm">
 											<div class = "input-group">
 												<input type = "text" class = "input-sm form-control input-s-sm" placeholder = "Поиск..." id = "search">
 												<div class = "input-group-btn">
@@ -63,7 +72,7 @@
 													</button>
 												</div>
 											</div>
-										</form>
+										</form>-->
 									</footer>
 								</section>
 							</aside>
@@ -124,6 +133,8 @@
 		<script src = "js/general.js"></script>
 		<script src = "js/markdown.js"></script>
 		<script src = "js/bootstrap-dialog.min.js"></script>
+		<script src = "js/moment-with-langs.min.js"></script>
+		<script src = "js/bootstrap-datetimepicker.min.js"></script>
 		<script src = "js/view-notes.js"></script>
 	</body>
 </html>

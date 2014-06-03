@@ -2,6 +2,7 @@
 #include "GlobalSettings.h"
 #include "MethodHandler.h"
 #include "ZenDataSource.h"
+#include "CmdArguments.h"
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
@@ -53,6 +54,8 @@ namespace ZenDiary
 			const ushort_t m_remote_debugging_port = 9922;
 
 			std::atomic_bool m_terminate;
+
+			CmdArguments m_args;
 
 			Awesomium::WebCore *m_core;
 			Awesomium::WebSession *m_web_session;

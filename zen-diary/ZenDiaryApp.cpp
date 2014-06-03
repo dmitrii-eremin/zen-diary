@@ -20,6 +20,8 @@ namespace ZenDiary
 
 		ZD_STATUS ZenDiaryApp::Initialize(const std::string &argv)
 		{
+			m_args.Parse(argv);
+
 			Helpers::Serialization::FromFile(m_settings, m_settings_path);			
 
 			srand(static_cast<uint_t>(time(nullptr)));

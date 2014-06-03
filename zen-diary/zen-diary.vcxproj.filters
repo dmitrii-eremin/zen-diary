@@ -104,6 +104,15 @@
     <ClInclude Include="ZenDataSource.h">
       <Filter>App\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CmdArguments.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentType.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentValue.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -158,6 +167,12 @@
       <Filter>App\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZenDataSource.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdArguments.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArgumentValue.cpp">
       <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

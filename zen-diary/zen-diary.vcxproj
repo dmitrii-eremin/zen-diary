@@ -87,7 +87,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArgumentType.h" />
+    <ClInclude Include="ArgumentValue.h" />
     <ClInclude Include="AuthSettings.h" />
+    <ClInclude Include="CmdArguments.h" />
     <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ISerializable.h" />
@@ -109,7 +112,9 @@
     <ClInclude Include="ZenDiaryApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArgumentValue.cpp" />
     <ClCompile Include="AuthSettings.cpp" />
+    <ClCompile Include="CmdArguments.cpp" />
     <ClCompile Include="Crypto.cpp" />
     <ClCompile Include="Files.cpp" />
     <ClCompile Include="GlobalSettings.cpp" />

@@ -43,6 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Projects\zen-diary\libs\aes\include;C:\Projects\zen-diary\libs\sqlite\include;C:\Projects\zen-diary\libs\luabind\include;C:\Projects\zen-diary\libs\lua\include;C:\Projects\zen-diary\libs\Awesomium\include;C:\Projects\zen-diary\libs\boost\include;C:\Projects\zen-diary\libs\JSonBox\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Projects\zen-diary\libs\aes\lib;C:\Projects\zen-diary\libs\sqlite\lib;C:\Projects\zen-diary\libs\luabind\lib;C:\Projects\zen-diary\libs\lua\lib;C:\Projects\zen-diary\libs\JSonBox\lib;C:\Projects\zen-diary\libs\boost\lib;C:\Projects\zen-diary\libs\Awesomium\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -103,6 +104,7 @@
     <ClInclude Include="WebWindow.h" />
     <ClInclude Include="GuiSettings.h" />
     <ClInclude Include="WindowSettings.h" />
+    <ClInclude Include="ZenDataSource.h" />
     <ClInclude Include="ZenDiary.h" />
     <ClInclude Include="ZenDiaryApp.h" />
   </ItemGroup>
@@ -123,6 +125,7 @@
     <ClCompile Include="WebWindow.cpp" />
     <ClCompile Include="GuiSettings.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
+    <ClCompile Include="ZenDataSource.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

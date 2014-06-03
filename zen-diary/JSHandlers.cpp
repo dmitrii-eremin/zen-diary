@@ -337,8 +337,8 @@ namespace ZenDiary
 			}
 
 			std::stringstream query;
-			query << "INSERT INTO `notes` (`title`, `note`, `hash`, `encrypted`) VALUES('" << 
-				title << "', '" << text << "', '" << hash << "', " << (use_password ? 1 : 0) << ");";
+			query << "INSERT INTO `notes` (`title`, `note`, `hash`, `encrypted`, `created`, `updated`) VALUES('" << 
+				title << "', '" << text << "', '" << hash << "', " << (use_password ? 1 : 0) << ", datetime('now', 'localtime'), datetime('now', 'localtime'));";
 
 			uint_t inserted = m_database->Execute(query.str());
 
@@ -412,10 +412,8 @@ namespace ZenDiary
 
 			std::stringstream query;
 
-			// TODO: update `update` column
-
 			query << "UPDATE `notes` SET `title` = '" << title << "', `note` = '" << text
-				<< "', `hash` = '" << hash << "', `encrypted` = " << (use_password ? 1 : 0) << " WHERE `id` = " << id << ";";;
+				<< "', `hash` = '" << hash << "', `encrypted` = " << (use_password ? 1 : 0) << ", `updated` = datetime('now', 'localtime') WHERE `id` = " << id << ";";;
 
 			uint_t updated = m_database->Execute(query.str());
 

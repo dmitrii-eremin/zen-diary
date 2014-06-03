@@ -28,6 +28,17 @@ namespace ZenDiary
 				return fullname.substr(0, index + 1);
 			}
 
+			std::string ExtractExtension(const std::string &fullname)
+			{
+				size_t index = fullname.find_last_of(".");
+				if (index == std::string::npos)
+				{
+					return std::string();					
+				}
+
+				return fullname.substr(index + 1);
+			}
+
 			std::string FilenameToUrl(const std::string &filename)
 			{
 				std::stringstream stream;
@@ -82,6 +93,16 @@ namespace ZenDiary
 					z(value.wHour) << ":" << z(value.wMinute) << ":" << z(value.wSecond);
 
 				return stream.str();
+			}
+
+			std::string ToLower(const std::string &data)
+			{
+				return boost::to_lower_copy(data);
+			}
+
+			std::string ToUpper(const std::string &data)
+			{
+				return boost::to_upper_copy(data);
 			}
 		}
 	}

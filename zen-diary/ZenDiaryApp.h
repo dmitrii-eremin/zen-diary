@@ -1,6 +1,7 @@
 #pragma once
 #include "GlobalSettings.h"
 #include "MethodHandler.h"
+#include "ZenDataSource.h"
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
@@ -35,11 +36,14 @@ namespace ZenDiary
 			ZD_STATUS InitializeDatabase();
 			ZD_STATUS BindMethods();
 
+			ZD_STATUS LoadMimeTypes();
+
 			std::string GetFullname(const std::string &path);
 			
 		private:
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
 			const std::string m_settings_path = std::string("../media/settings/settings.json");
+			const std::string m_mimetypes_path = std::string("../media/settings/mime-types.json");
 
 			const std::string m_database_path = std::string("../media/db/zen-diary.sqlite3");
 			const std::string m_database_initialization_path = std::string("../media/db/initialization.sql");
@@ -51,7 +55,10 @@ namespace ZenDiary
 			std::atomic_bool m_terminate;
 
 			Awesomium::WebCore *m_core;
+			Awesomium::WebSession *m_web_session;
 			WebWindow *m_window;
+			
+			ZenDataSource m_data_source;
 
 			MethodHandler m_method_handler;
 			MenuHandler m_menu_handler;

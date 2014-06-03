@@ -7,7 +7,8 @@ namespace ZenDiary
 	{
 		ZenDiaryApp::ZenDiaryApp() : 
 			m_core(nullptr),
-			m_window(nullptr)
+			m_window(nullptr),
+			m_web_session(nullptr)
 		{
 			m_terminate.store(false);
 		}
@@ -22,6 +23,8 @@ namespace ZenDiary
 			Helpers::Serialization::FromFile(m_settings, m_settings_path);			
 
 			srand(static_cast<uint_t>(time(nullptr)));
+
+			ZD_RETURN_IF_FAILED(LoadMimeTypes());
 
 			ZD_RETURN_IF_FAILED(InitializeCryptography());
 			ZD_RETURN_IF_FAILED(InitializeDirectories());
@@ -70,6 +73,29 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		using namespace std;
+
+		string url_encode(const string &value) {
+			ostringstream escaped;
+			escaped.fill('0');
+			escaped << hex;
+
+			for (string::const_iterator i = value.begin(), n = value.end(); i != n; ++i) {
+				string::value_type c = (*i);
+				if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+					escaped << c;
+				}
+				else if (c == ' ')  {
+					escaped << '+';
+				}
+				else {
+					escaped << '%' << setw(2) << ((int)c) << setw(0);
+				}
+			}
+
+			return escaped.str();
+		}
+
 		ZD_STATUS ZenDiaryApp::InitializeWindow()
 		{
 			Awesomium::WebConfig config;
@@ -84,23 +110,31 @@ namespace ZenDiary
 			const WindowSettings &window_settings = m_settings.GetGuiSettings().GetWindowSettings();
 
 			m_core = Awesomium::WebCore::Initialize(config);
+
+			m_web_session = m_core->CreateWebSession(Awesomium::WSLit("zen-web-session"), Awesomium::WebPreferences());
+			m_data_source.SetHomePath(m_httpdocs_path);
+			m_web_session->AddDataSource(Awesomium::WSLit("zen-diary"), &m_data_source);
+
 			m_window = WebWindow::Create(window_settings.GetTitle(), 
-				window_settings.GetWidth(), window_settings.GetHeight());
+				window_settings.GetWidth(), window_settings.GetHeight(), m_web_session);
 
 			Awesomium::WebView *view = m_window->GetWebView();
 
 			BindMethods();
 
 			view->set_menu_listener(&m_menu_handler);
-			view->set_js_method_handler(&m_method_handler);
+			view->set_js_method_handler(&m_method_handler);					
 
-			view->LoadURL(Awesomium::WebURL(Awesomium::WSLit(
-				Helpers::String::FilenameToUrl(GetFullname("signin.html")).c_str())));
+			std::string start_url("asset://zen-diary/signin.html");			
+
+			view->LoadURL(Awesomium::WebURL(Awesomium::WSLit(start_url.c_str())));
 			return ZD_NOERROR;
 		}
 
 		ZD_STATUS ZenDiaryApp::FreeWindow()
 		{				
+			ZD_SAFE_CALL(m_web_session)->Release();
+
 			ZD_SAFE_DELETE(m_window);
 			Awesomium::WebCore::Shutdown();
 
@@ -193,6 +227,31 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("hideNote", &JSHandlers::OnHideNote);
 			ZD_BIND_JS_HANDLER("showNote", &JSHandlers::OnShowNote);
 			ZD_BIND_JS_HANDLER("deleteNote", &JSHandlers::OnDeleteNote);
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS ZenDiaryApp::LoadMimeTypes()
+		{
+			JsonBox::Value root;
+			root.loadFromFile(m_mimetypes_path);
+
+			JsonBox::Value mimetypes = root["mimetypes"];
+			if (mimetypes.isObject())
+			{
+				JsonBox::Object mt = mimetypes.getObject();
+				for (auto &i : mt)
+				{
+					if (!i.second.isString())
+					{
+						continue;
+					}
+
+					std::string key = i.first;
+					std::string value = i.second.getString();
+
+					m_data_source.AddMimeType(key, value);
+				}
+			}
 			return ZD_NOERROR;
 		}
 

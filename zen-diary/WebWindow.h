@@ -12,7 +12,7 @@ namespace ZenDiary
 			WebWindow(const WebWindow &a) = delete;
 			WebWindow &operator = (const WebWindow &a) = delete;
 
-			static WebWindow *Create(const std::string &title, size_t width, size_t height);
+			static WebWindow *Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session = nullptr);
 			Awesomium::WebView *GetWebView();
 
 			virtual void OnChangeTitle(Awesomium::WebView* caller,
@@ -43,7 +43,7 @@ namespace ZenDiary
 				const Awesomium::WebString& source) override final;
 
 		private:
-			WebWindow(const std::string &title, size_t width, size_t height);
+			WebWindow(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session);
 
 			static void PlatformInit();
 			static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

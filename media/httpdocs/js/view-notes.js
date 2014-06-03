@@ -9,13 +9,23 @@ var notes = {
 
 	addNote : function(note)
 	{
+		const title_max_length = 17;
 		const desc_max_length = 40;
 
 		var li = $("<li>").addClass("list-group-item note-item").attr("note-id", note.id).attr("updated", note.updated);
 		var a = $("<a>").attr("href", "javascript:void(0)").attr("note-id", note.id).addClass("clear text-ellipsis on-btn-show-note");
-		var updated = $("<small>").addClass("pull-right").html(note.updated);
-		var title = $("<strong>").addClass("block").html(note.title);
+		var updated = $("<small>").addClass("pull-right").html(note.updated);		
 		var desc = $("<small>");
+
+		var note_title = note.title;
+
+		if (note_title.length > title_max_length)
+		{
+			note_title = note_title.substr(0, title_max_length);
+			note_title = note_title + "&#8230;";
+		}
+
+		var title = $("<strong>").addClass("block").html(note_title);
 
 		if (!note.encrypted)
 		{
@@ -72,6 +82,8 @@ var notes = {
 
 		$("#note-title").html(note.title);
 		$("#note-text").html(html_text);
+		$("#note-created").html(note.created);
+		$("#note-updated").html(note.updated);
 
 		$("#view-note").fadeIn(zenapi.animation_duration);
 

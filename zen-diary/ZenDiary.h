@@ -1,5 +1,15 @@
 #pragma once
 
+#define __STR2__(x) #x
+#define __STR1__(x) __STR2__(x)
+#define __LOC2__ __FILE__ "("__STR1__(__LINE__)") : "
+
+#ifdef NDEBUG
+#define FIXME(X) __pragma(message(__LOC2__ "found FIXME in release build: " ## X))
+#else
+#define FIXME(X)
+#endif
+
 typedef unsigned char								uchar_t;
 typedef unsigned short int							ushort_t;
 typedef unsigned int								uint_t;
@@ -68,6 +78,7 @@ namespace ZenDiary
 			std::string To();
 
 			std::string ExtractPath(const std::string &fullname);
+			std::string ExtractExtension(const std::string &fullname);
 			std::string FilenameToUrl(const std::string &filename);	
 
 			std::string GenerateString(const std::string &alphabet = std::string("0123456789abcdef"), size_t count = 32);
@@ -88,6 +99,9 @@ namespace ZenDiary
 			}
 			
 			std::string FormatTime(const SYSTEMTIME &value);
+
+			std::string ToLower(const std::string &data);
+			std::string ToUpper(const std::string &data);
 		}
 
 		namespace Serialization

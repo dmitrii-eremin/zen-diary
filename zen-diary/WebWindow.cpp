@@ -19,9 +19,9 @@ namespace ZenDiary
 			m_web_view->Destroy();
 		}
 
-		WebWindow *WebWindow::Create(const std::string &title, size_t width, size_t height)
+		WebWindow *WebWindow::Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session)
 		{
-			return new WebWindow(title, width, height);
+			return new WebWindow(title, width, height, session);
 		}
 
 		Awesomium::WebView *WebWindow::GetWebView()
@@ -56,12 +56,12 @@ namespace ZenDiary
 			const Awesomium::WebString& message, int line_number,
 			const Awesomium::WebString& source) { }
 
-		WebWindow::WebWindow(const std::string &title, size_t width, size_t height) :
+		WebWindow::WebWindow(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session) :
 			m_web_view(nullptr)
 		{
 			PlatformInit();
 
-			m_web_view = Awesomium::WebCore::instance()->CreateWebView(width * 2, height * 2, 0,
+			m_web_view = Awesomium::WebCore::instance()->CreateWebView(width * 2, height * 2, session,
 				Awesomium::kWebViewType_Window);
 
 			m_views.push_back(m_web_view);

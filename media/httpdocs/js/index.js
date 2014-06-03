@@ -58,6 +58,12 @@ $(document).ready(function()
 	{
 		new_post.setUnsavedButtonState();
 		zenapi.clearAlerts();
+
+		if (e.keyCode == 83 && e.ctrlKey)
+		{
+			e.preventDefault();
+			$("#on-btn-post").click();
+		}
 	});
 
 	var search = window.location.search;

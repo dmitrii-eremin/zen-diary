@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalSettings.h"
+#include "Updater.h"
 #include "SQLite.h"
 
 #define ZD_BIND_JS_HANDLER(N, H)						m_method_handler.BindWithRetval(zen_diary, Awesomium::WSLit(N), JSDelegateWithRetval(&m_js_handlers, H))
@@ -25,6 +26,7 @@ namespace ZenDiary
 			ZD_STATUS SetGlobalSettings(GlobalSettings *settings);
 			ZD_STATUS SetZenApp(ZenDiaryApp *app);
 			ZD_STATUS SetDatabase(SQLiteDatabase *db);
+			ZD_STATUS SetUpdater(Updater *updater);
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -53,6 +55,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnOpenFileDialog(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetClipboard(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnGetUsersCount(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 
@@ -60,6 +64,7 @@ namespace ZenDiary
 			GlobalSettings *m_settings;
 			ZenDiaryApp *m_zen_app;
 			SQLiteDatabase *m_database;
+			Updater *m_updater;
 		};
 	}
 }

@@ -25,6 +25,7 @@ namespace ZenDiary
 			m_args.Parse(argv);	
 			
 			m_updater.CheckForUpdates();
+			m_updater.DownloadUsersCount();
 
 			Helpers::Serialization::FromFile(m_settings, m_settings_path);			
 
@@ -183,6 +184,7 @@ namespace ZenDiary
 			m_js_handlers.SetZenApp(this);
 			m_js_handlers.SetGlobalSettings(&m_settings);
 			m_js_handlers.SetDatabase(&m_database);
+			m_js_handlers.SetUpdater(&m_updater);
 			return ZD_NOERROR;
 		}
 
@@ -247,6 +249,8 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("openFileDialog", &JSHandlers::OnOpenFileDialog);
 			ZD_BIND_JS_HANDLER("setClipboard", &JSHandlers::OnSetClipboard);
+
+			ZD_BIND_JS_HANDLER("getUsersCount", &JSHandlers::OnGetUsersCount);
 			return ZD_NOERROR;
 		}
 

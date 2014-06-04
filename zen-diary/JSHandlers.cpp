@@ -9,7 +9,8 @@ namespace ZenDiary
 		JSHandlers::JSHandlers() : 
 			m_settings(nullptr),
 			m_zen_app(nullptr),
-			m_database(nullptr)
+			m_database(nullptr),
+			m_updater(nullptr)
 		{
 
 		}
@@ -34,6 +35,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetDatabase(SQLiteDatabase *db)
 		{
 			m_database = db;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetUpdater(Updater *updater)
+		{
+			m_updater = updater;
 			return ZD_NOERROR;
 		}
 
@@ -916,6 +923,16 @@ namespace ZenDiary
 			}
 
 			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetUsersCount(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_updater || m_updater->GetUsersCount() == 0)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(m_updater->GetUsersCount());
 		}
 	}
 }

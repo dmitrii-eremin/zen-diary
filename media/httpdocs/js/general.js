@@ -5,6 +5,31 @@ var zenapi = {
 	{
 		$(".alerts-zone .alert").addClass("old-alert");
 		$(".old-alert").slideUp(zenapi.animation_duration);
+	},
+
+	getCorrectStr : function(num, s1, s2, s3)
+	{
+		var val = num % 100;
+		if (val > 10 && val < 20)
+		{
+			return s3;
+		}
+		else
+		{
+			val = num % 10;
+			if (val == 1)
+			{
+				return s1;
+			}
+			else if (val > 1 && val < 5)
+			{
+				return s2;
+			}
+			else
+			{
+				return s3;
+			}
+		}
 	}
 };
 
@@ -12,9 +37,18 @@ $(function()
 {
 	var text_version = zen.getVersionString();
 	var username = zen.getUsername();
+	var users_count = zen.getUsersCount();
 
 	$(".app-version").html(text_version);
 	$(".app-username").html(username);
+
+	if (users_count != undefined && users_count > 0)
+	{
+		$(".users-count").html(users_count);
+		$(".users-count-people-word").html(			
+			zenapi.getCorrectStr(users_count, "человек", "человека", "человек"));
+		$(".users-count-wrapper").show();
+	}
 
 	var location = window.location.href;
 	if (location.indexOf("/index.html") != -1)

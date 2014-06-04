@@ -6,7 +6,8 @@ namespace ZenDiary
 	namespace App
 	{
 		Updater::Updater() : 
-			m_need_to_update(false)			
+			m_need_to_update(false),
+			m_users_count(0)
 		{
 
 		}
@@ -14,6 +15,31 @@ namespace ZenDiary
 		Updater::~Updater()
 		{
 
+		}
+
+		ZD_STATUS Updater::DownloadUsersCount()
+		{
+			size_t fsize = Helpers::Files::GetInternetFileSize(m_users_count_path);
+			if (fsize > 0)
+			{
+				char *buf = new char[fsize + 1];
+				if (Helpers::Files::DownloadFile(m_users_count_path, buf, fsize))
+				{
+					buf[fsize] = '\0';
+
+					JsonBox::Value root;
+					root.loadFromString(buf);
+
+					if (root["users"].isInteger())
+					{
+						m_users_count = root["users"].getInt();
+					}
+				}
+
+				delete []buf;
+			}
+
+			return ZD_NOERROR;
 		}
 
 		ZD_STATUS Updater::CheckForUpdates()
@@ -70,6 +96,11 @@ namespace ZenDiary
 		{
 			ShellExecute(nullptr, "open", m_update_link.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 			return ZD_NOERROR;
+		}
+
+		int Updater::GetUsersCount() const
+		{
+			return m_users_count;
 		}
 	}
 }

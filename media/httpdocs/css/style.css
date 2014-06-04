@@ -24,3 +24,8 @@
 	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 	background: #eee;
 }
+
+.users-count-wrapper
+{
+	display: none;
+}

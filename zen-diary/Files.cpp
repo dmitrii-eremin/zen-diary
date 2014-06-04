@@ -9,8 +9,8 @@ namespace ZenDiary
 		{
 			bool IsFileExist(const std::string &filename)
 			{
-				boost::filesystem::path filepath(filename);		
-				return boost::filesystem::exists(filepath);
+				DWORD attr = GetFileAttributes(filename.c_str());
+				return attr != INVALID_FILE_ATTRIBUTES && !(attr & FILE_ATTRIBUTE_DIRECTORY);
 			}
 
 			ZD_STATUS GetFileSize(const std::string &filename, uint_t &filesize)
@@ -116,6 +116,96 @@ namespace ZenDiary
 			ZD_STATUS SetFileContent(const std::string &filename, const std::string &data)
 			{
 				return SetFileContent(filename, data.c_str(), data.length());
+			}
+
+			bool DownloadFile(const std::string &filename, char *bytes, size_t &max_size)
+			{
+				if (!bytes || max_size == 0)
+				{
+					return false;
+				}
+
+				HINTERNET hInternet = InternetOpen(ZD_USER_AGENT, INTERNET_OPEN_TYPE_DIRECT,
+					nullptr, nullptr, 0);
+
+				if (!hInternet)
+				{
+					return false;
+				}
+
+				HINTERNET hRequest = InternetOpenUrl(hInternet, filename.c_str(),
+					nullptr, 0, 0, 0);
+
+				if (!hRequest)
+				{
+					InternetCloseHandle(hInternet);
+					return false;
+				}
+
+				DWORD filesize = 0;
+
+				char buf[32];
+				DWORD buf_len = sizeof(buf);
+
+				HttpQueryInfo(hRequest, HTTP_QUERY_CONTENT_LENGTH, buf, &buf_len, nullptr);
+
+				filesize = atol(buf);
+
+				const size_t buffer_size = 1024 * 8;
+				size_t size_to_read = buffer_size;
+
+				bool updating = false;
+
+				char *data_ptr = bytes;
+				size_t read_size = 0;
+
+				if (filesize)
+				{
+					DWORD dwRead = 0;
+
+					size_t to_read = min(max_size, filesize);
+
+					InternetReadFile(hRequest, bytes, to_read, &dwRead);
+				}
+
+				InternetCloseHandle(hRequest);
+				InternetCloseHandle(hInternet);
+
+				return true;
+			}
+
+			size_t GetInternetFileSize(const std::string &filename)
+			{
+				HINTERNET hInternet = InternetOpen(ZD_USER_AGENT, INTERNET_OPEN_TYPE_DIRECT,
+					nullptr, nullptr, 0);
+
+				if (!hInternet)
+				{
+					return false;
+				}
+
+				HINTERNET hRequest = InternetOpenUrl(hInternet, filename.c_str(),
+					nullptr, 0, 0, 0);
+
+				if (!hRequest)
+				{
+					InternetCloseHandle(hInternet);
+					return false;
+				}
+
+				DWORD filesize = 0;
+
+				char buf[32];
+				DWORD buf_len = sizeof(buf);
+
+				HttpQueryInfo(hRequest, HTTP_QUERY_CONTENT_LENGTH, buf, &buf_len, nullptr);
+
+				filesize = atol(buf);
+
+				InternetCloseHandle(hRequest);
+				InternetCloseHandle(hInternet);
+
+				return filesize;
 			}
 		}
 	}

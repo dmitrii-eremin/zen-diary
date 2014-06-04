@@ -100,6 +100,8 @@
     <ClInclude Include="MethodHandler.h" />
     <ClInclude Include="SQLite.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="unzip.h" />
+    <ClInclude Include="Updater.h" />
     <ClInclude Include="utf8.h" />
     <ClInclude Include="utf8\checked.h" />
     <ClInclude Include="utf8\core.h" />
@@ -110,6 +112,7 @@
     <ClInclude Include="ZenDataSource.h" />
     <ClInclude Include="ZenDiary.h" />
     <ClInclude Include="ZenDiaryApp.h" />
+    <ClInclude Include="zip.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArgumentValue.cpp" />
@@ -127,11 +130,14 @@
     <ClCompile Include="SQLite.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="String.cpp" />
+    <ClCompile Include="unzip.cpp" />
+    <ClCompile Include="Updater.cpp" />
     <ClCompile Include="WebWindow.cpp" />
     <ClCompile Include="GuiSettings.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
     <ClCompile Include="ZenDataSource.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />
+    <ClCompile Include="zip.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

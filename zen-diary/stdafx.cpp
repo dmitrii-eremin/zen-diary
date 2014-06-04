@@ -2,6 +2,7 @@
 
 #pragma comment(lib, "awesomium.lib")
 #pragma comment(lib, "sqlite3.lib")
+#pragma comment(lib, "wininet.lib")
 
 #ifdef _DEBUG
 #pragma comment(lib, "JsonBox-d.lib")

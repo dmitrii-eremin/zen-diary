@@ -42,6 +42,15 @@
     <Filter Include="Settings\Source Files">
       <UniqueIdentifier>{cff8d50d-be7d-411e-9ec2-42856e7651c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Zip">
+      <UniqueIdentifier>{12b79da6-7757-43c6-a399-eb48c3c79105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zip\Header Files">
+      <UniqueIdentifier>{54aa574d-2bc4-436b-a89d-248ab89e3d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zip\Source Files">
+      <UniqueIdentifier>{a5ffa293-5282-42eb-aa16-feedc8eed156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -113,6 +122,15 @@
     <ClInclude Include="ArgumentValue.h">
       <Filter>App\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Updater.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unzip.h">
+      <Filter>Zip\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zip.h">
+      <Filter>Zip\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -174,6 +192,15 @@
     </ClCompile>
     <ClCompile Include="ArgumentValue.cpp">
       <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Updater.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unzip.cpp">
+      <Filter>Zip\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zip.cpp">
+      <Filter>Zip\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

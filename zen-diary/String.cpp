@@ -28,6 +28,21 @@ namespace ZenDiary
 				return fullname.substr(0, index + 1);
 			}
 
+			std::string ExtractFilename(const std::string &fullname)
+			{
+				size_t index = fullname.find_last_of("\\");
+				if (index == std::string::npos)
+				{
+					index = fullname.find_last_of("/");
+					if (index == std::string::npos)
+					{
+						return fullname;
+					}
+				}
+
+				return fullname.substr(index + 1);
+			}
+
 			std::string ExtractExtension(const std::string &fullname)
 			{
 				size_t index = fullname.find_last_of(".");

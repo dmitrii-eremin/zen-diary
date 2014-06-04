@@ -18,6 +18,7 @@
 
 #include <windows.h>
 #include <process.h>
+#include <WinInet.h>
 #include <crtdbg.h>
 
 #include <JsonBox.h>
@@ -32,5 +33,8 @@
 #include <sqlite3.h>
 
 #include <aes.h>
+
+#include "zip.h"
+#include "unzip.h"
 
 #include "ZenDiary.h"

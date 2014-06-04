@@ -2,8 +2,8 @@
 	"auth" : {
 		"first_run" : false,
 		"login" : "root",
-		"passhash" : "533bade0748ef7b0a965770c104cdb79",
-		"salt" : "4ce954ecb484e44c5ba8baa22a8f83c5"
+		"passhash" : "910b6a024d5a8b62db05be4fde56ee6b",
+		"salt" : "343b49e1ff19aa4760209279ffb1c5f2"
 	},
 	"gui" : {
 		"window" : {

@@ -8,7 +8,7 @@ namespace ZenDiary
 		ZenDiaryApp::ZenDiaryApp() : 
 			m_core(nullptr),
 			m_window(nullptr),
-			m_web_session(nullptr)
+			m_web_session(nullptr)		
 		{
 			m_terminate.store(false);
 		}
@@ -20,7 +20,11 @@ namespace ZenDiary
 
 		ZD_STATUS ZenDiaryApp::Initialize(const std::string &argv)
 		{
-			m_args.Parse(argv);
+			InitializeCurrentDirectory();
+
+			m_args.Parse(argv);	
+			
+			m_updater.CheckForUpdates();
 
 			Helpers::Serialization::FromFile(m_settings, m_settings_path);			
 
@@ -43,6 +47,17 @@ namespace ZenDiary
 			Helpers::Serialization::ToFile(m_settings, m_settings_path);
 
 			FreeWindow();
+
+			if (m_updater.IsNeedToUpdate())
+			{
+				int result = MessageBox(nullptr, "Для Zen Diary доступна новая версия. В этой версии появилось много полезных функций. Обновить Zen Diary сейчас?",
+					"Доступно обновление для Zen Diary", MB_YESNO | MB_ICONQUESTION);
+
+				if (result == IDYES)
+				{
+					m_updater.OpenUpdateLink();
+				}
+			}
 			return ZD_NOERROR;
 		}
 
@@ -257,19 +272,14 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
-		std::string ZenDiaryApp::GetFullname(const std::string &filename)
+		ZD_STATUS ZenDiaryApp::InitializeCurrentDirectory()
 		{
-			const size_t buf_size = MAX_PATH;
-			char buf[buf_size];
+			char app_filename[MAX_PATH];
+			GetModuleFileName(GetModuleHandle(nullptr), app_filename, MAX_PATH);
 
-			GetModuleFileName(GetModuleHandle(nullptr), buf, buf_size);
-
-			std::string path = Helpers::String::ExtractPath(buf);
-
-			std::stringstream stream;
-			stream << path << m_httpdocs_path << filename;
-
-			return stream.str();
+			std::string app_path = Helpers::String::ExtractPath(app_filename);
+			SetCurrentDirectory(app_path.c_str());
+			return ZD_NOERROR;
 		}
 	}
 }

@@ -6,6 +6,7 @@
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
+#include "Updater.h"
 #include "SQLite.h"
 
 namespace ZenDiary
@@ -38,8 +39,8 @@ namespace ZenDiary
 			ZD_STATUS BindMethods();
 
 			ZD_STATUS LoadMimeTypes();
-
-			std::string GetFullname(const std::string &path);
+			
+			ZD_STATUS InitializeCurrentDirectory();
 			
 		private:
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
@@ -56,6 +57,8 @@ namespace ZenDiary
 			std::atomic_bool m_terminate;
 
 			CmdArguments m_args;
+
+			Updater m_updater;			
 
 			Awesomium::WebCore *m_core;
 			Awesomium::WebSession *m_web_session;

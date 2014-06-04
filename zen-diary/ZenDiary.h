@@ -28,6 +28,7 @@ typedef uint_t										version_t;
 #define ZD_ERROR_NOT_INITIALIZED					0x05
 #define ZD_ERROR_FAILED_TO_CREATE					0x06
 #define ZD_ERROR_FAILED_TO_OPEN						0x07
+#define ZD_ERROR_BAD_DATA							0x08
 
 #define ZD_MAKE_VERSION(HI, MI, LO)					(((HI) << 16) + ((MI) << 8) + (LO))
 #define ZD_VERSION_HI(V)							((V) >> 16)
@@ -53,6 +54,7 @@ typedef uint_t										version_t;
 #define ZD_VERSION_STATUS							"Beta"
 
 #define AES_BLOCK_LEN								16
+#define ZD_USER_AGENT								"ZenDiaryApp/1.0"
 
 #include "IApplication.h"
 #include "ISerializable.h"
@@ -71,6 +73,9 @@ namespace ZenDiary
 
 			ZD_STATUS SetFileContent(const std::string &filename, const char *data, size_t buf_size);
 			ZD_STATUS SetFileContent(const std::string &filename, const std::string &data);
+
+			bool DownloadFile(const std::string &filename, char *bytes, size_t &max_size);
+			size_t GetInternetFileSize(const std::string &filename);
 		}
 
 		namespace String
@@ -78,6 +83,7 @@ namespace ZenDiary
 			std::string To();
 
 			std::string ExtractPath(const std::string &fullname);
+			std::string ExtractFilename(const std::string &fullname);
 			std::string ExtractExtension(const std::string &fullname);
 			std::string FilenameToUrl(const std::string &filename);	
 
@@ -113,6 +119,7 @@ namespace ZenDiary
 		namespace Crypto
 		{
 			std::string md5(std::string src);
+			std::string md5(const char *data, size_t len);
 
 			ZD_STATUS EncryptString(std::string data, std::string key, char **new_data, size_t &new_data_size);
 			std::string DecryptString(char *data, size_t data_length, std::string key);

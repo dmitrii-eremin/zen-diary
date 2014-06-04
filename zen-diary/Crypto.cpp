@@ -16,6 +16,17 @@ namespace ZenDiary
 				return md5.hexdigest();
 			}
 
+			std::string md5(const char *data, size_t len)
+			{
+				if (!data || len == 0)
+				{
+					return md5("");
+				}
+
+				MD5 md5(data, len);
+				return md5.hexdigest();
+			}
+
 			ZD_STATUS EncryptString(std::string data, std::string key, char **new_data, size_t &new_data_size)
 			{
 				if (key.length() == 0 || data.length() == 0)

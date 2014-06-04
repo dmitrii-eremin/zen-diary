@@ -78,7 +78,13 @@ var notes = {
 	{
 		notes.current_note = note.id;
 
-		var html_text = markdown.toHTML(note.note);
+		/*var converter = new Markdown.Converter();
+//   var html = converter.makeHtml(text);
+*/
+
+		// var html_text = markdown.toHTML(note.note);
+		var conv = new Markdown.Converter();
+		var html_text = conv.makeHtml(note.note); 
 
 		$("#note-title").html(note.title);
 		$("#note-text").html(html_text);

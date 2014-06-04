@@ -26,7 +26,7 @@ namespace ZenDiary
 			p->fullname = fullname;
 			p->request_id = request_id;
 
-			_beginthread(&ZenDataSource::ThreadProc, 0, p);			
+			_beginthread(&ZenDataSource::ThreadProc, 0, p);
 		}
 
 		ZD_STATUS ZenDataSource::AddMimeType(const std::string &key, const std::string &value)
@@ -58,18 +58,25 @@ namespace ZenDiary
 
 			if (Helpers::Files::IsFileExist(p->fullname))
 			{
-				std::string data;
-				ZD_STATUS status = Helpers::Files::GetFileContent(p->fullname, data);
-				if (ZD_SUCCEEDED(status))
+				size_t fsize = 0;
+				if (ZD_SUCCEEDED(Helpers::Files::GetFileSize(p->fullname, fsize)) && fsize > 0)
 				{
-					std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
-					const std::string &mime_type = p->object->GetMimeType(ext);
+					char *data = new char[fsize];
 
-					p->object->SendResponse(p->request_id, data.length(),
-						reinterpret_cast<unsigned char*>(const_cast<char*>(data.c_str())),
-						Awesomium::WSLit(mime_type.c_str()));
+					ZD_STATUS status = Helpers::Files::GetFileContent(p->fullname, data, fsize);
+					if (ZD_SUCCEEDED(status))
+					{
+						std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
+						const std::string &mime_type = p->object->GetMimeType(ext);
+
+						p->object->SendResponse(p->request_id, fsize,
+							reinterpret_cast<unsigned char*>(data),
+							Awesomium::WSLit(mime_type.c_str()));
+					}
+
+					delete []data;
 				}
-			}			
+			}
 
 			delete p;
 		}		

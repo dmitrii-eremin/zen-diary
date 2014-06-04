@@ -51,6 +51,9 @@
     <Filter Include="Zip\Source Files">
       <UniqueIdentifier>{a5ffa293-5282-42eb-aa16-feedc8eed156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{896c55d4-f132-43c6-a009-05cdba767db3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -131,6 +134,9 @@
     <ClInclude Include="zip.h">
       <Filter>Zip\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -205,5 +211,11 @@
     <ClCompile Include="Win32.cpp">
       <Filter>Helpers\Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zen-diary.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico" />
   </ItemGroup>
 </Project>

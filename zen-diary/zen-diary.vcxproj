@@ -98,6 +98,7 @@
     <ClInclude Include="Md5.h" />
     <ClInclude Include="MenuHandler.h" />
     <ClInclude Include="MethodHandler.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SQLite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="unzip.h" />
@@ -139,6 +140,12 @@
     <ClCompile Include="ZenDataSource.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />
     <ClCompile Include="zip.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zen-diary.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

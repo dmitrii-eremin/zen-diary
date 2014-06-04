@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WebWindow.h"
+#include "resource.h"
 
 namespace ZenDiary
 {
@@ -103,8 +104,8 @@ namespace ZenDiary
 			wc.cbWndExtra = 0;
 			wc.cbClsExtra = 0;
 			wc.hInstance = GetModuleHandle(nullptr);
-			wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-			wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
+			wc.hIcon = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1));
+			wc.hIconSm = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1));
 			wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 			wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 			wc.lpszMenuName = nullptr;

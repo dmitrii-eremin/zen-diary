@@ -202,5 +202,8 @@
     <ClCompile Include="zip.cpp">
       <Filter>Zip\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Win32.cpp">
+      <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

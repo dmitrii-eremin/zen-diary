@@ -244,6 +244,9 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("hideNote", &JSHandlers::OnHideNote);
 			ZD_BIND_JS_HANDLER("showNote", &JSHandlers::OnShowNote);
 			ZD_BIND_JS_HANDLER("deleteNote", &JSHandlers::OnDeleteNote);
+
+			ZD_BIND_JS_HANDLER("openFileDialog", &JSHandlers::OnOpenFileDialog);
+			ZD_BIND_JS_HANDLER("setClipboard", &JSHandlers::OnSetClipboard);
 			return ZD_NOERROR;
 		}
 

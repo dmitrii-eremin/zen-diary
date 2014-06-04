@@ -127,5 +127,10 @@ namespace ZenDiary
 			std::string Base64Encode(char *bytes_to_encode, size_t in_len);
 			ZD_STATUS Base64Decode(const std::string &encoded_string, char **data, size_t &data_size);
 		}
+
+		namespace Win32
+		{
+			ZD_STATUS SetClipboardText(const std::string &text);
+		}
 	}
 }

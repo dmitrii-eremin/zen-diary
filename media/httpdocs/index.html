@@ -5,9 +5,9 @@
 		<title>ZenDiary | Ваш личный дневник</title>
 
 		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
-		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
-		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />		
 		<link rel = "stylesheet" href = "css/bootstrap-dialog.min.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
 		<link rel = "stylesheet" href = "css/index.css" type = "text/css" />
 	</head>
 
@@ -44,12 +44,17 @@
 													</div>
 													
 													<div class = "col-sm-6 text-right">
-														<label>Вы можете использовать синтаксис <a href = "javascript:void(0)" data-toggle = "ajax-modal">Markdown</a></label>
+														<label>Вы можете использовать синтаксис <a href = "javascript:void(0)" id = "on-btn-markdown-help">Markdown</a></label>
 													</div>
 												</div>		
 
-												<div id = "text" class = "form-control">												
+												<div id = "format-buttons">
+													<!--<button type = "button" class = "btn btn-default" id = "on-btn-insert-image" data-toggle = "tooltip" data-placement = "right" title = "Вставить изображение"><span class = "fa fa-picture-o"></span></button>-->
+													<button type = "button" class = "btn btn-default" id = "on-btn-preview" data-toggle = "tooltip" data-placement = "top" title = "Предпросмотр"><span class = "fa fa-desktop"></span></button>
 												</div>
+
+												<div id = "text" class = "form-control">													
+												</div>												
 											</div>
 
 											<div class = "form-group">

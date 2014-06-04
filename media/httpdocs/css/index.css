@@ -1,5 +1,10 @@
 #text
 {
-	height: 405px;
+	height: 370px;
 	min-height: 250px;
+}
+
+#format-buttons
+{
+	padding-bottom: 10px;
 }

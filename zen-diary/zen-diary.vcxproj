@@ -134,6 +134,7 @@
     <ClCompile Include="Updater.cpp" />
     <ClCompile Include="WebWindow.cpp" />
     <ClCompile Include="GuiSettings.cpp" />
+    <ClCompile Include="Win32.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
     <ClCompile Include="ZenDataSource.cpp" />
     <ClCompile Include="ZenDiaryApp.cpp" />

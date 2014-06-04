@@ -14,3 +14,13 @@
 {
 	margin: 0 !important;
 }
+
+.markdown-code
+{
+	padding: 2px 4px;
+	font-size: 90%;
+	color: #c7254e;
+	border-radius: 4px;
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+	background: #eee;
+}

@@ -868,6 +868,28 @@ namespace ZenDiary
 			return CreateAnswerObject(true);
 		}
 
+		Awesomium::JSValue JSHandlers::OnOpenFileDialog(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			wchar_t filename[MAX_PATH] = { 0 };
+
+			OPENFILENAMEW ofn = { 0 };
+
+			ofn.lStructSize = sizeof(OPENFILENAME);
+			ofn.hwndOwner = GetDesktopWindow();
+			ofn.lpstrFilter = L"Все файлы (*.*)\0*.*\0";
+			ofn.lpstrFile = filename;
+			ofn.nMaxFile = MAX_PATH;
+			ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST;
+			ofn.lpstrDefExt = L"";
+
+			if (GetOpenFileNameW(&ofn) == FALSE)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+			
+			return Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(filename).c_str()));
+		}
+
 		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::wstring &message)
 		{
 			Awesomium::JSObject result;
@@ -876,6 +898,24 @@ namespace ZenDiary
 			result.SetProperty(Awesomium::WSLit("message"), Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(message).c_str())));
 
 			return result;
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetClipboard(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			Awesomium::JSValue arg(args.At(0));
+			if (arg.IsString())
+			{
+				std::string str = Awesomium::ToString(arg.ToString());
+
+				Helpers::Win32::SetClipboardText(str);
+			}
+
+			return Awesomium::JSValue::Undefined();
 		}
 	}
 }

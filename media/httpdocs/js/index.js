@@ -3,6 +3,8 @@ var new_post = {
 
 	current_note_id : 0,
 
+	in_preview : false,
+
 	setSavedButtonState : function()
 	{
 		$("#on-btn-post").attr("class", "btn btn-success");	
@@ -15,13 +17,32 @@ var new_post = {
 		$("#on-btn-post").attr("class", "btn btn-default");		
 		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
 		$("#on-btn-post-text").html("Сохранить заметку");	
+	},	
+
+	insertToEditor : function(text)
+	{
+		zen.setClipboard(text);		
+	},
+
+	changePreviewButtonIcon : function()
+	{
+		if (new_post.in_preview)
+		{
+			var span = $("<span>").addClass("fa fa-code");
+			$("#on-btn-preview").html(span);		
+		}
+		else
+		{			
+			var span = $("<span>").addClass("fa fa-desktop");
+			$("#on-btn-preview").html(span);
+		}
 	}
 };
 
 $(document).ready(function()
 {
 	new_post.editor = new EpicEditor({
-		container : "text",
+		container : "text",		
 		clientSideStorage : false,
 		useNativeFullscreen : true,		
 
@@ -63,7 +84,21 @@ $(document).ready(function()
 		{
 			e.preventDefault();
 			$("#on-btn-post").click();
-		}
+		}		
+	});
+
+	new_post.editor.on("preview", function()
+	{
+		new_post.in_preview = true;
+
+		new_post.changePreviewButtonIcon();
+	});
+
+	new_post.editor.on("edit", function()
+	{
+		new_post.in_preview = false;
+
+		new_post.changePreviewButtonIcon();
 	});
 
 	var search = window.location.search;
@@ -153,7 +188,7 @@ $(document).ready(function()
 $(window).resize(function(e)
 {
 	var height = $(this).height();
-	$("#text").css("height", (height - 306) + "px");
+	$("#text").css("height", (height - 351) + "px");
 	new_post.editor.reflow();
 });
 
@@ -231,4 +266,45 @@ $(document).on("keydown", "#input-note-password", function(e)
 		e.preventDefault();
 		$("#on-btn-enter-password").click();
 	}
+});
+
+$("#on-btn-insert-image").click(function(e)
+{
+	e.preventDefault();
+
+	var image_path = zen.openFileDialog();
+	if (image_path != undefined)
+	{
+		var md_image = "![](" + image_path + ")";
+
+		new_post.insertToEditor(md_image);
+	}
+});
+
+$("#on-btn-preview").click(function(e)
+{
+	if (new_post.in_preview)
+	{
+		new_post.editor.edit();
+	}
+	else
+	{
+		new_post.editor.preview();
+	}
+});
+
+$("#on-btn-markdown-help").click(function(e)
+{
+	e.preventDefault();
+
+	var dialog_message = zen.getTemplate("../media/httpdocs/modal/markdown-help.html");
+
+	var dialog = new BootstrapDialog({
+		title : "Синтаксис markdown",
+		message : dialog_message,
+		type : BootstrapDialog.TYPE_DEFAULT,		
+	});
+
+	dialog.realize();	
+	dialog.open();
 });

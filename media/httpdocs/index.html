@@ -54,8 +54,8 @@
 													<button type = "button" class = "btn btn-default" id = "on-btn-qsave" data-toggle = "tooltip" data-placement = "top" title = "Сохранить заметку"><span class = "fa fa-save"></span></button>
 												</div>
 
-												<div id = "text" class = "form-control">													
-												</div>												
+												<textarea id = "text" class = "form-control" placeholder = "Текст заметки"></textarea>
+												<div id = "text-preview"></div>
 											</div>
 
 											<div class = "form-group">
@@ -88,7 +88,8 @@
 		<script src = "js/app.v1.js"></script>
 		<script src = "js/app.plugin.js"></script>
 		<script src = "js/jquery.alert.js"></script>
-		<script src = "epiceditor/js/epiceditor.min.js"></script>		
+		<script src = "epiceditor/js/epiceditor.min.js"></script>	
+		<script src = "js/Markdown.Converter.js"></script>	
 		<script src = "js/notify.min.js"></script>
 		<script src = "js/general.js"></script>		
 		<script src = "js/bootstrap-dialog.min.js"></script>

@@ -458,7 +458,7 @@ $(".on-btn-delete").click(function(e)
 
 				notes.current_note = 0;
 
-				$.notify("Сообщение удалено из дневника навсегда.", 
+				$.notify("Заметка удалена из дневника навсегда.", 
 				{
 					position: "top right",
 					className : "success"

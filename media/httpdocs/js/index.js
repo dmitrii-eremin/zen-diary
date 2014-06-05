@@ -1,5 +1,4 @@
 var new_post = {
-	editor : {},
 
 	current_note_id : 0,
 
@@ -36,71 +35,179 @@ var new_post = {
 			var span = $("<span>").addClass("fa fa-desktop");
 			$("#on-btn-preview").html(span);
 		}
-	}
-};
+	},
 
-$(document).ready(function()
-{
-	new_post.editor = new EpicEditor({
-		container : "text",		
-		clientSideStorage : false,
-		useNativeFullscreen : true,		
-
-		button : {
-			preview : true,
-			fullscreen : false,
-			bar : "auto"
-		},
-
-		focusOnLoad : false,
-
-		shortcut : {
-			modifier : 18,
-			fullscreen : 70,
-			preview : 80
-		},
-
-		theme : {
-			base : "/themes/base/epiceditor.css",
-			preview : "/themes/preview/bartik.css",
-			editor : "/themes/editor/epic-light-user.css"
-		},
-
-		string : {
-			togglePreview : "Предпросмотр",
-			toggleEdit : "Редактирование",
-			toggleFullscreen : "Развернуть во всё окно"
-		}
-	}).load();
-
-	var editor = new_post.editor.getElement("editor");	
-
-	$(editor).keydown(function(e)
-	{
-		new_post.setUnsavedButtonState();
-		zenapi.clearAlerts();
-
-		if (e.keyCode == 83 && e.ctrlKey)
-		{
-			e.preventDefault();
-			$("#on-btn-post").click();
-		}		
-	});
-
-	new_post.editor.on("preview", function()
+	switchToPreview : function()
 	{
 		new_post.in_preview = true;
 
 		new_post.changePreviewButtonIcon();
-	});
 
-	new_post.editor.on("edit", function()
+		var md_text = $("#text").val();
+		var conv = new Markdown.Converter();
+		var html_text = conv.makeHtml(md_text); 
+
+		var textarea_height = $("#text").height() + 14;
+		var textarea_width = $("#text").width() + 25;
+
+		$("#text-preview").css("height", textarea_height + "px");
+		$("#text-preview").css("width", textarea_width + "px");
+
+		$("#text-preview").html(html_text);
+
+		$("#text").fadeOut(zenapi.animation_duration, function()
+		{
+			$("#text-preview").fadeIn(zenapi.animation_duration);
+		});
+	},
+
+	switchToEdit : function()
 	{
 		new_post.in_preview = false;
 
 		new_post.changePreviewButtonIcon();
-	});
 
+		$("#text-preview").fadeOut(zenapi.animation_duration, function()
+		{
+			$("#text").fadeIn(zenapi.animation_duration);
+		});		
+	},
+
+	surroundSelection : function(object, open_tag, close_tag)
+	{
+		if (close_tag == undefined)
+		{
+			close_tag = "";
+		}
+
+		var start = $(object)[0].selectionStart;
+		var end = $(object)[0].selectionEnd;	
+
+		var old_value = $(object).val();
+
+		var left = old_value.substring(0, start);
+		var middle = old_value.substring(start, end);
+		var right = old_value.substring(end);
+		
+		var value = left + open_tag + middle + close_tag + right;
+
+		$(object).val(value);
+
+		$(object).focus();
+
+		var selection_index = start + open_tag.length;
+
+		$(object)[0].setSelectionRange(start + open_tag.length, end + open_tag.length);
+	}
+};
+
+$("#text").keydown(function(e)
+{
+	new_post.setUnsavedButtonState();
+	zenapi.clearAlerts();
+
+	if (e.keyCode == 83 && e.ctrlKey)
+	{
+		e.preventDefault();
+		$("#on-btn-post").click();
+	}	
+
+	if (this.tabs_count == undefined)
+	{
+		this.tabs_count = 0;
+	}
+
+	var old_content_text = $("#text").val();
+
+	var code = e.keyCode || e.which;
+
+	if (code == 9)
+	{
+		e.preventDefault();	
+		var start = $("#text")[0].selectionStart;
+		var end = $("#text")[0].selectionEnd;
+
+		var old_value = $("#text").val();
+
+		var left = old_value.substring(0, start);
+		var middle = old_value.substring(start, end);
+		var right = old_value.substring(end);		
+
+		var val = left + "\t" + right;
+
+		$(this).val(val);			
+
+		var selection_index = start + 1;
+
+		$("#text")[0].setSelectionRange(selection_index, selection_index);
+	}
+	else if (code == 13)
+	{	
+		e.preventDefault();
+
+		var start = $("#text")[0].selectionStart;
+		var end = $("#text")[0].selectionEnd;	
+
+		var old_value = $("#text").val();
+
+		var left = old_value.substring(0, start);
+		var middle = old_value.substring(start, end);
+		var right = old_value.substring(end);			
+
+		var lines = left.split("\n");
+
+		this.left_prefix = "";
+
+		if (lines.length > 0)
+		{
+			var line = lines[lines.length - 1];
+			this.tabs_count = 0;
+			for (var i = 0; i < line.length; i++)
+			{
+				if (line[i] == '\t')
+				{
+					this.tabs_count++;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		if (this.left_prefix.length > 0 && this.left_prefix == this.last_left_line)
+		{
+			var length = this.left_prefix.length;	
+			left = left.substring(0, left.length - length);	
+			this.tabs_count--;	
+		}
+
+		var val = left + "\n";
+
+		var selection_index = start + 1;	
+
+		for (var i = 0; i < this.tabs_count; i++)
+		{
+			val += "\t";		
+			selection_index++;
+		}
+
+		if (this.left_prefix.length > 0 && this.left_prefix != this.last_left_line)
+		{
+			right = this.left_prefix + right;
+			selection_index = selection_index + this.left_prefix.length;			
+		}
+
+		val = val + right;
+
+		$(this).val(val);			
+
+		$("#text")[0].setSelectionRange(selection_index, selection_index);
+	}
+});
+
+$(document).ready(function()
+{
 	var search = window.location.search;
 
 	if (search.length > 0 && (search = search.substr(1)).length > 0)
@@ -185,21 +292,34 @@ $(document).ready(function()
 	}
 });
 
+$(document).keydown(function(e)
+{
+	if (e.keyCode == 80 && e.altKey)
+	{
+		$("#on-btn-preview").click();
+	}
+});
+
 $(window).resize(function(e)
 {
 	var height = $(this).height();
-	$("#text").css("height", (height - 351) + "px");
-	new_post.editor.reflow();
+	$("#text").css("height", (height - 351) + "px");	
+
+	var textarea_height = $("#text").height() + 14;
+	var textarea_width = $("#text").width() + 25;
+
+	$("#text-preview").css("height", textarea_height + "px");
+	$("#text-preview").css("width", textarea_width + "px");
 });
+
+$(window).resize();
 
 $("#on-btn-post").click(function(e)
 {
-	e.preventDefault();
-
-	var editor = new_post.editor;
+	e.preventDefault();	
 
 	var title = $("#title").val();
-	var text = editor.exportFile();
+	var text = $("#text").val();
 	var pass = $("#password").val();
 	var passconfirm = $("#password-confirm").val();		
 
@@ -285,11 +405,11 @@ $("#on-btn-preview").click(function(e)
 {
 	if (new_post.in_preview)
 	{
-		new_post.editor.edit();
+		new_post.switchToEdit();
 	}
 	else
 	{
-		new_post.editor.preview();
+		new_post.switchToPreview();
 	}
 });
 

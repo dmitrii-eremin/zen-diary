@@ -59,22 +59,31 @@ namespace ZenDiary
 			if (Helpers::Files::IsFileExist(p->fullname))
 			{
 				size_t fsize = 0;
-				if (ZD_SUCCEEDED(Helpers::Files::GetFileSize(p->fullname, fsize)) && fsize > 0)
+				if (ZD_SUCCEEDED(Helpers::Files::GetFileSize(p->fullname, fsize)))
 				{
-					char *data = new char[fsize];
+					std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
+					const std::string &mime_type = p->object->GetMimeType(ext);
 
-					ZD_STATUS status = Helpers::Files::GetFileContent(p->fullname, data, fsize);
-					if (ZD_SUCCEEDED(status))
+					if (fsize > 0)
 					{
-						std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
-						const std::string &mime_type = p->object->GetMimeType(ext);
+						char *data = new char[fsize];
 
-						p->object->SendResponse(p->request_id, fsize,
-							reinterpret_cast<unsigned char*>(data),
+						ZD_STATUS status = Helpers::Files::GetFileContent(p->fullname, data, fsize);
+						if (ZD_SUCCEEDED(status))
+						{					
+							p->object->SendResponse(p->request_id, fsize,
+								reinterpret_cast<unsigned char*>(data),
+								Awesomium::WSLit(mime_type.c_str()));
+						}
+
+						delete[]data; 
+					}
+					else
+					{
+						p->object->SendResponse(p->request_id, 0,
+							reinterpret_cast<unsigned char*>(""),
 							Awesomium::WSLit(mime_type.c_str()));
 					}
-
-					delete []data;
 				}
 			}
 

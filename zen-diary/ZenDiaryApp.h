@@ -26,7 +26,7 @@ namespace ZenDiary
 			virtual ZD_STATUS Deinitialize() override final;
 			virtual ZD_STATUS Run() override final;
 
-			virtual ZD_STATUS Terminate() override final;
+			virtual ZD_STATUS Terminate() override final;			
 
 		private:
 			ZD_STATUS InitializeWindow();

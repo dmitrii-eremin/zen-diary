@@ -35,9 +35,9 @@ namespace ZenDiary
 
 			ZD_RETURN_IF_FAILED(InitializeCryptography());
 			ZD_RETURN_IF_FAILED(InitializeDirectories());
-			ZD_RETURN_IF_FAILED(InitializeDatabase());
-			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
+			ZD_RETURN_IF_FAILED(InitializeDatabase());			
 			ZD_RETURN_IF_FAILED(InitializeWindow());
+			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
 			
 			return ZD_NOERROR;
 		}
@@ -182,6 +182,7 @@ namespace ZenDiary
 		ZD_STATUS ZenDiaryApp::InitializeJsHandlers()
 		{
 			m_js_handlers.SetZenApp(this);
+			m_js_handlers.SetWebWindow(m_window);
 			m_js_handlers.SetGlobalSettings(&m_settings);
 			m_js_handlers.SetDatabase(&m_database);
 			m_js_handlers.SetUpdater(&m_updater);
@@ -227,6 +228,7 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("toInt", &JSHandlers::OnToInt);
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
+			ZD_BIND_JS_HANDLER("shellExecute", &JSHandlers::OnShellExecute);
 			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
 			ZD_BIND_JS_HANDLER("getVersionString", &JSHandlers::OnGetVersionString);
 			ZD_BIND_JS_HANDLER("getUsername", &JSHandlers::OnGetUsername);
@@ -251,6 +253,9 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("setClipboard", &JSHandlers::OnSetClipboard);
 
 			ZD_BIND_JS_HANDLER("getUsersCount", &JSHandlers::OnGetUsersCount);
+
+			ZD_BIND_JS_HANDLER("toggleFullscreen", &JSHandlers::OnToggleFullscreen);
+			ZD_BIND_JS_HANDLER("isFullscreenMode", &JSHandlers::OnIsFullscreenMode);
 			return ZD_NOERROR;
 		}
 

@@ -10,7 +10,8 @@ namespace ZenDiary
 			m_settings(nullptr),
 			m_zen_app(nullptr),
 			m_database(nullptr),
-			m_updater(nullptr)
+			m_updater(nullptr),
+			m_web_window(nullptr)
 		{
 
 		}
@@ -41,6 +42,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetUpdater(Updater *updater)
 		{
 			m_updater = updater;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetWebWindow(WebWindow *window)
+		{
+			m_web_window = window;
 			return ZD_NOERROR;
 		}
 
@@ -90,6 +97,17 @@ namespace ZenDiary
 
 			MessageBox(nullptr, message.str().c_str(), "Zen Diary | Ваш личный дневник", MB_OK);
 
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() > 0 && args.At(0).IsString())
+			{
+				std::string path = Awesomium::ToString(args.At(0).ToString());
+
+				ShellExecute(NULL, "open", path.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+			}
 			return Awesomium::JSValue::Undefined();
 		}
 
@@ -933,6 +951,28 @@ namespace ZenDiary
 			}
 
 			return Awesomium::JSValue(m_updater->GetUsersCount());
+		}
+
+		Awesomium::JSValue JSHandlers::OnToggleFullscreen(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_web_window)
+			{
+				return CreateAnswerObject(false, L"Не удалось переключить режим окна, не инициализирован обработчик javascript.");
+			}
+
+			ZD_STATUS status = m_web_window->ToggleFullscreen();
+
+			return CreateAnswerObject(ZD_SUCCEEDED(status));
+		}
+
+		Awesomium::JSValue JSHandlers::OnIsFullscreenMode(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_web_window)
+			{
+				return Awesomium::JSValue(false);
+			}
+
+			return Awesomium::JSValue(m_web_window->IsFullscreenMode());
 		}
 	}
 }

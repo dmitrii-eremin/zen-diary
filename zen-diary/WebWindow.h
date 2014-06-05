@@ -15,6 +15,9 @@ namespace ZenDiary
 			static WebWindow *Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session = nullptr);
 			Awesomium::WebView *GetWebView();
 
+			ZD_STATUS ToggleFullscreen();
+			bool IsFullscreenMode() const;
+
 			virtual void OnChangeTitle(Awesomium::WebView* caller,
 				const Awesomium::WebString& title) override final;
 
@@ -54,6 +57,9 @@ namespace ZenDiary
 
 			Awesomium::WebView *m_web_view;
 			HWND m_hwnd;
+
+			bool m_fullscreen;
+			RECT m_old_window_pos;
 		};
 	}
 }

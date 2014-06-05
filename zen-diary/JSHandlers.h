@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalSettings.h"
+#include "WebWindow.h"
 #include "Updater.h"
 #include "SQLite.h"
 
@@ -27,10 +28,12 @@ namespace ZenDiary
 			ZD_STATUS SetZenApp(ZenDiaryApp *app);
 			ZD_STATUS SetDatabase(SQLiteDatabase *db);
 			ZD_STATUS SetUpdater(Updater *updater);
+			ZD_STATUS SetWebWindow(WebWindow *window);
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetVersionString(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetUsername(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -57,6 +60,9 @@ namespace ZenDiary
 
 			Awesomium::JSValue OnGetUsersCount(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnToggleFullscreen(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnIsFullscreenMode(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 
@@ -65,6 +71,7 @@ namespace ZenDiary
 			ZenDiaryApp *m_zen_app;
 			SQLiteDatabase *m_database;
 			Updater *m_updater;
+			WebWindow *m_web_window;
 		};
 	}
 }

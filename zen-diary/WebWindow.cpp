@@ -30,6 +30,64 @@ namespace ZenDiary
 			return m_web_view;
 		}
 
+		ZD_STATUS WebWindow::ToggleFullscreen()
+		{
+			if (!m_fullscreen)
+			{
+				RECT window_rect = { 0 };
+				GetWindowRect(m_hwnd, &window_rect);
+
+				m_old_window_pos = window_rect;
+
+				long old_style = GetWindowLong(m_hwnd, GWL_STYLE);
+
+				old_style &= ~WS_OVERLAPPEDWINDOW;
+				old_style |= WS_POPUP;
+
+				SetWindowLong(m_hwnd, GWL_STYLE, old_style);
+
+				POINT screen_size = {
+					GetSystemMetrics(SM_CXSCREEN),
+					GetSystemMetrics(SM_CYSCREEN)
+				};
+
+				window_rect.left = 0;
+				window_rect.top = 0;
+				window_rect.right = screen_size.x;
+				window_rect.bottom = screen_size.y;
+
+				MoveWindow(m_hwnd, window_rect.left, window_rect.top, window_rect.right, window_rect.bottom, TRUE);
+			}
+			else
+			{
+				long old_style = GetWindowLong(m_hwnd, GWL_STYLE);
+
+				old_style &= ~WS_POPUP;
+				old_style |= WS_OVERLAPPEDWINDOW;
+
+				SetWindowLong(m_hwnd, GWL_STYLE, old_style);
+
+				POINT screen_size = {
+					GetSystemMetrics(SM_CXSCREEN),
+					GetSystemMetrics(SM_CYSCREEN)
+				};
+
+				RECT window_rect = m_old_window_pos;
+
+				MoveWindow(m_hwnd, window_rect.left, window_rect.top, 
+					window_rect.right - window_rect.left, 
+					window_rect.bottom - window_rect.top, TRUE);
+			}
+
+			m_fullscreen = !m_fullscreen;
+			return ZD_NOERROR;
+		}
+
+		bool WebWindow::IsFullscreenMode() const
+		{
+			return m_fullscreen;
+		}
+
 		void WebWindow::OnChangeTitle(Awesomium::WebView* caller,
 			const Awesomium::WebString& title) { }
 
@@ -58,8 +116,11 @@ namespace ZenDiary
 			const Awesomium::WebString& source) { }
 
 		WebWindow::WebWindow(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session) :
-			m_web_view(nullptr)
+			m_web_view(nullptr),
+			m_fullscreen(false)			
 		{
+			m_old_window_pos = { 0 };
+
 			PlatformInit();
 
 			m_web_view = Awesomium::WebCore::instance()->CreateWebView(width * 2, height * 2, session,

@@ -98,10 +98,46 @@ $(".awesomium-link").click(function(e)
 	window.location.href = path;
 });
 
+$(document).on("click", "a", function(e)
+{
+	var href = $(this).attr("href");
+	
+	if ((href.length >= 7 && href.substr(0, 7) == "http://") ||
+		(href.length >= 8 && href.substr(0, 8) == "https://"))
+	{
+		e.preventDefault();
+
+		zen.shellExecute(href);
+	}
+});
+
 $(document).on("click", ".modal-background", function()
 {
 	$(this).fadeOut(zenapi.animation_duration, function()
 	{
 		$(this).remove();
 	});
+});
+
+$("#on-btn-toggle-fullscreen").click(function(e)
+{
+	e.preventDefault();
+	var result = zen.toggleFullscreen();
+	if (!result.success)
+	{
+		$.notify(result.message, {
+			position: "top right"
+		});
+
+		return;
+	}	
+
+	if (zen.isFullscreenMode())
+	{
+		$("#on-btn-toggle-fullscreen-icon").attr("class", "fa fa-compress");
+	}
+	else
+	{
+		$("#on-btn-toggle-fullscreen-icon").attr("class", "fa fa-expand");
+	}
 });

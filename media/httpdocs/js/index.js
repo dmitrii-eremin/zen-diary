@@ -308,3 +308,9 @@ $("#on-btn-markdown-help").click(function(e)
 	dialog.realize();	
 	dialog.open();
 });
+
+$("#on-btn-qsave").click(function(e)
+{
+	e.preventDefault();
+	$("#on-btn-post").click();
+});

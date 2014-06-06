@@ -29,7 +29,7 @@
 									<section class = "scrollable">										
 
 									<div class = "row">
-										<div class = "col-sm-12">
+										<div class = "col-sm-6 zero-right-padding">
 											<div class = "panel panel-default">
 												<header class = "panel-heading">
 													Настройки учётной записи
@@ -52,6 +52,27 @@
 															<label>Подтверждение нового пароля пользователя</label>
 															<input type = "password" class = "form-control" id = "new-password-confirm" placeholder = "Подтверждение нового пароля пользователя">
 														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+
+										<div class = "col-sm-6 zero-left-padding">
+											<div class = "panel panel-default">
+												<header class = "panel-heading">
+													Настройки базы данных
+												</header>
+												<div class = "panel-body">
+													<form role = "form">
+														<div class = "form-group">
+															<label>Путь к базе данных</label>
+															<div class = "input-group">
+																<input type = "text" class = "form-control" id = "db-path" placeholder = "Путь к базе данных">
+																<span class = "input-group-btn">
+																	<button type = "button" class = "btn btn-default" id = "on-btn-db-path">Обзор...</button>
+																</span>
+															</div>
+														</div>														
 													</form>
 												</div>
 											</div>

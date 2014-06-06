@@ -119,6 +119,51 @@ namespace ZenDiary
 			{
 				return boost::to_upper_copy(data);
 			}
+
+			std::string wstrtostr(const std::wstring &wstr)
+			{
+				std::string strTo;
+				char *szTo = new char[wstr.length() + 1];
+				szTo[wstr.size()] = '\0';
+				WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, szTo, (int)wstr.length(), NULL, NULL);
+				strTo = szTo;
+				delete[] szTo;
+				return strTo;
+			}
+
+			std::wstring strtowstr(const std::string &str)
+			{
+				std::wstring wstrTo;
+				wchar_t *wszTo = new wchar_t[str.length() + 1];
+				wszTo[str.size()] = L'\0';
+				MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, wszTo, (int)str.length());
+				wstrTo = wszTo;
+				delete[] wszTo;
+				return wstrTo;
+			}
+
+			std::string ConvertUtf8ToMB(const std::string &src)
+			{
+				char *utf8 = const_cast<char*>(src.c_str());
+				int length = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0);
+
+				std::string res = "";
+
+				if (length > 0)
+				{
+					wchar_t *wide = new wchar_t[length];
+
+					MultiByteToWideChar(CP_UTF8, 0, utf8, -1, wide, length);
+
+					size_t converted_chars = 0;
+
+					res = wstrtostr(wide);
+
+					delete[]wide;
+				}
+
+				return res;
+			}
 		}
 	}
 }

@@ -68,6 +68,40 @@ namespace ZenDiary
 			return Awesomium::JSValue(atoi(s.c_str()));
 		}
 
+		Awesomium::JSValue JSHandlers::OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() == 0)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			if (!args.At(0).IsString())
+			{
+				return args.At(0);
+			}
+
+			std::string val = Awesomium::ToString(args.At(0).ToString());
+			val = Helpers::String::ToUpper(val);
+			return Awesomium::JSValue(Awesomium::WSLit(val.c_str()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnToLower(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() == 0)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			if (!args.At(0).IsString())
+			{
+				return args.At(0);
+			}
+
+			std::string val = Awesomium::ToString(args.At(0).ToString());
+			val = Helpers::String::ToLower(val);
+			return Awesomium::JSValue(Awesomium::WSLit(val.c_str()));
+		}
+
 		Awesomium::JSValue JSHandlers::OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() < 1)
@@ -307,6 +341,36 @@ namespace ZenDiary
 			ZD_SAFE_CALL(m_zen_app)->SetLoggedIn(false);
 
 			return CreateAnswerObject(true);
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetDatabasePath(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string db_path = m_settings->GetDatabaseSettings().GetPath();
+			return Awesomium::JSValue(Awesomium::WSLit(db_path.c_str()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetDatabasePath(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings || !m_database || !m_zen_app || args.size() < 1 || !args.At(0).IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string new_path = Awesomium::ToString(args.At(0).ToString());
+			new_path = Helpers::String::ConvertUtf8ToMB(new_path);
+
+			m_settings->GetDatabaseSettings().SetPath(new_path);
+
+			m_database->Close();			
+
+			m_zen_app->InitializeDatabase();
+
+			return Awesomium::JSValue::Undefined();
 		}
 
 		Awesomium::JSValue JSHandlers::OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
@@ -897,7 +961,7 @@ namespace ZenDiary
 		{
 			wchar_t filename[MAX_PATH] = { 0 };
 
-			OPENFILENAMEW ofn = { 0 };
+			OPENFILENAMEW ofn = { 0 };			
 
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = GetDesktopWindow();
@@ -912,6 +976,28 @@ namespace ZenDiary
 				return Awesomium::JSValue::Undefined();
 			}
 			
+			return Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(filename).c_str()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnSaveFileDialog(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			wchar_t filename[MAX_PATH] = { 0 };
+
+			OPENFILENAMEW ofn = { 0 };			
+
+			ofn.lStructSize = sizeof(OPENFILENAME);
+			ofn.hwndOwner = GetDesktopWindow();
+			ofn.lpstrFilter = L"Все файлы (*.*)\0*.*\0";
+			ofn.lpstrFile = filename;
+			ofn.nMaxFile = MAX_PATH;
+			ofn.Flags = OFN_EXPLORER;
+			ofn.lpstrDefExt = L"";
+
+			if (GetSaveFileNameW(&ofn) == FALSE)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
 			return Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(filename).c_str()));
 		}
 

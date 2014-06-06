@@ -26,7 +26,9 @@ namespace ZenDiary
 			virtual ZD_STATUS Deinitialize() override final;
 			virtual ZD_STATUS Run() override final;
 
-			virtual ZD_STATUS Terminate() override final;			
+			virtual ZD_STATUS Terminate() override final;		
+
+			ZD_STATUS InitializeDatabase();
 
 		private:
 			ZD_STATUS InitializeWindow();
@@ -34,8 +36,7 @@ namespace ZenDiary
 
 			ZD_STATUS InitializeCryptography();
 			ZD_STATUS InitializeDirectories();
-			ZD_STATUS InitializeJsHandlers();
-			ZD_STATUS InitializeDatabase();
+			ZD_STATUS InitializeJsHandlers();			
 			ZD_STATUS BindMethods();
 
 			ZD_STATUS LoadMimeTypes();
@@ -46,8 +47,7 @@ namespace ZenDiary
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
 			const std::string m_settings_path = std::string("../media/settings/settings.json");
 			const std::string m_mimetypes_path = std::string("../media/settings/mime-types.json");
-
-			const std::string m_database_path = std::string("../media/db/zen-diary.sqlite3");
+			
 			const std::string m_database_initialization_path = std::string("../media/db/initialization.sql");
 
 			ZD_BOOL_PROPERTY(m_logged_in, LoggedIn);

@@ -19,6 +19,7 @@ namespace ZenDiary
 		{
 			m_auth_settings.Serialize(root["auth"]);
 			m_gui_settings.Serialize(root["gui"]);
+			m_database_settings.Serialize(root["database"]);
 			return ZD_NOERROR;
 		}
 
@@ -26,6 +27,7 @@ namespace ZenDiary
 		{
 			m_auth_settings.Deserialize(root["auth"]);
 			m_gui_settings.Deserialize(root["gui"]);
+			m_database_settings.Deserialize(root["database"]);
 			return ZD_NOERROR;
 		}
 	}

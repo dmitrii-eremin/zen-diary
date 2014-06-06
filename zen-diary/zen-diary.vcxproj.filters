@@ -137,6 +137,9 @@
     <ClInclude Include="resource.h">
       <Filter>App\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DatabaseSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -210,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="Win32.cpp">
       <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

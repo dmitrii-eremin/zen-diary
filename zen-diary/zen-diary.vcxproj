@@ -91,6 +91,7 @@
     <ClInclude Include="ArgumentValue.h" />
     <ClInclude Include="AuthSettings.h" />
     <ClInclude Include="CmdArguments.h" />
+    <ClInclude Include="DatabaseSettings.h" />
     <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="IApplication.h" />
     <ClInclude Include="ISerializable.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="AuthSettings.cpp" />
     <ClCompile Include="CmdArguments.cpp" />
     <ClCompile Include="Crypto.cpp" />
+    <ClCompile Include="DatabaseSettings.cpp" />
     <ClCompile Include="Files.cpp" />
     <ClCompile Include="GlobalSettings.cpp" />
     <ClCompile Include="JSHandlers.cpp" />

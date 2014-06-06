@@ -91,6 +91,25 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		ZD_STATUS ZenDiaryApp::InitializeDatabase()
+		{
+			const DatabaseSettings &db_settings = m_settings.GetDatabaseSettings();
+
+			if (!m_database.Open(db_settings.GetPath()))
+			{
+				return ZD_ERROR_FAILED_TO_OPEN;
+			}
+
+			std::string initialization_query;
+			ZD_STATUS status = Helpers::Files::GetFileContent(m_database_initialization_path, initialization_query);
+			if (ZD_SUCCEEDED(status))
+			{
+				int res = m_database.Execute(initialization_query);
+			}
+			return ZD_NOERROR;
+		}
+
+
 		using namespace std;
 
 		string url_encode(const string &value) {
@@ -167,8 +186,10 @@ namespace ZenDiary
 
 		ZD_STATUS ZenDiaryApp::InitializeDirectories()
 		{
+			const DatabaseSettings &db_settings = m_settings.GetDatabaseSettings();
+
 			const std::deque<std::string> directories = {
-				Helpers::String::ExtractPath(m_settings_path), Helpers::String::ExtractPath(m_database_path)
+				Helpers::String::ExtractPath(m_settings_path), Helpers::String::ExtractPath(db_settings.GetPath())
 			};
 
 			for (auto &path : directories)
@@ -186,22 +207,6 @@ namespace ZenDiary
 			m_js_handlers.SetGlobalSettings(&m_settings);
 			m_js_handlers.SetDatabase(&m_database);
 			m_js_handlers.SetUpdater(&m_updater);
-			return ZD_NOERROR;
-		}
-
-		ZD_STATUS ZenDiaryApp::InitializeDatabase()
-		{
-			if (!m_database.Open(m_database_path))
-			{
-				return ZD_ERROR_FAILED_TO_OPEN;
-			}
-
-			std::string initialization_query;
-			ZD_STATUS status = Helpers::Files::GetFileContent(m_database_initialization_path, initialization_query);
-			if (ZD_SUCCEEDED(status))
-			{
-				int res = m_database.Execute(initialization_query);
-			}
 			return ZD_NOERROR;
 		}
 
@@ -227,6 +232,8 @@ namespace ZenDiary
 			Awesomium::JSObject &zen_diary = result.ToObject();
 
 			ZD_BIND_JS_HANDLER("toInt", &JSHandlers::OnToInt);
+			ZD_BIND_JS_HANDLER("toUpper", &JSHandlers::OnToUpper);
+			ZD_BIND_JS_HANDLER("toLower", &JSHandlers::OnToLower);
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
 			ZD_BIND_JS_HANDLER("shellExecute", &JSHandlers::OnShellExecute);
 			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
@@ -238,6 +245,9 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("loginUser", &JSHandlers::OnLoginUser);
 			ZD_BIND_JS_HANDLER("changeCredits", &JSHandlers::OnChangeCredits);
 			ZD_BIND_JS_HANDLER("logoutUser", &JSHandlers::OnLogoutUser);
+			ZD_BIND_JS_HANDLER("getDatabasePath", &JSHandlers::OnGetDatabasePath);
+			ZD_BIND_JS_HANDLER("setDatabasePath", &JSHandlers::OnSetDatabasePath);
+
 			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
 			ZD_BIND_JS_HANDLER("updateNote", &JSHandlers::OnUpdateNote);
 
@@ -250,6 +260,7 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("deleteNote", &JSHandlers::OnDeleteNote);
 
 			ZD_BIND_JS_HANDLER("openFileDialog", &JSHandlers::OnOpenFileDialog);
+			ZD_BIND_JS_HANDLER("saveFileDialog", &JSHandlers::OnSaveFileDialog);
 			ZD_BIND_JS_HANDLER("setClipboard", &JSHandlers::OnSetClipboard);
 
 			ZD_BIND_JS_HANDLER("getUsersCount", &JSHandlers::OnGetUsersCount);

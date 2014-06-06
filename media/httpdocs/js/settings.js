@@ -1,7 +1,9 @@
 $(document).ready(function()
 {
 	var login = zen.getUsername();
+
 	$("#login").val(login);
+	$("#db-path").val(zen.getDatabasePath());
 });
 
 $("#on-btn-save").click(function(e)
@@ -13,6 +15,8 @@ $("#on-btn-save").click(function(e)
 	var new_password = $("#new-password").val();
 	var new_password_confirm = $("#new-password-confirm").val();
 
+	var new_db_path = $("#db-path").val();	
+
 	if (login.length == 0)
 	{
 		$.notify("Введите имя пользователя.",
@@ -22,6 +26,16 @@ $("#on-btn-save").click(function(e)
 		$("#login").focus();
 		return;
 	}
+
+	if (new_db_path.length == 0)
+	{
+		$.notify("Укажите путь к базе данных.",
+		{
+			position: "top right"
+		});
+		$("#db-path").focus();
+		return;
+	}	
 
 	if (new_password.length > 0)	
 	{
@@ -63,4 +77,28 @@ $("#on-btn-save").click(function(e)
 			});
 		}
 	}	
+
+	zen.setDatabasePath(new_db_path);
+
+	$.notify("Настройки успешно сохранены.",
+	{
+		position: "top right",
+		className : "success"
+	});
+});
+
+$("#on-btn-db-path").click(function(e)
+{
+	var result = zen.saveFileDialog("Файлы базы данных SQLite\0*.sqlite3\0");
+
+	const ext = ".sqlite3";
+
+	if (result != undefined)
+	{						
+		if (result.length <= ext.length || zen.toLower(result.substr(result.length - ext.length)) != ext)
+		{
+			result = result + ext;
+		}
+		$("#db-path").val(result);
+	}
 });

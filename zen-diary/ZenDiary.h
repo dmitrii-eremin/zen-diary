@@ -90,6 +90,10 @@ namespace ZenDiary
 			std::string GenerateString(const std::string &alphabet = std::string("0123456789abcdef"), size_t count = 32);
 			std::string ToUtf8(const std::wstring &src);
 
+			std::string wstrtostr(const std::wstring &wstr);
+			std::wstring strtowstr(const std::string &str);
+			std::string ConvertUtf8ToMB(const std::string &src);
+
 			template <class T, class ...ARGS>
 			std::string To(const T &value, ARGS ...v)
 			{

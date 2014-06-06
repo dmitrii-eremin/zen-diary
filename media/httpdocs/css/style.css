@@ -29,3 +29,13 @@
 {
 	display: none;
 }
+
+.zero-left-padding
+{
+	padding-left: 0;
+}
+
+.zero-right-padding
+{
+	padding-right: 0;
+}

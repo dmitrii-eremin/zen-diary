@@ -243,8 +243,8 @@ $(document).ready(function()
 				var result = zen.getNote(search, password);			
 				if (result.success)
 				{
-					$("#title").val(result.title);
-					new_post.editor.importFile(null, result.note);
+					$("#title").val(result.title);						
+					$("#text").val(result.note);
 					$("#password").val(password);
 					$("#password-confirm").val(password);
 					new_post.current_note_id = result.id;
@@ -276,7 +276,7 @@ $(document).ready(function()
 			if (result.success)
 			{
 				$("#title").val(result.title);
-				new_post.editor.importFile(null, result.note);
+				$("#text").val(result.note);
 				new_post.current_note_id = result.id;
 
 				$("#page-title").html("Редактирование заметки");

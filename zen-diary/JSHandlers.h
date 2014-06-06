@@ -32,6 +32,8 @@ namespace ZenDiary
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnToLower(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -43,6 +45,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnLoginUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnChangeCredits(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnLogoutUser(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetDatabasePath(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetDatabasePath(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnUpdateNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -56,6 +60,7 @@ namespace ZenDiary
 			Awesomium::JSValue OnDeleteNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnOpenFileDialog(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSaveFileDialog(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetClipboard(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnGetUsersCount(Awesomium::WebView *caller, const Awesomium::JSArray &args);

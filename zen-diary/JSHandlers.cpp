@@ -351,6 +351,7 @@ namespace ZenDiary
 			}
 
 			std::string db_path = m_settings->GetDatabaseSettings().GetPath();
+			db_path = Helpers::String::ToUtf8(Helpers::String::strtowstr(db_path));
 			return Awesomium::JSValue(Awesomium::WSLit(db_path.c_str()));
 		}
 

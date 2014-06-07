@@ -23,18 +23,16 @@ namespace ZenDiary
 
 		private:
 #ifdef _DEBUG
-			const std::string m_update_version_file_path = std::string("http://zendiary.dev/api/get-last-version.php");
-			const std::string m_users_count_path = std::string("http://zendiary.dev/api/get-users-count.php");
-			const std::string m_update_link = std::string("http://zendiary.dev/update?app=1");
+			const std::string m_update_version_file_path = std::string("http://zendiary.dev/api/get-last-version.json");						
 #else
-			const std::string m_update_version_file_path = std::string("http://zendiary.org/api/get-last-version.php");			
-			const std::string m_users_count_path = std::string("http://zendiary.org/api/get-users-count.php");
-			const std::string m_update_link = std::string("http://zendiary.org/update?app=1");
+			const std::string m_update_version_file_path = std::string("http://zendiary.org/api/get-last-version.json");							
 #endif			
 
 			bool m_need_to_update;
 			int m_users_count;
 			std::string m_new_verson;			
+
+			std::string m_update_link;
 		};
 	};
 };

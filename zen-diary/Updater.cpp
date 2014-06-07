@@ -7,7 +7,8 @@ namespace ZenDiary
 	{
 		Updater::Updater() : 
 			m_need_to_update(false),
-			m_users_count(0)
+			m_users_count(0),
+			m_update_link("https://github.com/NeonMercury/zen-diary/releases")
 		{
 
 		}
@@ -19,26 +20,7 @@ namespace ZenDiary
 
 		ZD_STATUS Updater::DownloadUsersCount()
 		{
-			size_t fsize = Helpers::Files::GetInternetFileSize(m_users_count_path);
-			if (fsize > 0)
-			{
-				char *buf = new char[fsize + 1];
-				if (Helpers::Files::DownloadFile(m_users_count_path, buf, fsize))
-				{
-					buf[fsize] = '\0';
-
-					JsonBox::Value root;
-					root.loadFromString(buf);
-
-					if (root["users"].isInteger())
-					{
-						m_users_count = root["users"].getInt();
-					}
-				}
-
-				delete []buf;
-			}
-
+			m_users_count = 0;
 			return ZD_NOERROR;
 		}
 
@@ -61,11 +43,14 @@ namespace ZenDiary
 
 						if (version["major"].isInteger() &&
 							version["middle"].isInteger() &&
-							version["minor"].isInteger())
+							version["minor"].isInteger() &&
+							version["link"].isString())
 						{
 							int major = version["major"].getInt();
 							int middle = version["middle"].getInt();
 							int minor = version["minor"].getInt();
+
+							m_update_link = version["link"].getString();
 
 							uint_t remote_version = ZD_MAKE_VERSION(major, middle, minor);
 

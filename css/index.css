@@ -1,0 +1,47 @@
+.jumbotron .btn-lg, #download .btn-lg
+{
+	font-size: 22px;
+}
+
+.logo
+{
+	color: #fff;
+	font-size: 128px;
+}
+
+#download
+{
+	background: #ebebeb;
+	padding: 50px 0px 50px
+}
+
+#cpp-source
+{
+	background: #df5757;
+	padding: 50px 0px 50px;
+}
+
+#contacts
+{
+	background: #579f6a;
+	padding: 50px 0px 50px
+}
+
+#screenshots
+{
+	background: #579f6a;
+	padding: 50px 0px 50px
+}
+
+#carousel-wrapper
+{
+	padding-bottom: 50px;
+}
+
+.carousel-control span
+{
+	position: absolute;
+	top: 50%;
+	z-index: 5;
+	display: inline-block;
+}

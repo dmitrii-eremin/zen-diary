@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "UTF-8">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1. user=scalable=no">
+		<meta http-equiv="X-UA-Compatible" content = "IE-edge">
+
+		<title>Zen Diary - Ваш личный дневник с шифрованием</title>
+
+		<link rel = "stylesheet" href = "css/bootstrap.css">
+		<link rel = "stylesheet" href = "http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+		<link rel = "stylesheet" href = "css/style.css">
+		<link rel = "stylesheet" href = "css/prettyPhoto.css">		
+		<link rel = "stylesheet" href = "css/index.css">
+
+		<!--[if lt IE 9]>
+			<script src = "js/html5shiv.js"></script>
+			<script src = "js/respond.min.js"></script>
+		<![endif]-->		
+	</head>
+
+	<body data-spy = "scroll" data-target = "#nav" id = "cbp-so-scroller">
+
+		<div class = "navbar navbar-fixed-top">
+			<div class = "container">
+				<div class = "navbar-header">
+					<button type = "button" class = "navbar-toggle" data-toggle = "collapse" data-target = 
+					".navbar-collapse">
+						<span class = "icon-bar"></span>
+						<span class = "icon-bar"></span>
+						<span class = "icon-bar"></span>
+					</button>
+
+					<a class = "navbar-brand" href = "#"><span class = "fa fa-pencil"></span> Zen Diary</a>
+				</div>
+
+				<nav id = "nav" class = "navbar-collapse collapse" role = "navigation">
+					<ul class = "nav navbar-nav">
+						<li><a href = "#header">Начало</a></li>
+						<li><a href = "#about">Возможности</a></li>						
+						<li><a href = "#screenshots">Скриншоты</a></li>
+						<li><a href = "#download">Загрузка</a></li>						
+						<li><a href = "#cpp-source">Исходный код</a></li>						
+						<li><a href = "#contacts">Контакты</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+		<section class = "jumbotron" id = "header">
+			<div class = "container">
+				<div class = "row">
+					<div class = "col-md-8 col-md-offset-2">
+						<div class = "main-photo" id = "header-photo">
+							<figure class = "round-outline">								
+								<span class = "glyphicon glyphicon-pencil logo"></span>
+							</figure>
+						</div>
+
+						<h1>Zen Diary</h1>
+						<p>Ваш личный дневник с возможностью шифрования.<br>
+						Личные мысли и переживания действительно только ваши.</p>
+						<p><a href = "https://github.com/NeonMercury/zen-diary/releases/download/v2.1.3/zen-diary-2.1.3.zip" class = "btn btn-lg btn-primary">Загрузить <small><span class = "label label-warning">v. 2.1.3</span></small></a></p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id = "about" class = "cbp-so-section cbp-so-init">
+			<div class = "container cbp-so-side cbp-so-side-top">
+				<h1>Немного о возможностях</h1>
+
+				<div class = "row">
+					<div class = "col-md-4 col-sm-4">
+						<h2>Доступ через авторизацию</h2>
+						<p>Zen Diary не позволит никому прочитать ваши заметки без вашего ведома. Для доступа к вашим записям, необходимо будет ввести логин и пароль.</p>
+					</div>
+					<div class = "col-md-4 col-sm-4">
+						<h2>Возможность шифрования заметок</h2>
+						<p>Любую заметку вы сможете зашифровать индивидуальным паролем. Zen Diary шифрует заметки с помощью алгоритма AES-256.</p>
+					</div>
+					<div class = "col-md-4 col-sm-4">
+						<h2>Скрытые заметки</h2>
+						<p>Если Вы хотите, чтобы заметка не выводилась в общем списке заметок, просто скройте её.</p>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-md-4 col-sm-4">
+						<h2>Не требует установки</h2>
+						<p>Zen Diary не требует установки на компьютер. Как только вы загрузили программу, Вы можете приступать к созданию заметок.</p>
+					</div>
+					<div class = "col-md-4 col-sm-4">
+						<h2>Открытый исходный код</h2>
+						<p>Программа абсолютно бесплатна и с открытым исходым кодом. Любой человек может убедиться в том, что все заметки действительно остаются на компьютере.</p>
+					</div>
+					<div class = "col-md-4 col-sm-4">
+						<h2>Это программа, а не сайт</h2>
+						<p>Сайты взламываются, базы данных появляются в сети, личные данные становятся публичными. А программа установлена у Вас на компьютере, все ваши секреты и записи только у вас.</p>
+					</div>					
+				</div>
+				<div class = "row">
+					<div class = "col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">
+						<h2>Постоянное развитие</h2>
+						<p>Zen Diary находится в активном развитии. А это значит, что новый функционал появляется постоянно.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id = "screenshots" class = "cbp-so-section cbp-so-init">
+			<div class = "container cbp-so-side cbp-so-side-top">
+				<h1 class = "text-center">Скриншоты</h1>
+
+				<div id = "carousel-wrapper">
+					<div id = "carousel-generic" class = "carousel slide" data-ride = "carousel">
+						<ol class = "carousel-indicators">
+							<li data-target = "carousel-generic" data-slide-to = "0" class = "active"></li>
+							<li data-target = "carousel-generic" data-slide-to = "1"></li>
+							<li data-target = "carousel-generic" data-slide-to = "2"></li>
+							<li data-target = "carousel-generic" data-slide-to = "3"></li>
+							<li data-target = "carousel-generic" data-slide-to = "4"></li>
+							<li data-target = "carousel-generic" data-slide-to = "5"></li>
+							<li data-target = "carousel-generic" data-slide-to = "6"></li>
+							<li data-target = "carousel-generic" data-slide-to = "7"></li>
+							<li data-target = "carousel-generic" data-slide-to = "8"></li>
+						</ol>
+
+						<div class = "carousel-inner">
+							<div class = "item active">
+								<img alt = "" src = "img/screens/s1.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s2.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s3.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s4.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s5.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s6.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s7.png">
+							</div>
+							<div class = "item">
+								<img alt = "" src = "img/screens/s8.png">
+							</div>
+						</div>
+
+						<a class = "left carousel-control" href = "#carousel-generic" data-slide = "prev">
+							<span class = "fa fa-chevron-left"></span>
+						</a>
+						<a class = "right carousel-control" href = "#carousel-generic" data-slide = "next">
+							<span class = "fa fa-chevron-right"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>		
+
+		<section id = "download" class = "cbp-so-section cbp-so-init">
+			<div class = "container cbp-so-side cbp-so-side-top">
+				<h1 class = "text-center">Загрузка программы</h1>
+				<p class = "text-center lead">Пробуйте. Используйте. Творите.</p>
+				<div class = "text-center">
+					<a href = "https://github.com/NeonMercury/zen-diary/releases/download/v2.1.3/zen-diary-2.1.3.zip" class = "btn btn-lg btn-primary">Загрузить <small><span class = "label label-warning">v. 2.1.3</span></small></a>
+				</div>
+			</div>
+		</section>
+
+		<section id = "cpp-source" class = "cbp-so-section cbp-so-init">
+			<div class = "container cbp-so-side cbp-so-side-top">
+				<h1 class = "text-center">Исходный код</h1>
+				<div class = "row">
+					<div class = "col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+						<p class = "text-center">Zen Diary - это бесплатная программа для ведения дневника с открытым исходным кодом. Любой может убедиться в прозрачности работы программы.</p>
+						<div class = "text-center">
+							<a href = "https://github.com/NeonMercury/zen-diary"><img src = "img/GitHub-Mark-120px-plus.png" alt = ""></a>
+							<p>Исходный код программы на <a href = "https://github.com/NeonMercury/zen-diary" style = "color: #000"><strong>GitHub</strong></a></p>							
+						</div>						
+					</div>
+				</div>
+
+				<div class = "row">
+					<div class = "col-sm-6 col-sm-offset-3 text-center">
+						<iframe src="http://ghbtns.com/github-btn.html?user=NeonMercury&repo=zen-diary&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:170px; height: 30px;" allowTransparency="true"></iframe>
+						<iframe src="http://ghbtns.com/github-btn.html?user=NeonMercury&type=follow&count=true&size=large" height="30" width="240" frameborder="0" scrolling="0" style="width:240px; height: 30px;" allowTransparency="true"></iframe>
+					</div>
+				</div>				
+			</div>
+		</section>
+
+		<section id = "contacts" class = "cbp-so-section cbp-so-init">
+			<div class = "container cbp-so-side cbp-so-side-top text-center">
+				<h1 class = "text-center">Контакты</h1>
+				<div class = "row">					
+					<div class = "col-sm-2 col-sm-offset-5 text-center">
+						<a href = "mailto:mail@eremindmitry.ru" style = "color: #333333">
+							<div class = "icon">
+								<i class = "fa fa-envelope fa-2x"></i>
+							</div>
+							<p class = "contact-meta">							
+								mail@eremindmitry.ru
+							</p>
+						</a>						
+					</div>
+				</div>
+				
+			</div>
+		</section>
+
+		<div class = "footer">
+			<div class = "container">
+				<p>&copy; 2014</p>
+			</div>
+		</div>
+
+		<div class = "scrolltotop">
+			<i class = "fa fa-chevron-up"></i>
+		</div>
+
+
+		<script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type = "text/javascript" src = "js/bootstrap.js"></script>
+		<script type = "text/javascript" src = "js/modernizr.custom.28468.js"></script>
+		<script type = "text/javascript" src = "js/jquery.cslider.js"></script>
+		<script type = "text/javascript" src = "js/jquery.easing.1.3.js"></script>
+		<script type = "text/javascript" src = "js/jquery.mixitup.js"></script>
+		<script type = "text/javascript" src = "js/jquery.prettyPhoto.js"></script>
+		<script type = "text/javascript" src = "js/cbpScroller.js"></script>
+		<script type = "text/javascript" src = "js/classie.js"></script>
+		<script type = "text/javascript" src = "js/scripts.js"></script>		
+		<script type = "text/javascript" src = "js/notify.min.js"></script>				
+		<script type = "text/javascript" src = "js/index.js"></script>
+	</body>
+</html>

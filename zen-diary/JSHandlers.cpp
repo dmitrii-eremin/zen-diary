@@ -962,17 +962,67 @@ namespace ZenDiary
 		{
 			wchar_t filename[MAX_PATH] = { 0 };
 
-			OPENFILENAMEW ofn = { 0 };			
+			OPENFILENAMEW ofn = { 0 };
+
+			size_t filter_length = 0;
+			std::vector<std::string> filters;
+			
+			const size_t args_count = args.size();
+			for (size_t i = 0; i < args_count; i++)
+			{
+				Awesomium::JSValue arg(args.At(i));
+				if (!arg.IsString())
+				{
+					continue;
+				}
+
+				std::string s_arg(Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(arg.ToString())));
+				
+				filters.push_back(s_arg);
+				filter_length += s_arg.length() + 1;
+			}
+
+			wchar_t *filter = nullptr;
+			if (filter_length > 0)
+			{
+				filter = new wchar_t[filter_length + 1];
+
+				size_t offset = 0;
+				for (auto &i : filters)
+				{
+					std::wstring warg(Helpers::String::strtowstr(i));
+					const size_t arg_len = warg.length();
+
+					memcpy(filter + offset, warg.c_str(), arg_len * sizeof(wchar_t));
+					filter[arg_len + offset] = L'\0';
+					offset += arg_len + 1;
+				}
+
+				filter[filter_length] = L'\0';
+			}
+			else
+			{
+				const wchar_t *default_filter = L"Все файлы(*.*)\0 *.*\0";
+				const size_t default_filter_length = 20;
+
+				filter = new wchar_t[default_filter_length + 1];
+				memcpy(filter, default_filter, default_filter_length * sizeof(wchar_t));
+				filter[default_filter_length] = L'\0';
+			}
 
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = GetDesktopWindow();
-			ofn.lpstrFilter = L"Все файлы (*.*)\0*.*\0";
+			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = filename;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST;
 			ofn.lpstrDefExt = L"";
 
-			if (GetOpenFileNameW(&ofn) == FALSE)
+			BOOL res = GetOpenFileNameW(&ofn);
+
+			delete []filter;
+
+			if (res == FALSE)
 			{
 				return Awesomium::JSValue::Undefined();
 			}
@@ -984,17 +1034,67 @@ namespace ZenDiary
 		{
 			wchar_t filename[MAX_PATH] = { 0 };
 
+			size_t filter_length = 0;
+			std::vector<std::string> filters;
+
+			const size_t args_count = args.size();
+			for (size_t i = 0; i < args_count; i++)
+			{
+				Awesomium::JSValue arg(args.At(i));
+				if (!arg.IsString())
+				{
+					continue;
+				}
+
+				std::string s_arg(Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(arg.ToString())));
+
+				filters.push_back(s_arg);
+				filter_length += s_arg.length() + 1;
+			}
+
+			wchar_t *filter = nullptr;
+			if (filter_length > 0)
+			{
+				filter = new wchar_t[filter_length + 1];
+
+				size_t offset = 0;
+				for (auto &i : filters)
+				{
+					std::wstring warg(Helpers::String::strtowstr(i));
+					const size_t arg_len = warg.length();
+
+					memcpy(filter + offset, warg.c_str(), arg_len * sizeof(wchar_t));
+					filter[arg_len + offset] = L'\0';
+					offset += arg_len + 1;
+				}
+
+				filter[filter_length] = L'\0';
+			}
+			else
+			{
+				const wchar_t *default_filter = L"Все файлы(*.*)\0 *.*\0";
+				const size_t default_filter_length = 20;
+
+				filter = new wchar_t[default_filter_length + 1];
+				memcpy(filter, default_filter, default_filter_length * sizeof(wchar_t));
+				filter[default_filter_length] = L'\0';
+			}
+
 			OPENFILENAMEW ofn = { 0 };			
 
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = GetDesktopWindow();
-			ofn.lpstrFilter = L"Все файлы (*.*)\0*.*\0";
+			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = filename;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_EXPLORER;
 			ofn.lpstrDefExt = L"";
 
-			if (GetSaveFileNameW(&ofn) == FALSE)
+			BOOL result = GetSaveFileNameW(&ofn);
+
+			delete []filter;
+
+			if (result == FALSE)
 			{
 				return Awesomium::JSValue::Undefined();
 			}

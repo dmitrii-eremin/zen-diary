@@ -32,8 +32,13 @@ namespace ZenDiary
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 			Awesomium::JSValue OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnToLower(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
+			Awesomium::JSValue OnUriEncode(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnUriDecode(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);

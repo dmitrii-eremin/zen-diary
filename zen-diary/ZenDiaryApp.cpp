@@ -232,8 +232,13 @@ namespace ZenDiary
 			Awesomium::JSObject &zen_diary = result.ToObject();
 
 			ZD_BIND_JS_HANDLER("toInt", &JSHandlers::OnToInt);
+
 			ZD_BIND_JS_HANDLER("toUpper", &JSHandlers::OnToUpper);
 			ZD_BIND_JS_HANDLER("toLower", &JSHandlers::OnToLower);
+
+			ZD_BIND_JS_HANDLER("uriEncode", &JSHandlers::OnUriEncode);
+			ZD_BIND_JS_HANDLER("uriDecode", &JSHandlers::OnUriDecode);
+
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
 			ZD_BIND_JS_HANDLER("shellExecute", &JSHandlers::OnShellExecute);
 			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
@@ -295,7 +300,7 @@ namespace ZenDiary
 
 					m_data_source.AddMimeType(key, value);
 				}
-			}
+			}			
 			return ZD_NOERROR;
 		}
 

@@ -447,10 +447,10 @@ $("#on-btn-image").click(function(e)
 {
 	e.preventDefault();
 
-	var fname = zen.openFileDialog("Все файлы (*.*)", "*.*");
+	var fname = zen.openFileDialog("Файлы изображений", "*.art; *.bm; *.bmp; *.dwg; *.dxf; *.fif; *.flo; *.fpx; *.g3; *.gif; *.ico; *.ief; *.iefs; *.jfif; *.jfif-tbnl; *.jpe; *.jpeg; *.jpg; *.jps; *.jut; *.nap; *.naplps; *.nif; *.niff; *.pbm; *.pct; *.pcx; *.pgm; *.pic; *.pict; *.png; *.pnm; *.ppm; *.qif; *.qti; *.qtif; *.ras; *.rast; *.rf; *.rgb; *.rp; *.svf; *.tif; *.tiff; *.turbot; *.wbmp; *.x-png; *.xbm; *.xif; *.xpm; *.xwd", "Все файлы (*.*)", "*.*");
 	if (fname != undefined)
 	{
-		fname = "asset://zen-diary/" + fname;
+		fname = "asset://zen-diary/" + zen.uriEncode(fname);
 
 		var md_image = "![](" + fname + ")";
 
@@ -524,4 +524,11 @@ $("#on-btn-youtube").click(function(e)
 	});
 
 	dialog.open();
+});
+
+$("#on-btn-export-to-html").click(function(e)
+{
+	e.preventDefault();
+	var text = $("#text").val();
+	zenapi.exportToHtml(text);
 });

@@ -25,7 +25,7 @@ namespace ZenDiary
 #ifdef _DEBUG
 			const std::string m_update_version_file_path = std::string("http://zendiary.dev/api/get-last-version.json");						
 #else
-			const std::string m_update_version_file_path = std::string("http://neonmercury.github.io/zen-diary/api/get-last-version.json");							
+			const std::string m_update_version_file_path = std::string("http://zendiary.org/api/get-last-version.json");
 #endif			
 
 			bool m_need_to_update;

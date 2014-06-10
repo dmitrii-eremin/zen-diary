@@ -96,6 +96,9 @@ namespace ZenDiary
 			std::wstring strtowstr(const std::string &str);
 			std::string ConvertUtf8ToMB(const std::string &src);
 
+			std::string UriDecode(const std::string & sSrc);
+			std::string UriEncode(const std::string & sSrc);
+
 			template <class T, class ...ARGS>
 			std::string To(const T &value, ARGS ...v)
 			{

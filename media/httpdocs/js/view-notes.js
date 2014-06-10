@@ -8,16 +8,16 @@ var notes = {
 	},
 
 	addNote : function(note)
-	{
+	{		
 		const title_max_length = 17;
-		const desc_max_length = 40;
+		const desc_max_length = 40;		
 
 		var li = $("<li>").addClass("list-group-item note-item").attr("note-id", note.id).attr("updated", note.updated);
 		var a = $("<a>").attr("href", "javascript:void(0)").attr("note-id", note.id).addClass("clear text-ellipsis on-btn-show-note");
 		var updated = $("<small>").addClass("pull-right").html(note.updated);		
 		var desc = $("<small>");
 
-		var note_title = note.title;
+		var note_title = note.title;		
 
 		if (note_title.length > title_max_length)
 		{
@@ -25,11 +25,15 @@ var notes = {
 			note_title = note_title + "&#8230;";
 		}
 
-		var title = $("<strong>").addClass("block").html(note_title);
+		var title = $("<strong>").addClass("block").html(note_title);		
 
 		if (!note.encrypted)
 		{
 			var note_text = note.note;
+
+			note_text = zenapi.replaceAll("<", "&lt;", note_text);
+			note_text = zenapi.replaceAll(">", "&gt;", note_text);
+
 			if (note_text.length > desc_max_length)
 			{
 				note_text = note_text.substr(0, desc_max_length);
@@ -46,7 +50,7 @@ var notes = {
 
 			$(li).prop("encrypted", true);
 			$(a).prop("encrypted", true);
-		}
+		}		
 
 		if (note.hidden)
 		{
@@ -55,9 +59,9 @@ var notes = {
 		}
 
 		$(a).append(updated).append(title).append(desc);
-		$(li).append(a);
+		$(li).append(a);		
 
-		$("#notes-list").append(li);
+		$("#notes-list").append(li);		
 	},
 
 	refreshNotes : function(day, month, year)
@@ -68,7 +72,7 @@ var notes = {
 
 		for (var i = 0; i < zen_notes.length; i++)
 		{
-			var note = zen_notes[i];
+			var note = zen_notes[i];			
 
 			notes.addNote(note);
 		}
@@ -78,11 +82,6 @@ var notes = {
 	{
 		notes.current_note = note.id;
 
-		/*var converter = new Markdown.Converter();
-//   var html = converter.makeHtml(text);
-*/
-
-		// var html_text = markdown.toHTML(note.note);
 		var conv = new Markdown.Converter();
 		var html_text = conv.makeHtml(note.note); 
 
@@ -501,4 +500,14 @@ $(".on-btn-delete").click(function(e)
 		}
 		]
 	}).open();
+});
+
+$(".on-btn-export-to-html").click(function(e)
+{
+	if (notes.current_note != undefined && notes.current_note > 0)
+	{
+		var note = zen.getNote(notes.current_note);		
+
+		zenapi.exportToHtml(note.note);
+	}
 });

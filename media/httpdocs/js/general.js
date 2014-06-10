@@ -30,6 +30,30 @@ var zenapi = {
 				return s3;
 			}
 		}
+	},
+
+	replaceAll : function(find, replace, str)
+	{
+		return str.replace(new RegExp(find, "g"), replace);
+	},
+
+	exportToHtml : function(text)
+	{		
+		var conv = new Markdown.Converter();
+		var html_text = conv.makeHtml(text); 
+
+		html_text = zenapi.replaceAll("<br />", "<br />\r\n", html_text);
+
+		var message = "<form><textarea class = \"form-control export-to-html-textarea\" style = \"width: 100%; height: 500px\">";
+		message += html_text;
+		message += "</textarea>";
+
+		new BootstrapDialog({
+			title : "HTML-код заметки",
+			message : message,
+			type : BootstrapDialog.TYPE_DEFAULT,
+			closable : true,			
+		}).open();	
 	}
 };
 
@@ -117,6 +141,11 @@ $(document).on("click", ".modal-background", function()
 	{
 		$(this).remove();
 	});
+});
+
+$(document).on("click", ".export-to-html-textarea", function(e)
+{
+	$(this).select();
 });
 
 $(document).keydown(function(e)

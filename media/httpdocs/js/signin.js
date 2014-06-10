@@ -92,7 +92,7 @@ $("#on-btn-signin").click(function(e)
 	var result = zen.loginUser(login, password);
 	if (result.success)
 	{
-			window.location.href = "index.html";
+			window.location.href = "settings.html";
 	}
 	else
 	{

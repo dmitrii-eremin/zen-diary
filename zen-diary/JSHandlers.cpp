@@ -102,6 +102,30 @@ namespace ZenDiary
 			return Awesomium::JSValue(Awesomium::WSLit(val.c_str()));
 		}
 
+		Awesomium::JSValue JSHandlers::OnUriEncode(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1 || !args.At(0).IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string decoded(Awesomium::ToString(args.At(0).ToString()));
+			std::string encoded(Helpers::String::UriEncode(decoded));
+			return Awesomium::JSValue(Awesomium::WSLit(encoded.c_str()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnUriDecode(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1 || !args.At(0).IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string encoded(Awesomium::ToString(args.At(0).ToString()));
+			std::string decoded(Helpers::String::UriDecode(encoded));
+			return Awesomium::JSValue(Awesomium::WSLit(decoded.c_str()));
+		}
+
 		Awesomium::JSValue JSHandlers::OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() < 1)

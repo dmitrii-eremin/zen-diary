@@ -18,6 +18,8 @@ namespace ZenDiary
 		void ZenDataSource::OnRequest(int request_id, const Awesomium::ResourceRequest& request, const Awesomium::WebString& path)
 		{
 			std::string uri(Awesomium::ToString(request.url().path()));
+
+			uri = Helpers::String::UriDecode(uri);
 			
 			std::string fullname;
 

@@ -19,7 +19,16 @@ namespace ZenDiary
 		{
 			std::string uri(Awesomium::ToString(request.url().path()));
 			
-			std::string fullname(m_home_path + uri);
+			std::string fullname;
+
+			if (uri.length() > 0 && Helpers::Files::IsFileExist(uri.substr(1)))
+			{
+				fullname = uri.substr(1);
+			}
+			else
+			{
+				fullname = m_home_path + uri;
+			}
 
 			ZenThreadParam *p = new ZenThreadParam();
 			p->object = this;

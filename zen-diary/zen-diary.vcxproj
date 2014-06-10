@@ -99,6 +99,7 @@
     <ClInclude Include="Md5.h" />
     <ClInclude Include="MenuHandler.h" />
     <ClInclude Include="MethodHandler.h" />
+    <ClInclude Include="OtherSettings.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SQLite.h" />
     <ClInclude Include="stdafx.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="Md5.cpp" />
     <ClCompile Include="MenuHandler.cpp" />
     <ClCompile Include="MethodHandler.cpp" />
+    <ClCompile Include="OtherSettings.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="SQLite.cpp" />
     <ClCompile Include="stdafx.cpp" />

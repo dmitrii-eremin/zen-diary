@@ -1,3 +1,14 @@
+.format-buttons-divider
+{
+	padding-left: 10px;
+	display: inline;	
+}
+
+.format-buttons-group
+{
+	display: inline;
+}
+
 #text
 {
 	height: 370px;

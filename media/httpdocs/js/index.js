@@ -16,11 +16,6 @@ var new_post = {
 		$("#on-btn-post").attr("class", "btn btn-default");		
 		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
 		$("#on-btn-post-text").html("Сохранить заметку");	
-	},	
-
-	insertToEditor : function(text)
-	{
-		zen.setClipboard(text);		
 	},
 
 	changePreviewButtonIcon : function()
@@ -98,6 +93,32 @@ var new_post = {
 		var selection_index = start + open_tag.length;
 
 		$(object)[0].setSelectionRange(start + open_tag.length, end + open_tag.length);
+	},
+
+	insertToEditor : function(object, what)
+	{
+		var start = $(object)[0].selectionStart;
+		var end = $(object)[0].selectionEnd;	
+
+		var old_value = $(object).val();
+
+		var left = old_value.substring(0, start);
+		var right = old_value.substring(end);
+		
+		var value = left + what + right;
+
+		$(object).val(value);		
+
+		if (start != end)
+		{
+			$(object)[0].setSelectionRange(start, start + what.length);
+		}
+		else
+		{
+			$(object)[0].setSelectionRange(start + what.length, start + what.length);
+		}
+
+		$(object).focus();
 	}
 };
 
@@ -388,19 +409,6 @@ $(document).on("keydown", "#input-note-password", function(e)
 	}
 });
 
-$("#on-btn-insert-image").click(function(e)
-{
-	e.preventDefault();
-
-	var image_path = zen.openFileDialog();
-	if (image_path != undefined)
-	{
-		var md_image = "![](" + image_path + ")";
-
-		new_post.insertToEditor(md_image);
-	}
-});
-
 $("#on-btn-preview").click(function(e)
 {
 	if (new_post.in_preview)
@@ -433,4 +441,65 @@ $("#on-btn-qsave").click(function(e)
 {
 	e.preventDefault();
 	$("#on-btn-post").click();
+});
+
+$("#on-btn-image").click(function(e)
+{
+	e.preventDefault();
+
+	var fname = zen.openFileDialog("Все файлы (*.*)", "*.*");
+	if (fname != undefined)
+	{
+		fname = "asset://zen-diary/" + fname;
+
+		var md_image = "![](" + fname + ")";
+
+		new_post.insertToEditor("#text", md_image);
+	}
+});
+
+$("#on-btn-youtube").click(function(e)
+{
+	e.preventDefault();
+
+	var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
+
+	var dialog = new BootstrapDialog({
+		title : "Вставка видеоклипа",
+		message : dialog_message,
+		type : BootstrapDialog.TYPE_DEFAULT,
+		buttons : [
+			{
+				id : "on-btn-enter-link",
+				label : "OK"
+			}
+		],
+
+		onshown : function(dlg)
+		{
+			$("#input-link").focus();
+		}			
+	});
+
+	dialog.realize();
+
+	var btn_enter_link = dialog.getButton("on-btn-enter-link");
+	btn_enter_link.click({}, function(e)
+	{			
+		var link = $("#input-link").val();		
+		dialog.close();
+
+		if (link != undefined && link.length > 0)
+		{
+			var youtube_iframe = "<iframe source = \"";
+
+			youtube_iframe = youtube_iframe + link;
+
+			youtube_iframe = youtube_iframe + "\"></iframe>";
+
+			new_post.insertToEditor("#text", youtube_iframe);
+		}
+	});
+
+	dialog.open();
 });

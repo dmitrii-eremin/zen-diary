@@ -39,3 +39,13 @@
 {
 	padding-right: 0;
 }
+
+.zero-top-padding
+{
+	padding-top: 0;
+}
+
+.zero-bottom-padding
+{
+	padding-bottom: 0;
+}

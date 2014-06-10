@@ -374,6 +374,33 @@ namespace ZenDiary
 			return Awesomium::JSValue::Undefined();
 		}
 
+		Awesomium::JSValue JSHandlers::OnGetUseJavascript(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(m_settings->GetOtherSettings().GetUseJavascript());
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetUseJavascript(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			if (args.size() < 1 || !args.At(0).IsBoolean())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			m_settings->GetOtherSettings().SetUseJavascript(args.At(0).ToBoolean());
+
+			return Awesomium::JSValue::Undefined();
+		}
+
 		Awesomium::JSValue JSHandlers::OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (!m_database)
@@ -528,7 +555,7 @@ namespace ZenDiary
 				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
 			}
 
-			if (!m_database)
+			if (!m_database || !m_settings)
 			{
 				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
 			}
@@ -536,6 +563,7 @@ namespace ZenDiary
 			Awesomium::JSValue js_id(args.At(0));
 
 			bool use_password = false;
+			bool use_javascript = m_settings->GetOtherSettings().GetUseJavascript();
 
 			Awesomium::JSValue js_password;
 			if (args.size() >= 2)
@@ -596,6 +624,12 @@ namespace ZenDiary
 			bool hidden = atoi(chidden) > 0;
 			std::string created(ccreated);
 			std::string updated(cupdated);			
+
+			if (!use_javascript)
+			{
+				note = Helpers::String::Replace(note, "<script>", "&lt;script&gt;", false);
+				note = Helpers::String::Replace(note, "</script>", "&lt;/script&gt;", false);
+			}
 			
 			ZD_SAFE_CALL(stmt)->Release();
 

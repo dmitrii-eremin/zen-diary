@@ -14,5 +14,8 @@
 			"title" : "Zen Diary | Ваш личный дневник",
 			"width" : 1280
 		}
+	},
+	"other" : {
+		"use_javascript" : false
 	}
 }

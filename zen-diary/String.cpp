@@ -13,6 +13,47 @@ namespace ZenDiary
 				return std::string();
 			}
 
+			std::string Replace(const std::string &_src, const std::string &_what, const std::string &to, bool reg_match)
+			{
+				std::string src;
+				std::string what;
+
+				std::string result(_src);
+
+				if (reg_match)
+				{
+					src = _src;
+					what = _what;
+				}
+				else
+				{
+					src = Helpers::String::ToLower(_src);
+					what = Helpers::String::ToLower(_what);
+				}
+
+				size_t index = std::string::npos;
+				do 
+				{
+					index = src.find(what);
+					if (index == std::string::npos)
+					{
+						break;
+					}
+
+					std::string left_result = result.substr(0, index);
+					std::string right_result = result.substr(index + what.length());
+
+					std::string left_src = src.substr(0, index);
+					std::string right_src = src.substr(index + what.length());
+
+					src = left_src + to + right_src;
+					result = left_result + to + right_result;
+
+				} while (index != std::string::npos);
+
+				return result;
+			}
+
 			std::string ExtractPath(const std::string &fullname)
 			{
 				size_t index = fullname.find_last_of("\\");

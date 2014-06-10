@@ -82,6 +82,8 @@ namespace ZenDiary
 		{
 			std::string To();
 
+			std::string Replace(const std::string &src, const std::string &what, const std::string &to, bool reg_match = true);
+
 			std::string ExtractPath(const std::string &fullname);
 			std::string ExtractFilename(const std::string &fullname);
 			std::string ExtractExtension(const std::string &fullname);

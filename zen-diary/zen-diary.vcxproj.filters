@@ -140,6 +140,9 @@
     <ClInclude Include="DatabaseSettings.h">
       <Filter>Settings\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OtherSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -215,6 +218,9 @@
       <Filter>Helpers\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DatabaseSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherSettings.cpp">
       <Filter>Settings\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

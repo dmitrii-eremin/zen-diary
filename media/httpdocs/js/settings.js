@@ -4,6 +4,7 @@ $(document).ready(function()
 
 	$("#login").val(login);
 	$("#db-path").val(zen.getDatabasePath());
+	$("#on-check-use-scripts").prop("checked", zen.getUseJavascript());
 });
 
 $("#on-btn-save").click(function(e)
@@ -14,6 +15,7 @@ $("#on-btn-save").click(function(e)
 	var current_password = $("#current-password").val();
 	var new_password = $("#new-password").val();
 	var new_password_confirm = $("#new-password-confirm").val();
+	var use_javascript = $("#on-check-use-scripts").is(":checked");
 
 	var new_db_path = $("#db-path").val();	
 
@@ -79,6 +81,7 @@ $("#on-btn-save").click(function(e)
 	}	
 
 	zen.setDatabasePath(new_db_path);
+	zen.setUseJavascript(use_javascript);
 
 	$.notify("Настройки успешно сохранены.",
 	{
@@ -89,7 +92,7 @@ $("#on-btn-save").click(function(e)
 
 $("#on-btn-db-path").click(function(e)
 {
-	var result = zen.saveFileDialog("Файлы базы данных SQLite\0*.sqlite3\0");
+	var result = zen.saveFileDialog("Файлы базы данных SQLite (*.sqlite3)", "*.sqlite3");
 
 	const ext = ".sqlite3";
 

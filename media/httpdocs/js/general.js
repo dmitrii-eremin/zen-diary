@@ -119,6 +119,15 @@ $(document).on("click", ".modal-background", function()
 	});
 });
 
+$(document).keydown(function(e)
+{
+	if (e.keyCode == 116)
+	{
+		e.preventDefault();
+		window.location.reload();
+	}
+});
+
 $("#on-btn-toggle-fullscreen").click(function(e)
 {
 	e.preventDefault();

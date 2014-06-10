@@ -2,7 +2,7 @@ $(document).ready(function(e)
 {
 	if (zen.isFirstRun())
 	{
-		$(".signup-form").show();		
+		$(".signup-form").show();				
 	}
 	else
 	{

@@ -162,7 +162,7 @@ namespace ZenDiary
 			view->set_menu_listener(&m_menu_handler);
 			view->set_js_method_handler(&m_method_handler);					
 
-			std::string start_url("asset://zen-diary/signin.html");			
+			const std::string start_url("asset://zen-diary/signin.html");			
 
 			view->LoadURL(Awesomium::WebURL(Awesomium::WSLit(start_url.c_str())));
 			return ZD_NOERROR;

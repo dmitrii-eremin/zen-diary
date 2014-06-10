@@ -400,12 +400,12 @@ $("#password, #password-confirm").keydown(function(e)
 	zenapi.clearAlerts();
 });
 
-$(document).on("keydown", "#input-note-password", function(e)
+$(document).on("keydown", "#input-link", function(e)
 {
 	if (e.keyCode == 13)
 	{
 		e.preventDefault();
-		$("#on-btn-enter-password").click();
+		$("#on-btn-enter-link").click();
 	}
 });
 
@@ -491,13 +491,35 @@ $("#on-btn-youtube").click(function(e)
 
 		if (link != undefined && link.length > 0)
 		{
-			var youtube_iframe = "<iframe source = \"";
+			var youtube_url = "http://www.youtube.com/watch?v=";
+			var youtube_short_url = "http://youtu.be/";
 
-			youtube_iframe = youtube_iframe + link;
+			var index = link.lastIndexOf(youtube_url);
+			if (index == -1)
+			{
+				index = link.lastIndexOf(youtube_short_url);
+				if (index >= 0)
+				{
+					index = index + youtube_short_url.length;
+				}
+			}
+			else
+			{
+				index = index + youtube_url.length;
+			}
 
-			youtube_iframe = youtube_iframe + "\"></iframe>";
+			if (index >= 0)			
+			{
+				var code = link.substr(index);
 
-			new_post.insertToEditor("#text", youtube_iframe);
+				var youtube_iframe = "<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/";
+
+				youtube_iframe = youtube_iframe + code;
+
+				youtube_iframe = youtube_iframe + "\" frameborder=\"0\" allowfullscreen></iframe>";
+
+				new_post.insertToEditor("#text", youtube_iframe);
+			}
 		}
 	});
 

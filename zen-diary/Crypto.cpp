@@ -48,7 +48,7 @@ namespace ZenDiary
 				aes_encrypt_key(reinterpret_cast<uchar_t*>(const_cast<char*>(key.c_str())), key.length(), &ctx);				
 
 				const size_t data_length = data.length();
-				new_data_size = data_length - (data_length % AES_BLOCK_LEN) + AES_BLOCK_LEN;
+				new_data_size = data_length - (data_length % ZD_AES_BLOCK_LEN) + ZD_AES_BLOCK_LEN;
 
 				while (data.length() < new_data_size)
 				{
@@ -61,7 +61,7 @@ namespace ZenDiary
 				while (offset < data.length())
 				{
 					aes_encrypt(reinterpret_cast<uchar_t*>(const_cast<char*>(data.c_str() + offset)), reinterpret_cast<uchar_t*>((*new_data) + offset), &ctx);
-					offset += AES_BLOCK_LEN;
+					offset += ZD_AES_BLOCK_LEN;
 				}
 
 				return ZD_NOERROR;
@@ -95,7 +95,7 @@ namespace ZenDiary
 				while (offset < data_length)
 				{					
 					aes_decrypt(reinterpret_cast<uchar_t*>(data + offset), reinterpret_cast<uchar_t*>((new_data + offset)), &ctx);
-					offset += AES_BLOCK_LEN;
+					offset += ZD_AES_BLOCK_LEN;
 				}				
 
 				new_data[data_length] = '\0';

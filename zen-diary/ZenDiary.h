@@ -50,10 +50,10 @@ typedef uint_t										version_t;
 #define ZD_SAFE_DELETE(X)							if (X) { delete X; X = nullptr; }
 #define ZD_SAFE_DELETE_ARRAY(X)						if (X) { delete []X; X = nullptr; }
 
-#define ZD_VERSION									ZD_MAKE_VERSION(2, 1, 3)
+#define ZD_VERSION									ZD_MAKE_VERSION(2, 1, 4)
 #define ZD_VERSION_STATUS							"Beta"
 
-#define AES_BLOCK_LEN								16
+#define ZD_AES_BLOCK_LEN							16
 #define ZD_USER_AGENT								"ZenDiaryApp/1.0"
 
 #include "IApplication.h"

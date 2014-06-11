@@ -55,6 +55,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnSetDatabasePath(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetUseJavascript(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetUseJavascript(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetShowLineNumbers(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetShowLineNumbers(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnUpdateNote(Awesomium::WebView *caller, const Awesomium::JSArray &args);

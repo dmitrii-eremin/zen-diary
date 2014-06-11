@@ -1,6 +1,7 @@
 var new_post = {
 
 	current_note_id : 0,
+	editor : {},
 
 	in_preview : false,
 
@@ -38,19 +39,19 @@ var new_post = {
 
 		new_post.changePreviewButtonIcon();
 
-		var md_text = $("#text").val();
+		var md_text = new_post.editor.getValue();
 		var conv = new Markdown.Converter();
 		var html_text = conv.makeHtml(md_text); 
 
-		var textarea_height = $("#text").height() + 14;
-		var textarea_width = $("#text").width() + 25;
+		var textarea_height = $(".CodeMirror").height();
+		var textarea_width = $(".CodeMirror").width();
 
 		$("#text-preview").css("height", textarea_height + "px");
 		$("#text-preview").css("width", textarea_width + "px");
 
 		$("#text-preview").html(html_text);
 
-		$("#text").fadeOut(zenapi.animation_duration, function()
+		$(".CodeMirror").fadeOut(zenapi.animation_duration, function()
 		{
 			$("#text-preview").fadeIn(zenapi.animation_duration);
 		});
@@ -64,7 +65,7 @@ var new_post = {
 
 		$("#text-preview").fadeOut(zenapi.animation_duration, function()
 		{
-			$("#text").fadeIn(zenapi.animation_duration);
+			$(".CodeMirror").fadeIn(zenapi.animation_duration);
 		});		
 	},
 
@@ -95,140 +96,41 @@ var new_post = {
 		$(object)[0].setSelectionRange(start + open_tag.length, end + open_tag.length);
 	},
 
-	insertToEditor : function(object, what)
+	insertToEditor : function(what)
 	{
-		var start = $(object)[0].selectionStart;
-		var end = $(object)[0].selectionEnd;	
-
-		var old_value = $(object).val();
-
-		var left = old_value.substring(0, start);
-		var right = old_value.substring(end);
-		
-		var value = left + what + right;
-
-		$(object).val(value);		
-
-		if (start != end)
-		{
-			$(object)[0].setSelectionRange(start, start + what.length);
-		}
-		else
-		{
-			$(object)[0].setSelectionRange(start + what.length, start + what.length);
-		}
-
-		$(object).focus();
+		new_post.editor.replaceSelection(what);
 	}
 };
 
-$("#text").keydown(function(e)
+$(window).resize(function(e)
 {
-	new_post.setUnsavedButtonState();
-	zenapi.clearAlerts();
+	var height = $(this).height();
+	$(".CodeMirror").css("height", (height - 351) + "px");	
+	$(".CodeMirror-gutters").css("height", (height - 351) + "px");	
 
-	if (e.keyCode == 83 && e.ctrlKey)
-	{
-		e.preventDefault();
-		$("#on-btn-post").click();
-	}	
+	var textarea_height = $(".CodeMirror").height();
+	var textarea_width = $(".CodeMirror").width();
 
-	if (this.tabs_count == undefined)
-	{
-		this.tabs_count = 0;
-	}
-
-	var old_content_text = $("#text").val();
-
-	var code = e.keyCode || e.which;
-
-	if (code == 9)
-	{
-		e.preventDefault();	
-		var start = $("#text")[0].selectionStart;
-		var end = $("#text")[0].selectionEnd;
-
-		var old_value = $("#text").val();
-
-		var left = old_value.substring(0, start);
-		var middle = old_value.substring(start, end);
-		var right = old_value.substring(end);		
-
-		var val = left + "\t" + right;
-
-		$(this).val(val);			
-
-		var selection_index = start + 1;
-
-		$("#text")[0].setSelectionRange(selection_index, selection_index);
-	}
-	else if (code == 13)
-	{	
-		e.preventDefault();
-
-		var start = $("#text")[0].selectionStart;
-		var end = $("#text")[0].selectionEnd;	
-
-		var old_value = $("#text").val();
-
-		var left = old_value.substring(0, start);
-		var middle = old_value.substring(start, end);
-		var right = old_value.substring(end);			
-
-		var lines = left.split("\n");
-
-		this.left_prefix = "";
-
-		if (lines.length > 0)
-		{
-			var line = lines[lines.length - 1];
-			this.tabs_count = 0;
-			for (var i = 0; i < line.length; i++)
-			{
-				if (line[i] == '\t')
-				{
-					this.tabs_count++;
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-
-		if (this.left_prefix.length > 0 && this.left_prefix == this.last_left_line)
-		{
-			var length = this.left_prefix.length;	
-			left = left.substring(0, left.length - length);	
-			this.tabs_count--;	
-		}
-
-		var val = left + "\n";
-
-		var selection_index = start + 1;	
-
-		for (var i = 0; i < this.tabs_count; i++)
-		{
-			val += "\t";		
-			selection_index++;
-		}
-
-		if (this.left_prefix.length > 0 && this.left_prefix != this.last_left_line)
-		{
-			right = this.left_prefix + right;
-			selection_index = selection_index + this.left_prefix.length;			
-		}
-
-		val = val + right;
-
-		$(this).val(val);			
-
-		$("#text")[0].setSelectionRange(selection_index, selection_index);
-	}
+	$("#text-preview").css("height", textarea_height + "px");
+	$("#text-preview").css("width", textarea_width + "px");
 });
+
 
 $(document).ready(function()
 {
+	new_post.editor = CodeMirror.fromTextArea(document.getElementById("text"),
+	{
+		mode : "markdown",
+		lineNumbers : zen.getShowLineNumbers(),
+		theme : "default",
+		extraKeys : {
+			"Enter" : "newlineAndIndentContinueMarkdownList"
+		},
+		autoCloseBrackets: false			// TODO: make checkbox in settings
+	});
+
+	$(window).resize();
+
 	var search = window.location.search;
 
 	if (search.length > 0 && (search = search.substr(1)).length > 0)
@@ -265,7 +167,10 @@ $(document).ready(function()
 				if (result.success)
 				{
 					$("#title").val(result.title);						
-					$("#text").val(result.note);
+					
+					new_post.editor.setValue(result.note);
+
+
 					$("#password").val(password);
 					$("#password-confirm").val(password);
 					new_post.current_note_id = result.id;
@@ -297,7 +202,9 @@ $(document).ready(function()
 			if (result.success)
 			{
 				$("#title").val(result.title);
-				$("#text").val(result.note);
+				
+				new_post.editor.setValue(result.note);
+
 				new_post.current_note_id = result.id;
 
 				$("#page-title").html("Редактирование заметки");
@@ -310,7 +217,7 @@ $(document).ready(function()
 				});
 			}
 		}
-	}
+	}	
 });
 
 $(document).keydown(function(e)
@@ -318,29 +225,15 @@ $(document).keydown(function(e)
 	if (e.keyCode == 80 && e.altKey)
 	{
 		$("#on-btn-preview").click();
-	}
+	}	
 });
-
-$(window).resize(function(e)
-{
-	var height = $(this).height();
-	$("#text").css("height", (height - 351) + "px");	
-
-	var textarea_height = $("#text").height() + 14;
-	var textarea_width = $("#text").width() + 25;
-
-	$("#text-preview").css("height", textarea_height + "px");
-	$("#text-preview").css("width", textarea_width + "px");
-});
-
-$(window).resize();
 
 $("#on-btn-post").click(function(e)
 {
 	e.preventDefault();	
 
 	var title = $("#title").val();
-	var text = $("#text").val();
+	var text = new_post.editor.getValue();
 	var pass = $("#password").val();
 	var passconfirm = $("#password-confirm").val();		
 
@@ -454,7 +347,7 @@ $("#on-btn-image").click(function(e)
 
 		var md_image = "![](" + fname + ")";
 
-		new_post.insertToEditor("#text", md_image);
+		new_post.insertToEditor(md_image);
 	}
 });
 
@@ -518,7 +411,7 @@ $("#on-btn-youtube").click(function(e)
 
 				youtube_iframe = youtube_iframe + "\" frameborder=\"0\" allowfullscreen></iframe>";
 
-				new_post.insertToEditor("#text", youtube_iframe);
+				new_post.insertToEditor(youtube_iframe);
 			}
 		}
 	});
@@ -529,6 +422,6 @@ $("#on-btn-youtube").click(function(e)
 $("#on-btn-export-to-html").click(function(e)
 {
 	e.preventDefault();
-	var text = $("#text").val();
+	var text = new_post.editor.getValue();
 	zenapi.exportToHtml(text);
 });

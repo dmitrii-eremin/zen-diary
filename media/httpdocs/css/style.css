@@ -49,3 +49,8 @@
 {
 	padding-bottom: 0;
 }
+
+.zero-margin
+{
+	margin: 0 !important;
+}

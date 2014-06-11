@@ -257,6 +257,9 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("getUseJavascript", &JSHandlers::OnGetUseJavascript);
 			ZD_BIND_JS_HANDLER("setUseJavascript", &JSHandlers::OnSetUseJavascript);
 
+			ZD_BIND_JS_HANDLER("getShowLineNumbers", &JSHandlers::OnGetShowLineNumbers);
+			ZD_BIND_JS_HANDLER("setShowLineNumbers", &JSHandlers::OnSetShowLineNumbers);
+
 			ZD_BIND_JS_HANDLER("postNote", &JSHandlers::OnPostNote);
 			ZD_BIND_JS_HANDLER("updateNote", &JSHandlers::OnUpdateNote);
 

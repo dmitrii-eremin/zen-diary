@@ -425,6 +425,34 @@ namespace ZenDiary
 			return Awesomium::JSValue::Undefined();
 		}
 
+		Awesomium::JSValue JSHandlers::OnGetShowLineNumbers(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(m_settings->GetOtherSettings().GetShowLineNumbers());
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetShowLineNumbers(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			if (args.size() < 1 || !args.At(0).IsBoolean())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			m_settings->GetOtherSettings().SetShowLineNumbers(args.At(0).ToBoolean());
+
+			return Awesomium::JSValue::Undefined();
+		}
+
+
 		Awesomium::JSValue JSHandlers::OnPostNote(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (!m_database)

@@ -30,3 +30,8 @@
 	border: 1px solid;
 	padding: 6px 12px;
 }
+
+.CodeMirror
+{
+	border: 1px solid #CBD5DD;
+}

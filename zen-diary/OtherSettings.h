@@ -18,6 +18,7 @@ namespace ZenDiary
 
 		private:
 			ZD_PROPERTY(bool, m_use_javascript, UseJavascript);
+			ZD_PROPERTY(bool, m_show_line_numbers, ShowLineNumbers);
 		};
 	};
 };

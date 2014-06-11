@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "ZenDataSource.h"
 
+#ifdef _DEBUG
+#define ZD_SUCCESSIVELY_REQUESTS
+#endif
+
 namespace ZenDiary
 {
 	namespace App
@@ -37,7 +41,11 @@ namespace ZenDiary
 			p->fullname = fullname;
 			p->request_id = request_id;
 
+#ifdef ZD_SUCCESSIVELY_REQUESTS
+			ThreadProc(p);
+#else
 			_beginthread(&ZenDataSource::ThreadProc, 0, p);
+#endif
 		}
 
 		ZD_STATUS ZenDataSource::AddMimeType(const std::string &key, const std::string &value)
@@ -67,14 +75,14 @@ namespace ZenDiary
 
 			ZenThreadParam *p = reinterpret_cast<ZenThreadParam*>(pParam);
 
+			std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
+			const std::string &mime_type = p->object->GetMimeType(ext);
+
 			if (Helpers::Files::IsFileExist(p->fullname))
 			{
 				size_t fsize = 0;
 				if (ZD_SUCCEEDED(Helpers::Files::GetFileSize(p->fullname, fsize)))
 				{
-					std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
-					const std::string &mime_type = p->object->GetMimeType(ext);
-
 					if (fsize > 0)
 					{
 						char *data = new char[fsize];
@@ -96,6 +104,12 @@ namespace ZenDiary
 							Awesomium::WSLit(mime_type.c_str()));
 					}
 				}
+			}
+			else
+			{
+				p->object->SendResponse(p->request_id, 0,
+					reinterpret_cast<unsigned char*>(""),
+					Awesomium::WSLit(mime_type.c_str()));
 			}
 
 			delete p;

@@ -765,7 +765,7 @@ namespace ZenDiary
 			std::stringstream query;
 			if (!use_day_filter)
 			{
-				query << "SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0;";
+				query << "SELECT `id`, `title`, `encrypted`, `created`, `updated`, `note`, `hash`, `hidden` FROM `notes` WHERE `deleted` = 0 ORDER BY `updated` DESC;";
 			}
 			else
 			{

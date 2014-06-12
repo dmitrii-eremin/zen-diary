@@ -51,7 +51,21 @@ namespace ZenDiary
 
 			if (m_updater.IsNeedToUpdate())
 			{
-				int result = MessageBox(nullptr, "Для Zen Diary доступна новая версия. В этой версии появилось много полезных функций. Обновить Zen Diary сейчас?",
+				std::stringstream update_message;
+
+				update_message << "Для Zen Diary доступна новая версия " << m_updater.GetNewVersion() << ". В этой версии появилось много полезных функций";
+				if (m_updater.GetChangeLog().length() > 0)
+				{
+					update_message << ":" << std::endl;
+					update_message << m_updater.GetChangeLog() << std::endl;
+				}
+				else
+				{
+					update_message << "." << std::endl;
+				}				
+				update_message << "Загрузить обновление сейчас?";
+
+				int result = MessageBox(nullptr, update_message.str().c_str(),
 					"Доступно обновление для Zen Diary", MB_YESNO | MB_ICONQUESTION);
 
 				if (result == IDYES)
@@ -313,7 +327,9 @@ namespace ZenDiary
 			GetModuleFileName(GetModuleHandle(nullptr), app_filename, MAX_PATH);
 
 			std::string app_path = Helpers::String::ExtractPath(app_filename);
+
 			SetCurrentDirectory(app_path.c_str());
+			m_data_source.SetCurrentDirectory(app_path);
 			return ZD_NOERROR;
 		}
 	}

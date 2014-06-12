@@ -64,6 +64,11 @@ namespace ZenDiary
 								m_new_verson = new_version_stream.str();
 							}
 						}
+
+						if (version["changelog"].isString())
+						{
+							m_change_log = version["changelog"].getString();
+						}
 					}					
 				}
 
@@ -86,6 +91,16 @@ namespace ZenDiary
 		int Updater::GetUsersCount() const
 		{
 			return m_users_count;
+		}
+
+		const std::string &Updater::GetNewVersion() const
+		{
+			return m_new_verson;
+		}
+
+		const std::string &Updater::GetChangeLog() const
+		{
+			return m_change_log;
 		}
 	}
 }

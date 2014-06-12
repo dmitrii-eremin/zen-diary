@@ -21,6 +21,9 @@ namespace ZenDiary
 			ZD_STATUS OpenUpdateLink() const;
 			int GetUsersCount() const;
 
+			const std::string &GetNewVersion() const;
+			const std::string &GetChangeLog() const;
+
 		private:
 #ifdef _DEBUG
 			const std::string m_update_version_file_path = std::string("http://zendiary.dev/api/get-last-version.json");						
@@ -33,6 +36,7 @@ namespace ZenDiary
 			std::string m_new_verson;			
 
 			std::string m_update_link;
+			std::string m_change_log;
 		};
 	};
 };

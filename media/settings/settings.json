@@ -16,7 +16,7 @@
 		}
 	},
 	"other" : {
-		"show_line_numbers" : true,
+		"show_line_numbers" : false,
 		"use_javascript" : false
 	}
 }

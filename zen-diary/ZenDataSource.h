@@ -24,6 +24,7 @@ namespace ZenDiary
 
 		private:
 			ZD_PROPERTY(std::string, m_home_path, HomePath);
+			ZD_PROPERTY(std::string, m_current_directory, CurrentDirectory);
 
 			std::map<std::string, std::string> m_mime_types;
 		

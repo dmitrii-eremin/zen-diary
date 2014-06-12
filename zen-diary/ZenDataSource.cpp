@@ -11,7 +11,9 @@ namespace ZenDiary
 	{
 		ZenDataSource::ZenDataSource()
 		{
-			
+			char cd[MAX_PATH];
+			::GetCurrentDirectory(MAX_PATH, cd);
+			m_current_directory = cd;
 		}
 
 		ZenDataSource::~ZenDataSource()
@@ -24,6 +26,7 @@ namespace ZenDiary
 			std::string uri(Awesomium::ToString(request.url().path()));
 
 			uri = Helpers::String::UriDecode(uri);
+			uri = Helpers::String::ConvertUtf8ToMB(uri);
 			
 			std::string fullname;
 
@@ -33,7 +36,7 @@ namespace ZenDiary
 			}
 			else
 			{
-				fullname = m_home_path + uri;
+				fullname = m_home_path + uri.substr(1);
 			}
 
 			ZenThreadParam *p = new ZenThreadParam();
@@ -76,7 +79,9 @@ namespace ZenDiary
 			ZenThreadParam *p = reinterpret_cast<ZenThreadParam*>(pParam);
 
 			std::string ext = std::string(".") + Helpers::String::ExtractExtension(p->fullname);
-			const std::string &mime_type = p->object->GetMimeType(ext);
+			const std::string &mime_type = p->object->GetMimeType(ext);	
+
+			::SetCurrentDirectory(p->object->GetCurrentDirectory().c_str());
 
 			if (Helpers::Files::IsFileExist(p->fullname))
 			{

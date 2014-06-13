@@ -98,7 +98,8 @@ var new_post = {
 
 	insertToEditor : function(what)
 	{
-		new_post.editor.replaceSelection(what);
+		new_post.editor.replaceSelection(what);		
+		new_post.editor.focus();
 	},
 
 	clearAllErrors : function()
@@ -121,6 +122,15 @@ var new_post = {
 		}, {
 			className : "spell-error"
 		});
+	},
+
+	moveCursor : function(delta)
+	{
+		var cursor = new_post.editor.getCursor();
+		new_post.editor.setCursor({
+			line : cursor.line,
+			ch : cursor.ch + delta
+		});	
 	}
 };
 
@@ -478,8 +488,10 @@ $("#on-btn-clear-spellcheck").click(function(e)
 $("#on-btn-link").click(function(e)
 {
 	e.preventDefault();
+	new_post.insertToEditor("[]()");
+	new_post.moveCursor(-1);
 
-	var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
+	/*var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
 
 	var dialog = new BootstrapDialog({
 		title : "Вставка ссылки",
@@ -510,9 +522,77 @@ $("#on-btn-link").click(function(e)
 		{			
 			link = "[" + link + "](" + link + ")";
 
-			new_post.insertToEditor(link);			
+			new_post.insertToEditor(link);
 		}
 	});
 
-	dialog.open();
+	dialog.open();*/
+});
+
+$("#on-btn-h1").click(function(e)
+{
+	new_post.insertToEditor("# ");
+});
+
+$("#on-btn-h2").click(function(e)
+{
+	new_post.insertToEditor("## ");
+});
+
+$("#on-btn-h3").click(function(e)
+{
+	new_post.insertToEditor("### ");
+});
+
+$("#on-btn-h4").click(function(e)
+{
+	new_post.insertToEditor("#### ");
+});
+
+$("#on-btn-h5").click(function(e)
+{
+	new_post.insertToEditor("##### ");
+});
+
+$("#on-btn-h6").click(function(e)
+{
+	new_post.insertToEditor("###### ");
+});
+
+$("#on-btn-bold").click(function(e)
+{
+	new_post.insertToEditor("****");
+	new_post.moveCursor(-2);
+});
+
+$("#on-btn-italic").click(function(e)
+{
+	new_post.insertToEditor("**");
+	new_post.moveCursor(-1);
+});
+
+$("#on-btn-code").click(function(e)
+{
+	new_post.insertToEditor("``");
+	new_post.moveCursor(-1);
+});
+
+$("#on-btn-quote").click(function(e)
+{
+	new_post.insertToEditor("> ");
+});
+
+$("#on-btn-ulist").click(function(e)
+{
+	new_post.insertToEditor("* ");
+});
+
+$("#on-btn-olist").click(function(e)
+{
+	new_post.insertToEditor("1. ");
+});
+
+$("#on-btn-hr").click(function(e)
+{
+	new_post.insertToEditor("-----");
 });

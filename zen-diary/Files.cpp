@@ -174,6 +174,55 @@ namespace ZenDiary
 				return true;
 			}
 
+			bool DownloadFile(const std::string &filename, std::iostream &stream)
+			{
+				HINTERNET hInternet = InternetOpen(ZD_USER_AGENT, INTERNET_OPEN_TYPE_DIRECT,
+					nullptr, nullptr, 0);
+
+				if (!hInternet)
+				{
+					return false;
+				}
+
+				HINTERNET hRequest = InternetOpenUrl(hInternet, filename.c_str(),
+					nullptr, 0, 0, 0);
+
+				if (!hRequest)
+				{
+					InternetCloseHandle(hInternet);
+					return false;
+				}
+
+				DWORD filesize = 0;
+
+				char buf[32];
+				DWORD buf_len = sizeof(buf);
+
+				HttpQueryInfo(hRequest, HTTP_QUERY_CONTENT_LENGTH, buf, &buf_len, nullptr);
+
+				filesize = atol(buf);
+
+				const size_t buffer_size = 1024 * 8;
+				char filebuf[buffer_size];
+
+				bool updating = false;
+
+				size_t read_size = 0;
+
+				if (filesize)
+				{
+					DWORD dwRead = 0;					
+
+					InternetReadFile(hRequest, filebuf, buffer_size, &dwRead);
+					stream.write(filebuf, dwRead);
+				}
+
+				InternetCloseHandle(hRequest);
+				InternetCloseHandle(hInternet);
+
+				return true;
+			}
+
 			size_t GetInternetFileSize(const std::string &filename)
 			{
 				HINTERNET hInternet = InternetOpen(ZD_USER_AGENT, INTERNET_OPEN_TYPE_DIRECT,

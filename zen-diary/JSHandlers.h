@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalSettings.h"
+#include "SpellChecker.h"
 #include "WebWindow.h"
 #include "Updater.h"
 #include "SQLite.h"
@@ -29,6 +30,7 @@ namespace ZenDiary
 			ZD_STATUS SetDatabase(SQLiteDatabase *db);
 			ZD_STATUS SetUpdater(Updater *updater);
 			ZD_STATUS SetWebWindow(WebWindow *window);
+			ZD_STATUS SetSpellChecker(SpellChecker *spell_checker);
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -78,6 +80,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnToggleFullscreen(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnIsFullscreenMode(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnSpellCheck(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 
@@ -87,6 +91,7 @@ namespace ZenDiary
 			SQLiteDatabase *m_database;
 			Updater *m_updater;
 			WebWindow *m_web_window;
+			SpellChecker *m_spell_checker;
 		};
 	}
 }

@@ -11,7 +11,8 @@ namespace ZenDiary
 			m_zen_app(nullptr),
 			m_database(nullptr),
 			m_updater(nullptr),
-			m_web_window(nullptr)
+			m_web_window(nullptr),
+			m_spell_checker(nullptr)
 		{
 
 		}
@@ -48,6 +49,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetWebWindow(WebWindow *window)
 		{
 			m_web_window = window;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetSpellChecker(SpellChecker *spell_checker)
+		{
+			m_spell_checker = spell_checker;
 			return ZD_NOERROR;
 		}
 
@@ -1246,6 +1253,44 @@ namespace ZenDiary
 			}
 
 			return Awesomium::JSValue(m_web_window->IsFullscreenMode());
+		}
+
+		Awesomium::JSValue JSHandlers::OnSpellCheck(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			Awesomium::JSArray result;
+			if (args.size() < 1 || !args.At(0).IsString() || !m_spell_checker)
+			{
+				return result;
+			}
+
+			std::string data = Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(args.At(0).ToString()));
+			
+			JsonBox::Array answer = m_spell_checker->Check(data);
+			
+			for (size_t i = 0; i < answer.size(); i++)
+			{
+				if (!answer[i].isObject())
+				{
+					continue;
+				}
+
+				JsonBox::Object obj = answer[i].getObject();
+				if (!obj["pos"].isInteger() || !obj["len"].isInteger())
+				{
+					continue;
+				}
+
+				int pos = obj["pos"].getInt();
+				int len = obj["len"].getInt();
+
+				Awesomium::JSObject awesomium_object;
+				awesomium_object.SetProperty(Awesomium::WSLit("pos"), Awesomium::JSValue(pos));
+				awesomium_object.SetProperty(Awesomium::WSLit("len"), Awesomium::JSValue(len));
+
+				result.Push(awesomium_object);
+			}
+
+			return result;
 		}
 	}
 }

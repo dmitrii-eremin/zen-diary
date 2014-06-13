@@ -221,6 +221,7 @@ namespace ZenDiary
 			m_js_handlers.SetGlobalSettings(&m_settings);
 			m_js_handlers.SetDatabase(&m_database);
 			m_js_handlers.SetUpdater(&m_updater);
+			m_js_handlers.SetSpellChecker(&m_spell_checker);
 			return ZD_NOERROR;
 		}
 
@@ -293,6 +294,8 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("toggleFullscreen", &JSHandlers::OnToggleFullscreen);
 			ZD_BIND_JS_HANDLER("isFullscreenMode", &JSHandlers::OnIsFullscreenMode);
+
+			ZD_BIND_JS_HANDLER("spellCheck", &JSHandlers::OnSpellCheck);
 			return ZD_NOERROR;
 		}
 

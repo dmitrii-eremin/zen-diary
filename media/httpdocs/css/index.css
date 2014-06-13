@@ -35,3 +35,7 @@
 {
 	border: 1px solid #CBD5DD;
 }
+
+.spell-error {
+    border-bottom: 1px dotted #f00;
+}

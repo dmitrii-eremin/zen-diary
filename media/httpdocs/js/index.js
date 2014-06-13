@@ -7,9 +7,9 @@ var new_post = {
 
 	setSavedButtonState : function()
 	{
-		$("#on-btn-post").attr("class", "btn btn-success");	
+		/*$("#on-btn-post").attr("class", "btn btn-success");	
 		$("#on-btn-post-icon").attr("class", "icon i i-checkmark2");
-		$("#on-btn-post-text").html("Сохранено");
+		$("#on-btn-post-text").html("Сохранено");*/
 	},
 
 	setUnsavedButtonState : function()
@@ -99,6 +99,28 @@ var new_post = {
 	insertToEditor : function(what)
 	{
 		new_post.editor.replaceSelection(what);
+	},
+
+	clearAllErrors : function()
+	{
+		var marks = new_post.editor.getAllMarks();
+		for (var i = 0; i < marks.length; i++)
+		{
+			marks[i].clear();
+		}
+	},
+
+	markTextAsError : function(line_from, char_from, line_to, char_to)
+	{
+		new_post.editor.markText({
+			line : line_from,
+			ch : char_from
+		}, {
+			line : line_to,
+			ch : char_to
+		}, {
+			className : "spell-error"
+		});
 	}
 };
 
@@ -424,4 +446,73 @@ $("#on-btn-export-to-html").click(function(e)
 	e.preventDefault();
 	var text = new_post.editor.getValue();
 	zenapi.exportToHtml(text);
+});
+
+$("#on-btn-spellcheck").click(function(e)
+{
+	e.preventDefault();	
+
+	var lines_count = new_post.editor.lineCount();
+	for (var i = 0; i < lines_count; i++)
+	{
+		var line = new_post.editor.getLine(i);
+
+		var result = zen.spellCheck(line);		
+
+		for (var j = 0; j < result.length; j++)
+		{
+			var mark = result[j];	
+
+			new_post.markTextAsError(i, mark.pos, i, mark.pos + mark.len);		
+		}
+	}
+});
+
+$("#on-btn-clear-spellcheck").click(function(e)
+{
+	e.preventDefault();
+
+	new_post.clearAllErrors();
+});
+
+$("#on-btn-link").click(function(e)
+{
+	e.preventDefault();
+
+	var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
+
+	var dialog = new BootstrapDialog({
+		title : "Вставка ссылки",
+		message : dialog_message,
+		type : BootstrapDialog.TYPE_DEFAULT,
+		buttons : [
+			{
+				id : "on-btn-enter-link",
+				label : "OK"
+			}
+		],
+
+		onshown : function(dlg)	
+		{
+			$("#input-link").focus();
+		}			
+	});
+
+	dialog.realize();
+
+	var btn_enter_link = dialog.getButton("on-btn-enter-link");
+	btn_enter_link.click({}, function(e)
+	{			
+		var link = $("#input-link").val();		
+		dialog.close();
+
+		if (link != undefined && link.length > 0)
+		{			
+			link = "[" + link + "](" + link + ")";
+
+			new_post.insertToEditor(link);			
+		}
+	});
+
+	dialog.open();
 });

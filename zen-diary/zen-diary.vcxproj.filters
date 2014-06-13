@@ -143,6 +143,9 @@
     <ClInclude Include="OtherSettings.h">
       <Filter>Settings\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpellChecker.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -222,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="OtherSettings.cpp">
       <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpellChecker.cpp">
+      <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

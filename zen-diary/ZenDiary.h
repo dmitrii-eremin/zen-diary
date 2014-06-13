@@ -50,7 +50,7 @@ typedef uint_t										version_t;
 #define ZD_SAFE_DELETE(X)							if (X) { delete X; X = nullptr; }
 #define ZD_SAFE_DELETE_ARRAY(X)						if (X) { delete []X; X = nullptr; }
 
-#define ZD_VERSION									ZD_MAKE_VERSION(2, 1, 4)
+#define ZD_VERSION									ZD_MAKE_VERSION(2, 2, 1)
 #define ZD_VERSION_STATUS							"Beta"
 
 #define ZD_AES_BLOCK_LEN							16
@@ -75,6 +75,7 @@ namespace ZenDiary
 			ZD_STATUS SetFileContent(const std::string &filename, const std::string &data);
 
 			bool DownloadFile(const std::string &filename, char *bytes, size_t &max_size);
+			bool DownloadFile(const std::string &filename, std::iostream &stream);
 			size_t GetInternetFileSize(const std::string &filename);
 		}
 

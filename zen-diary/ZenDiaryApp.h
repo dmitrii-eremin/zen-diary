@@ -3,6 +3,7 @@
 #include "MethodHandler.h"
 #include "ZenDataSource.h"
 #include "CmdArguments.h"
+#include "SpellChecker.h"
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
@@ -73,6 +74,8 @@ namespace ZenDiary
 			GlobalSettings m_settings;
 
 			SQLiteDatabase m_database;
+
+			SpellChecker m_spell_checker;
 		};
 	};
 };

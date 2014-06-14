@@ -67,7 +67,7 @@ namespace ZenDiary
 
 						if (version["changelog"].isString())
 						{
-							m_change_log = version["changelog"].getString();
+							m_change_log = Helpers::String::ConvertUtf8ToMB(version["changelog"].getString());
 						}
 					}					
 				}

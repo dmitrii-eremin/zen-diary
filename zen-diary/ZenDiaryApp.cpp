@@ -56,8 +56,8 @@ namespace ZenDiary
 				update_message << "Для Zen Diary доступна новая версия " << m_updater.GetNewVersion() << ". В этой версии появилось много полезных функций";
 				if (m_updater.GetChangeLog().length() > 0)
 				{
-					update_message << ":" << std::endl;
-					update_message << m_updater.GetChangeLog() << std::endl;
+					update_message << ":" << std::endl << std::endl;
+					update_message << m_updater.GetChangeLog() << std::endl << std::endl;
 				}
 				else
 				{

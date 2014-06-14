@@ -1,9 +1,10 @@
 {
 	"version" : {
 		"major" : 2,
-		"middle" : 1,
-		"minor" : 3,
+		"middle" : 2,
+		"minor" : 1,
 
-		"link" : "https://github.com/NeonMercury/zen-diary/releases/download/v2.1.3/zen-diary-2.1.3.zip"
+		"link" : "https://github.com/NeonMercury/zen-diary/releases/download/v2.2.1/zen-diary-2.2.1.zip",
+		"changelog" : "• Добавлена кнопка быстрого сохранения заметки\n• Добавлено переключение в полноэкранный режим\n• Добавлены средства редактирования markdown\n• Добавлена возможность смены пути хранения базы данных\n• Добавлена вставка видеоклипов youtube\n• Добавлен флаг активации тега <script>\n• Добавлен экспорт в HTML\n• Добавлена подсветка синтаксиса\n• Добавлена проверка грамматики"
 	}	
 }

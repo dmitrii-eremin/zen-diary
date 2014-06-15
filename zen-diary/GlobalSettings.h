@@ -1,5 +1,6 @@
 #pragma once
 #include "DatabaseSettings.h"
+#include "EditorSettings.h"
 #include "OtherSettings.h"
 #include "AuthSettings.h"
 #include "GuiSettings.h"
@@ -25,6 +26,7 @@ namespace ZenDiary
 			ZD_PROPERTY_GETTER_BY_REF(OtherSettings, m_other_settings, OtherSettings);
 			ZD_PROPERTY_GETTER_BY_REF(GuiSettings, m_gui_settings, GuiSettings);
 			ZD_PROPERTY_GETTER_BY_REF(DatabaseSettings, m_database_settings, DatabaseSettings);
+			ZD_PROPERTY_GETTER_BY_REF(EditorSettings, m_editor_settings, EditorSettings);
 		};
 	};
 };

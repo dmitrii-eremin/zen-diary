@@ -439,7 +439,7 @@ namespace ZenDiary
 				return Awesomium::JSValue::Undefined();
 			}
 
-			return Awesomium::JSValue(m_settings->GetOtherSettings().GetShowLineNumbers());
+			return Awesomium::JSValue(m_settings->GetEditorSettings().GetShowLineNumbers());
 		}
 
 		Awesomium::JSValue JSHandlers::OnSetShowLineNumbers(Awesomium::WebView *caller, const Awesomium::JSArray &args)
@@ -454,7 +454,7 @@ namespace ZenDiary
 				return Awesomium::JSValue::Undefined();
 			}
 
-			m_settings->GetOtherSettings().SetShowLineNumbers(args.At(0).ToBoolean());
+			m_settings->GetEditorSettings().SetShowLineNumbers(args.At(0).ToBoolean());
 
 			return Awesomium::JSValue::Undefined();
 		}
@@ -1291,6 +1291,29 @@ namespace ZenDiary
 			}
 
 			return result;
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(m_settings->GetEditorSettings().GetPreviewWidth());
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_settings || args.size() < 1 || !args.At(0).IsInteger())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			int preview_width = args.At(0).ToInteger();
+			m_settings->GetEditorSettings().SetPreviewWidth(preview_width);
+
+			return Awesomium::JSValue::Undefined();
 		}
 	}
 }

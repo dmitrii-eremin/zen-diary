@@ -296,6 +296,9 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("isFullscreenMode", &JSHandlers::OnIsFullscreenMode);
 
 			ZD_BIND_JS_HANDLER("spellCheck", &JSHandlers::OnSpellCheck);
+
+			ZD_BIND_JS_HANDLER("getPreviewWidth", &JSHandlers::OnGetPreviewWidth);
+			ZD_BIND_JS_HANDLER("setPreviewWidth", &JSHandlers::OnSetPreviewWidth);
 			return ZD_NOERROR;
 		}
 

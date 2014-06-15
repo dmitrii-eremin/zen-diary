@@ -82,6 +82,9 @@ namespace ZenDiary
 
 			Awesomium::JSValue OnSpellCheck(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnGetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
 

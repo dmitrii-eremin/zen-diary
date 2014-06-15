@@ -163,6 +163,9 @@ $(document).ready(function()
 
 	$(window).resize();
 
+	var preview_width = zen.getPreviewWidth();
+	$("#text-preview").css("max-width", preview_width + "px");
+
 	var search = window.location.search;
 
 	if (search.length > 0 && (search = search.substr(1)).length > 0)
@@ -348,13 +351,11 @@ $("#on-btn-preview").click(function(e)
 
 $("#on-btn-markdown-help").click(function(e)
 {
-	e.preventDefault();
-
-	var dialog_message = zen.getTemplate("../media/httpdocs/modal/markdown-help.html");
+	e.preventDefault();	
 
 	var dialog = new BootstrapDialog({
-		title : "Синтаксис markdown",
-		message : dialog_message,
+		title : "Синтаксис markdown",		
+		message :  $('<div></div>').load('modal/markdown-help.html'),
 		type : BootstrapDialog.TYPE_DEFAULT,		
 	});
 

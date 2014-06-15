@@ -21,6 +21,7 @@ namespace ZenDiary
 			m_other_settings.Serialize(root["other"]);
 			m_gui_settings.Serialize(root["gui"]);
 			m_database_settings.Serialize(root["database"]);
+			m_editor_settings.Serialize(root["editor"]);
 			return ZD_NOERROR;
 		}
 
@@ -30,6 +31,7 @@ namespace ZenDiary
 			m_other_settings.Deserialize(root["other"]);
 			m_gui_settings.Deserialize(root["gui"]);
 			m_database_settings.Deserialize(root["database"]);
+			m_editor_settings.Deserialize(root["editor"]);
 			return ZD_NOERROR;
 		}
 	}

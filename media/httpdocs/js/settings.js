@@ -6,6 +6,7 @@ $(document).ready(function()
 	$("#db-path").val(zen.getDatabasePath());
 	$("#on-check-use-scripts").prop("checked", zen.getUseJavascript());
 	$("#on-check-show-line-numbers").prop("checked", zen.getShowLineNumbers());
+	$("#preview-width").val(zen.getPreviewWidth());
 });
 
 $("#on-btn-save").click(function(e)
@@ -16,6 +17,8 @@ $("#on-btn-save").click(function(e)
 	var current_password = $("#current-password").val();
 	var new_password = $("#new-password").val();
 	var new_password_confirm = $("#new-password-confirm").val();
+
+	var preview_width = $("#preview-width").val();
 
 	var use_javascript = $("#on-check-use-scripts").is(":checked");
 	var show_line_numbers = $("#on-check-show-line-numbers").is(":checked");
@@ -83,9 +86,32 @@ $("#on-btn-save").click(function(e)
 		}
 	}	
 
+	if (preview_width.length == 0)
+	{
+		$.notify("Вы не заполнили ширину блока предпросмотра.",
+		{
+			position: "top right"
+		});
+		$("#preview-width").focus();
+		return;
+	}
+
+	preview_width = zen.toInt(preview_width);
+
+	if (preview_width == undefined)
+	{
+		$.notify("Укажите числовое значение ширины блока предпросмотра.",
+		{
+			position: "top right"
+		});
+		$("#preview-width").focus();
+		return;	
+	}
+
 	zen.setDatabasePath(new_db_path);
 	zen.setUseJavascript(use_javascript);
 	zen.setShowLineNumbers(show_line_numbers);
+	zen.setPreviewWidth(preview_width);
 
 	$.notify("Настройки успешно сохранены.",
 	{

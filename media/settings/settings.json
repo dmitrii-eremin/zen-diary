@@ -8,6 +8,10 @@
 	"database" : {
 		"path" : "../media/db/zen-diary.sqlite3"
 	},
+	"editor" : {
+		"preview_width" : 800,
+		"show_line_numbers" : false
+	},
 	"gui" : {
 		"window" : {
 			"height" : 720,
@@ -16,7 +20,6 @@
 		}
 	},
 	"other" : {
-		"show_line_numbers" : false,
 		"use_javascript" : false
 	}
 }

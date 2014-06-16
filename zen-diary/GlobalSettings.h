@@ -1,6 +1,7 @@
 #pragma once
 #include "DatabaseSettings.h"
 #include "EditorSettings.h"
+#include "LocaleSettings.h"
 #include "OtherSettings.h"
 #include "AuthSettings.h"
 #include "GuiSettings.h"
@@ -23,6 +24,7 @@ namespace ZenDiary
 
 		private:
 			ZD_PROPERTY_GETTER_BY_REF(AuthSettings, m_auth_settings, AuthSettings);
+			ZD_PROPERTY_GETTER_BY_REF(LocaleSettings, m_locale_settings, LocaleSettings);
 			ZD_PROPERTY_GETTER_BY_REF(OtherSettings, m_other_settings, OtherSettings);
 			ZD_PROPERTY_GETTER_BY_REF(GuiSettings, m_gui_settings, GuiSettings);
 			ZD_PROPERTY_GETTER_BY_REF(DatabaseSettings, m_database_settings, DatabaseSettings);

@@ -19,6 +19,9 @@
 			"width" : 1280
 		}
 	},
+	"locale" : {
+		"language" : "ru"
+	},
 	"other" : {
 		"use_javascript" : false
 	}

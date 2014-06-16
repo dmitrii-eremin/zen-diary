@@ -9,7 +9,8 @@ namespace ZenDiary
 {
 	namespace App
 	{
-		ZenDataSource::ZenDataSource()
+		ZenDataSource::ZenDataSource() :
+			m_locale(nullptr)
 		{
 			char cd[MAX_PATH];
 			::GetCurrentDirectory(MAX_PATH, cd);
@@ -57,6 +58,12 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		ZD_STATUS ZenDataSource::SetLocalization(Localization *locale)
+		{
+			m_locale = locale;
+			return ZD_NOERROR;
+		}
+
 		const std::string &ZenDataSource::GetMimeType(const std::string &key)
 		{
 			auto i = m_mime_types.find(Helpers::String::ToLower(key));
@@ -67,7 +74,7 @@ namespace ZenDiary
 			}
 
 			return i->second;
-		}
+		}		
 
 		void ZenDataSource::ThreadProc(void *pParam)
 		{
@@ -94,10 +101,27 @@ namespace ZenDiary
 
 						ZD_STATUS status = Helpers::Files::GetFileContent(p->fullname, data, fsize);
 						if (ZD_SUCCEEDED(status))
-						{					
-							p->object->SendResponse(p->request_id, fsize,
-								reinterpret_cast<unsigned char*>(data),
-								Awesomium::WSLit(mime_type.c_str()));
+						{
+							if (mime_type == "text/html" || mime_type == "application/javascript" || 
+								mime_type == "text/javascript" || mime_type == "text/ecmascript")
+							{
+								std::string document_data(data, data + fsize);
+
+								if (p->object->m_locale)
+								{
+									document_data = p->object->m_locale->ApplyLocalization(document_data);
+								}
+
+								p->object->SendResponse(p->request_id, document_data.length(),
+									reinterpret_cast<unsigned char*>(const_cast<char*>(document_data.c_str())),
+									Awesomium::WSLit(mime_type.c_str()));
+							}
+							else
+							{
+								p->object->SendResponse(p->request_id, fsize,
+									reinterpret_cast<unsigned char*>(data),
+									Awesomium::WSLit(mime_type.c_str()));
+							}							
 						}
 
 						delete[]data; 

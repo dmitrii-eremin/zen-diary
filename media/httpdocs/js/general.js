@@ -49,7 +49,7 @@ var zenapi = {
 		message += "</textarea>";
 
 		new BootstrapDialog({
-			title : "HTML-код заметки",
+			title : "{{script.general.html-code}}",
 			message : message,
 			type : BootstrapDialog.TYPE_DEFAULT,
 			closable : true,			

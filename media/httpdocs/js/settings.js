@@ -27,7 +27,7 @@ $("#on-btn-save").click(function(e)
 
 	if (login.length == 0)
 	{
-		$.notify("Введите имя пользователя.",
+		$.notify("{{script.settings.empty-login}}",
 		{
 			position: "top right"
 		});
@@ -37,7 +37,7 @@ $("#on-btn-save").click(function(e)
 
 	if (new_db_path.length == 0)
 	{
-		$.notify("Укажите путь к базе данных.",
+		$.notify("{{script.settings.empty-db}}",
 		{
 			position: "top right"
 		});
@@ -49,7 +49,7 @@ $("#on-btn-save").click(function(e)
 	{
 		if (new_password != new_password_confirm)
 		{
-			$.notify("Введённые вами новые пароли не совпадают.",
+			$.notify("{{script.settings.passwords-doesnt-match}}",
 			{
 				position: "top right"
 			});
@@ -60,7 +60,7 @@ $("#on-btn-save").click(function(e)
 		var result = zen.loginUser(zen.getUsername(), current_password);
 		if (!result.success)
 		{
-			$.notify("Вы неправильно ввели текущий пароль.",
+			$.notify("{{script.settings.invalid-current-password}}",
 			{
 				position: "top right"
 			});
@@ -71,7 +71,7 @@ $("#on-btn-save").click(function(e)
 		result = zen.changeCredits(login, new_password);
 		if (result.success)
 		{
-			$.notify("Пароль успешно изменён.",
+			$.notify("{{script.settings.password-changed}}",
 			{
 				position: "top right",
 				className : "success"
@@ -88,7 +88,7 @@ $("#on-btn-save").click(function(e)
 
 	if (preview_width.length == 0)
 	{
-		$.notify("Вы не заполнили ширину блока предпросмотра.",
+		$.notify("{{script.settings.empty-preview-width}}",
 		{
 			position: "top right"
 		});
@@ -100,7 +100,7 @@ $("#on-btn-save").click(function(e)
 
 	if (preview_width == undefined)
 	{
-		$.notify("Укажите числовое значение ширины блока предпросмотра.",
+		$.notify("{{script.settings.preview-width-not-int}}",
 		{
 			position: "top right"
 		});
@@ -113,7 +113,7 @@ $("#on-btn-save").click(function(e)
 	zen.setShowLineNumbers(show_line_numbers);
 	zen.setPreviewWidth(preview_width);
 
-	$.notify("Настройки успешно сохранены.",
+	$.notify("{{script.settings.saved}}",
 	{
 		position: "top right",
 		className : "success"
@@ -122,7 +122,7 @@ $("#on-btn-save").click(function(e)
 
 $("#on-btn-db-path").click(function(e)
 {
-	var result = zen.saveFileDialog("Файлы базы данных SQLite (*.sqlite3)", "*.sqlite3");
+	var result = zen.saveFileDialog("{{script.settings.db-type}}", "*.sqlite3");
 
 	const ext = ".sqlite3";
 

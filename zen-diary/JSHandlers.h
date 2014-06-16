@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalSettings.h"
+#include "Localization.h"
 #include "SpellChecker.h"
 #include "WebWindow.h"
 #include "Updater.h"
@@ -31,6 +32,7 @@ namespace ZenDiary
 			ZD_STATUS SetUpdater(Updater *updater);
 			ZD_STATUS SetWebWindow(WebWindow *window);
 			ZD_STATUS SetSpellChecker(SpellChecker *spell_checker);
+			ZD_STATUS SetLocalization(Localization *localization);
 
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -85,8 +87,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnGetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
-		private:
-			static Awesomium::JSObject CreateAnswerObject(bool success, const std::wstring &message = std::wstring());
+		private:			
+			static Awesomium::JSObject CreateAnswerObject(bool success, const std::string &message = std::string());
 
 		private:
 			GlobalSettings *m_settings;
@@ -95,6 +97,7 @@ namespace ZenDiary
 			Updater *m_updater;
 			WebWindow *m_web_window;
 			SpellChecker *m_spell_checker;
+			Localization *m_localization;
 		};
 	}
 }

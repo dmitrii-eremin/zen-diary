@@ -12,7 +12,8 @@ namespace ZenDiary
 			m_database(nullptr),
 			m_updater(nullptr),
 			m_web_window(nullptr),
-			m_spell_checker(nullptr)
+			m_spell_checker(nullptr),
+			m_localization(nullptr)
 		{
 
 		}
@@ -55,6 +56,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetSpellChecker(SpellChecker *spell_checker)
 		{
 			m_spell_checker = spell_checker;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetLocalization(Localization *localization)
+		{
+			m_localization = localization;
 			return ZD_NOERROR;
 		}
 
@@ -160,7 +167,7 @@ namespace ZenDiary
 				}
 			}
 
-			MessageBox(nullptr, message.str().c_str(), "Zen Diary | Ваш личный дневник", MB_OK);
+			MessageBox(nullptr, message.str().c_str(), "Zen Diary", MB_OK);
 
 			return Awesomium::JSValue::Undefined();
 		}
@@ -204,6 +211,11 @@ namespace ZenDiary
 			if (ZD_FAILED(status))
 			{
 				return result;
+			}
+
+			if (m_localization)
+			{
+				data = m_localization->ApplyLocalization(data);
 			}
 
 			result = Awesomium::JSValue(Awesomium::WSLit(data.c_str()));
@@ -250,19 +262,19 @@ namespace ZenDiary
 		{
 			if (!m_settings)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			AuthSettings &auth = m_settings->GetAuthSettings();
 
 			if (!auth.IsFirstRun() || auth.GetLogin().length() > 0 || auth.GetPasshash().length() > 0)
 			{
-				return CreateAnswerObject(false, L"Произошла ошибка синхронизации настроек, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.sync-settings-error"));
 			}
 
 			if (args.size() < 2)
 			{
-				return CreateAnswerObject(false, L"Регистрация невозможна. Функции передано недостаточно параметров, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			Awesomium::JSValue js_login = args.At(0);
@@ -270,7 +282,7 @@ namespace ZenDiary
 
 			if (!js_login.IsString() || !js_password.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неверного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}					
 
 			std::string login(Awesomium::ToString(js_login.ToString()));
@@ -293,14 +305,14 @@ namespace ZenDiary
 		{
 			if (!m_settings)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			AuthSettings &auth = m_settings->GetAuthSettings();
 
 			if (args.size() < 2)
 			{
-				return CreateAnswerObject(false, L"Авторизация невозможна. Функции передано недостаточно параметров, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			Awesomium::JSValue js_login = args.At(0);
@@ -308,7 +320,7 @@ namespace ZenDiary
 
 			if (!js_login.IsString() || !js_password.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неверного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			std::string login(Awesomium::ToString(js_login.ToString()));
@@ -322,7 +334,7 @@ namespace ZenDiary
 
 			if (passhash != saved_passhash || login != saved_login)
 			{
-				return CreateAnswerObject(false, L"Неверное имя пользователя или пароль.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-login-or-password"));
 			}
 
 			ZD_SAFE_CALL(m_zen_app)->SetLoggedIn(true);
@@ -334,14 +346,14 @@ namespace ZenDiary
 		{
 			if (!m_settings)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}			
 
 			AuthSettings &auth = m_settings->GetAuthSettings();
 
 			if (args.size() < 2)
 			{
-				return CreateAnswerObject(false, L"Изменение настроек невозможно. Функции передано недостаточно параметров, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			Awesomium::JSValue js_login = args.At(0);
@@ -349,7 +361,7 @@ namespace ZenDiary
 
 			if (!js_login.IsString() || !js_password.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неверного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			std::string login(Awesomium::ToString(js_login.ToString()));
@@ -464,12 +476,12 @@ namespace ZenDiary
 		{
 			if (!m_database)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			if (args.size() < 2)
 			{
-				return CreateAnswerObject(false, L"Функция получила недостаточно параметров, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			Awesomium::JSValue js_title = args.At(0);
@@ -484,7 +496,7 @@ namespace ZenDiary
 			if (!js_title.IsString() || !js_text.IsString() ||
 				(!js_password.IsString() && !js_password.IsUndefined()))
 			{
-				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			std::string title(Awesomium::ToString(js_title.ToString()));
@@ -520,7 +532,7 @@ namespace ZenDiary
 
 			if (inserted == 0)
 			{
-				return CreateAnswerObject(false, L"Не удалось добавить запись в БД, неверный запрос в базу данных, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-query"));
 			}
 
 			Awesomium::JSObject answer(CreateAnswerObject(true));
@@ -536,12 +548,12 @@ namespace ZenDiary
 		{
 			if (!m_database)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			if (args.size() < 3)
 			{
-				return CreateAnswerObject(false, L"Функция получила недостаточно параметров, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			Awesomium::JSValue js_id = args.At(0);
@@ -557,7 +569,7 @@ namespace ZenDiary
 			if (!js_id.IsInteger() || !js_title.IsString() || !js_text.IsString() ||
 				(!js_password.IsString() && !js_password.IsUndefined()))
 			{
-				return CreateAnswerObject(false, L"Функции переданы аргументы неверного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			int id = js_id.ToInteger();
@@ -595,7 +607,7 @@ namespace ZenDiary
 
 			if (updated == 0)
 			{
-				return CreateAnswerObject(false, L"Не удалось обновить запись в БД, неверный запрос в базу данных, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-query"));
 			}
 
 			Awesomium::JSObject answer(CreateAnswerObject(true));
@@ -611,12 +623,12 @@ namespace ZenDiary
 		{
 			if (args.size() < 1)
 			{
-				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			if (!m_database || !m_settings)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			Awesomium::JSValue js_id(args.At(0));
@@ -635,7 +647,7 @@ namespace ZenDiary
 			if ((!js_id.IsInteger() && !js_id.IsString()) ||
 				(args.size() >= 2 && !js_password.IsString()))
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			int id = 0;
@@ -653,7 +665,7 @@ namespace ZenDiary
 
 			IDatabaseResult *stmt = m_database->ExecuteSelect(query.str());
 
-			const wchar_t *error_not_exist = L"Не удалось получить заметку из базы данных, возможно она была удалена.";
+			const std::string &error_not_exist = m_localization->Get("js-handlers.failed-to-get-note");
 
 			if (!stmt || !stmt->Next())
 			{
@@ -693,8 +705,8 @@ namespace ZenDiary
 			ZD_SAFE_CALL(stmt)->Release();
 
 			if (encrypted && !use_password)
-			{
-				return CreateAnswerObject(false, L"Невозможно открыть зашифрованную заметку без пароля.");
+			{				
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.password-required"));
 			}
 
 			Awesomium::JSObject answer = CreateAnswerObject(true);
@@ -723,7 +735,7 @@ namespace ZenDiary
 				std::string decoded_note_hash = Helpers::Crypto::md5(decoded_note);
 				if (decoded_note_hash != hash)
 				{					
-					return CreateAnswerObject(false, L"Не удалось расшифровать заметку, вы ввели неверный пароль.");
+					return CreateAnswerObject(false, m_localization->Get("js-handlers.invalid-password"));
 				}
 
 				answer.SetProperty(Awesomium::WSLit("note"), Awesomium::JSValue(Awesomium::WSLit(decoded_note.c_str())));
@@ -899,12 +911,12 @@ namespace ZenDiary
 		{
 			if (args.size() < 1)
 			{
-				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			if (!m_database)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			Awesomium::JSValue js_id(args.At(0));
@@ -921,7 +933,7 @@ namespace ZenDiary
 
 			if (!js_id.IsInteger() && !js_id.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			int id = 0;
@@ -940,8 +952,8 @@ namespace ZenDiary
 			int updated = m_database->Execute(query.str());
 
 			if (updated == 0)
-			{
-				return CreateAnswerObject(false, L"Не удалось скрыть заметку, неверный ID заметки.");
+			{				
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.failed-to-hide"));
 			}
 
 			return CreateAnswerObject(true);
@@ -951,12 +963,12 @@ namespace ZenDiary
 		{
 			if (args.size() < 1)
 			{
-				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			if (!m_database)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			Awesomium::JSValue js_id(args.At(0));
@@ -973,7 +985,7 @@ namespace ZenDiary
 
 			if (!js_id.IsInteger() && !js_id.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			int id = 0;
@@ -993,7 +1005,7 @@ namespace ZenDiary
 
 			if (updated == 0)
 			{
-				return CreateAnswerObject(false, L"Не удалось скрыть заметку, неверный ID заметки.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.failed-to-hide"));
 			}
 
 			return CreateAnswerObject(true);
@@ -1003,12 +1015,12 @@ namespace ZenDiary
 		{
 			if (args.size() < 1)
 			{
-				return CreateAnswerObject(false, L"Функции переданы не все параметры, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-enough-params"));
 			}
 
 			if (!m_database)
 			{
-				return CreateAnswerObject(false, L"Обработчик javascript сценариев не инициализирован, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			Awesomium::JSValue js_id(args.At(0));
@@ -1025,7 +1037,7 @@ namespace ZenDiary
 
 			if (!js_id.IsInteger() && !js_id.IsString())
 			{
-				return CreateAnswerObject(false, L"Функции переданы параметры неправильного типа, обратитесь к разработчику.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.bad-arguments-type"));
 			}
 
 			int id = 0;
@@ -1045,7 +1057,7 @@ namespace ZenDiary
 
 			if (updated == 0)
 			{
-				return CreateAnswerObject(false, L"Не удалось удалить заметку, неверный ID заметки.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.failed-to-delete"));
 			}
 
 			return CreateAnswerObject(true);
@@ -1195,12 +1207,12 @@ namespace ZenDiary
 			return Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(filename).c_str()));
 		}
 
-		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::wstring &message)
+		Awesomium::JSObject JSHandlers::CreateAnswerObject(bool success, const std::string &message)
 		{
 			Awesomium::JSObject result;
 
 			result.SetProperty(Awesomium::WSLit("success"), Awesomium::JSValue(success));
-			result.SetProperty(Awesomium::WSLit("message"), Awesomium::JSValue(Awesomium::WSLit(Helpers::String::ToUtf8(message).c_str())));
+			result.SetProperty(Awesomium::WSLit("message"), Awesomium::JSValue(Awesomium::WSLit(message.c_str())));
 
 			return result;
 		}
@@ -1237,7 +1249,7 @@ namespace ZenDiary
 		{
 			if (!m_web_window)
 			{
-				return CreateAnswerObject(false, L"Не удалось переключить режим окна, не инициализирован обработчик javascript.");
+				return CreateAnswerObject(false, m_localization->Get("js-handlers.not-initialized"));
 			}
 
 			ZD_STATUS status = m_web_window->ToggleFullscreen();

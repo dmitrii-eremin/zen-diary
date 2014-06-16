@@ -14,9 +14,9 @@ var new_post = {
 
 	setUnsavedButtonState : function()
 	{
-		$("#on-btn-post").attr("class", "btn btn-default");		
+		/*$("#on-btn-post").attr("class", "btn btn-default");		
 		$("#on-btn-post-icon").attr("class", "icon fa fa-save");
-		$("#on-btn-post-text").html("Сохранить заметку");	
+		$("#on-btn-post-text").html("Сохранить заметку");	*/
 	},
 
 	changePreviewButtonIcon : function()
@@ -176,7 +176,7 @@ $(document).ready(function()
 			var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-password.html");
 
 			var dialog = new BootstrapDialog({
-				title : "Заметка зашифрована",
+				title : "{{script.index.note-encrypted}}",
 				message : dialog_message,
 				type : BootstrapDialog.TYPE_DEFAULT,
 				buttons : [
@@ -210,9 +210,9 @@ $(document).ready(function()
 					$("#password-confirm").val(password);
 					new_post.current_note_id = result.id;
 
-					$("#page-title").html("Редактирование заметки");
+					$("#page-title").html("{{ui.index.page.title.edit}}");
 
-					$.notify("Заметка расшифрована успешно.", 
+					$.notify("{{code.index.decrypted-successfully}}", 
 					{
 						position: "top right",
 						className : "success"
@@ -242,7 +242,7 @@ $(document).ready(function()
 
 				new_post.current_note_id = result.id;
 
-				$("#page-title").html("Редактирование заметки");
+				$("#page-title").html("{{ui.index.page.title.edit}}");
 			}
 			else
 			{
@@ -274,7 +274,7 @@ $("#on-btn-post").click(function(e)
 
 	if (pass.length > 0 && pass != passconfirm)
 	{
-		$.notify("Введённые вами пароли не совпадают.", 
+		$.notify("{{script.index.passwords-doesnt-match}}", 
 		{
 			position : "top right"
 		});
@@ -302,7 +302,7 @@ $("#on-btn-post").click(function(e)
 			new_post.current_note_id = result.id;
 		}
 
-		$.notify("Заметка сохранена.", 
+		$.notify("{{script.index.note-saved}}", 
 		{
 			position : "top right",
 			className : "success"
@@ -354,7 +354,7 @@ $("#on-btn-markdown-help").click(function(e)
 	e.preventDefault();	
 
 	var dialog = new BootstrapDialog({
-		title : "Синтаксис markdown",		
+		title : "{{script.index.markdown-syntax}}",		
 		message :  $('<div></div>').load('modal/markdown-help.html'),
 		type : BootstrapDialog.TYPE_DEFAULT,		
 	});
@@ -373,7 +373,7 @@ $("#on-btn-image").click(function(e)
 {
 	e.preventDefault();
 
-	var fname = zen.openFileDialog("Файлы изображений", "*.art; *.bm; *.bmp; *.dwg; *.dxf; *.fif; *.flo; *.fpx; *.g3; *.gif; *.ico; *.ief; *.iefs; *.jfif; *.jfif-tbnl; *.jpe; *.jpeg; *.jpg; *.jps; *.jut; *.nap; *.naplps; *.nif; *.niff; *.pbm; *.pct; *.pcx; *.pgm; *.pic; *.pict; *.png; *.pnm; *.ppm; *.qif; *.qti; *.qtif; *.ras; *.rast; *.rf; *.rgb; *.rp; *.svf; *.tif; *.tiff; *.turbot; *.wbmp; *.x-png; *.xbm; *.xif; *.xpm; *.xwd", "Все файлы (*.*)", "*.*");
+	var fname = zen.openFileDialog("{{script.index.image-files}}", "*.art; *.bm; *.bmp; *.dwg; *.dxf; *.fif; *.flo; *.fpx; *.g3; *.gif; *.ico; *.ief; *.iefs; *.jfif; *.jfif-tbnl; *.jpe; *.jpeg; *.jpg; *.jps; *.jut; *.nap; *.naplps; *.nif; *.niff; *.pbm; *.pct; *.pcx; *.pgm; *.pic; *.pict; *.png; *.pnm; *.ppm; *.qif; *.qti; *.qtif; *.ras; *.rast; *.rf; *.rgb; *.rp; *.svf; *.tif; *.tiff; *.turbot; *.wbmp; *.x-png; *.xbm; *.xif; *.xpm; *.xwd", "{{script.index.all-files}}", "*.*");
 	if (fname != undefined)
 	{
 		fname = "asset://zen-diary/" + zen.uriEncode(fname);
@@ -391,7 +391,7 @@ $("#on-btn-youtube").click(function(e)
 	var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
 
 	var dialog = new BootstrapDialog({
-		title : "Вставка видеоклипа",
+		title : "{{script.index.youtube-insert}}",
 		message : dialog_message,
 		type : BootstrapDialog.TYPE_DEFAULT,
 		buttons : [
@@ -490,44 +490,7 @@ $("#on-btn-link").click(function(e)
 {
 	e.preventDefault();
 	new_post.insertToEditor("[]()");
-	new_post.moveCursor(-1);
-
-	/*var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-link.html");	
-
-	var dialog = new BootstrapDialog({
-		title : "Вставка ссылки",
-		message : dialog_message,
-		type : BootstrapDialog.TYPE_DEFAULT,
-		buttons : [
-			{
-				id : "on-btn-enter-link",
-				label : "OK"
-			}
-		],
-
-		onshown : function(dlg)	
-		{
-			$("#input-link").focus();
-		}			
-	});
-
-	dialog.realize();
-
-	var btn_enter_link = dialog.getButton("on-btn-enter-link");
-	btn_enter_link.click({}, function(e)
-	{			
-		var link = $("#input-link").val();		
-		dialog.close();
-
-		if (link != undefined && link.length > 0)
-		{			
-			link = "[" + link + "](" + link + ")";
-
-			new_post.insertToEditor(link);
-		}
-	});
-
-	dialog.open();*/
+	new_post.moveCursor(-1);	
 });
 
 $("#on-btn-h1").click(function(e)

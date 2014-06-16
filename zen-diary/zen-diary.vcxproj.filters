@@ -149,6 +149,15 @@
     <ClInclude Include="EditorSettings.h">
       <Filter>Settings\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Localization.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Language.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocaleSettings.h">
+      <Filter>Settings\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -233,6 +242,15 @@
       <Filter>App\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditorSettings.cpp">
+      <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Localization.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Language.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LocaleSettings.cpp">
       <Filter>Settings\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

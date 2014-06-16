@@ -29,6 +29,8 @@ typedef uint_t										version_t;
 #define ZD_ERROR_FAILED_TO_CREATE					0x06
 #define ZD_ERROR_FAILED_TO_OPEN						0x07
 #define ZD_ERROR_BAD_DATA							0x08
+#define ZD_ERROR_ALREADY_EXIST						0x09
+#define ZD_ERROR_NOT_IMPLEMENTED					0x0A
 
 #define ZD_MAKE_VERSION(HI, MI, LO)					(((HI) << 16) + ((MI) << 8) + (LO))
 #define ZD_VERSION_HI(V)							((V) >> 16)
@@ -50,7 +52,7 @@ typedef uint_t										version_t;
 #define ZD_SAFE_DELETE(X)							if (X) { delete X; X = nullptr; }
 #define ZD_SAFE_DELETE_ARRAY(X)						if (X) { delete []X; X = nullptr; }
 
-#define ZD_VERSION									ZD_MAKE_VERSION(2, 2, 2)
+#define ZD_VERSION									ZD_MAKE_VERSION(2, 3, 1)
 #define ZD_VERSION_STATUS							"Beta"
 
 #define ZD_AES_BLOCK_LEN							16
@@ -77,6 +79,8 @@ namespace ZenDiary
 			bool DownloadFile(const std::string &filename, char *bytes, size_t &max_size);
 			bool DownloadFile(const std::string &filename, std::iostream &stream);
 			size_t GetInternetFileSize(const std::string &filename);
+
+			ZD_STATUS GetFiles(const std::string &path, std::vector<WIN32_FIND_DATA> &files, const std::string &mask = std::string("*.*"));
 		}
 
 		namespace String

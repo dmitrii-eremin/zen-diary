@@ -2,7 +2,6 @@
 <html class = "app">
 	<head>
 		<meta http-equiv = "Content-Type" content = "charset=utf-8">
-		<title>ZenDiary | Ваш личный дневник</title>
 
 		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
@@ -32,25 +31,25 @@
 										<div class = "col-sm-6 zero-right-padding">
 											<div class = "panel panel-default">
 												<header class = "panel-heading">
-													Настройки учётной записи
+													{{ui.settings.auth.title}}
 												</header>
 												<div class = "panel-body">
 													<form role = "form">
 														<div class = "form-group">
-															<label>Имя пользователя</label>
-															<input type = "text" class = "form-control" id = "login" placeholder = "Имя пользователя">
+															<label>{{ui.settings.auth.login}}</label>
+															<input type = "text" class = "form-control" id = "login" placeholder = "{{ui.settings.auth.login}}">
 														</div>
 														<div class = "form-group">
-															<label>Текущий пароль пользователя</label>
-															<input type = "password" class = "form-control" id = "current-password" placeholder = "Текущий пароль пользователя">
+															<label>{{ui.settings.auth.password.current}}</label>
+															<input type = "password" class = "form-control" id = "current-password" placeholder = "{{ui.settings.auth.password.current}}">
 														</div>
 														<div class = "form-group">
-															<label>Новый пароль пользователя</label>
-															<input type = "password" class = "form-control" id = "new-password" placeholder = "Новый пароль пользователя">
+															<label>{{ui.settings.auth.password.new}}</label>
+															<input type = "password" class = "form-control" id = "new-password" placeholder = "{{ui.settings.auth.password.new}}">
 														</div>
 														<div class = "form-group">
-															<label>Подтверждение нового пароля пользователя</label>
-															<input type = "password" class = "form-control" id = "new-password-confirm" placeholder = "Подтверждение нового пароля пользователя">
+															<label>{{ui.settings.auth.password.new-confirm}}</label>
+															<input type = "password" class = "form-control" id = "new-password-confirm" placeholder = "{{ui.settings.auth.password.new-confirm}}">
 														</div>
 													</form>
 												</div>
@@ -60,16 +59,16 @@
 										<div class = "col-sm-6 zero-left-padding zero-top-padding">
 											<div class = "panel panel-default zero-margin">
 												<header class = "panel-heading">
-													Настройки базы данных
+													{{ui.settings.db.title}}
 												</header>
 												<div class = "panel-body">
 													<form role = "form">
 														<div class = "form-group">
-															<label>Путь к базе данных</label>
+															<label>{{ui.settings.db.path}}</label>
 															<div class = "input-group">
-																<input type = "text" class = "form-control" id = "db-path" placeholder = "Путь к базе данных">
+																<input type = "text" class = "form-control" id = "db-path" placeholder = "{{ui.settings.db.path}}">
 																<span class = "input-group-btn">
-																	<button type = "button" class = "btn btn-default" id = "on-btn-db-path">Обзор...</button>
+																	<button type = "button" class = "btn btn-default" id = "on-btn-db-path">{{ui.settings.db.view}}</button>
 																</span>
 															</div>
 														</div>														
@@ -79,14 +78,14 @@
 
 											<div class = "panel panel-default zero-margin">
 												<header class = "panel-heading">
-													Настройки редактора
+													{{ui.settings.editor.title}}
 												</header>
 												<div class = "panel-body">
 													<form role = "form">
 														<div class = "form-group">
-															<label>Ширина блока предпросмотра текста</label>
+															<label>{{ui.settings.editor.preview-width}}</label>
 															<div class = "input-group">
-																<input type = "text" class = "form-control" id = "preview-width" placeholder = "Ширина блока предпросмотра текста">
+																<input type = "text" class = "form-control" id = "preview-width" placeholder = "{{ui.settings.editor.preview-width}}">
 																<span class = "input-group-addon">
 																	px
 																</span>
@@ -95,7 +94,7 @@
 														<div class = "form-group checkbox i-checks">
 															<label>
 																<input type = "checkbox" id = "on-check-show-line-numbers">
-																<i></i> Показывать номера строк в редакторе
+																<i></i> {{ui.settings.editor.show-line-numbers}}
 															</label>
 														</div>	
 													</form>
@@ -104,14 +103,14 @@
 
 											<div class = "panel panel-default">
 												<header class = "panel-heading">
-													Прочие настройки
+													{{ui.settings.other.title}}
 												</header>
 												<div class = "panel-body">
 													<form role = "form">
 														<div class = "form-group checkbox i-checks">
 															<label>
 																<input type = "checkbox" id = "on-check-use-scripts">
-																<i></i> Активировать javascript в заметках
+																<i></i> {{ui.settings.other.use-javascript}}
 															</label>
 														</div>
 													</form>
@@ -122,7 +121,7 @@
 									</div>
 									<div class = "row">
 										<div class = "text-center">
-											<button type = "button" class = "btn btn-success" id = "on-btn-save"><span class = "icon fa fa-save"></span> Применить настройки</button>
+											<button type = "button" class = "btn btn-success" id = "on-btn-save"><span class = "icon fa fa-save"></span> {{ui.settings.apply}}</button>
 										</div>
 									</div>
 

@@ -23,12 +23,12 @@
 				</div>-->
 
 				<nav class = "nav-primary hidden-xs">
-					<div class = "text-muted text-sm hidden-nav-xs padder m-t-sm m-b-sm">Панель управления Zen Diary</div>
+					<div class = "text-muted text-sm hidden-nav-xs padder m-t-sm m-b-sm">{{ui.sidebox.control-panel}} {{general.title}}</div>
 
 					<ul class = "nav nav-main" data-ride = "collapse">
-						<li id = "nav-menu-index"><a href = "javascript:void(0)" path = "index.html" class = "awesomium-link"><i class = "fa fa-pencil icon"></i> Новая заметка</a></li>
-						<li id = "nav-menu-diary"><a href = "javascript:void(0)" path = "view-notes.html" class = "awesomium-link"><i class = "fa fa-book icon"></i> Открыть дневник</a></li>
-						<li id = "nav-menu-settings"><a href = "javascript:void(0)" path = "settings.html" class = "awesomium-link"><i class = "fa fa-cog icon"></i> Настройки</a></li>
+						<li id = "nav-menu-index"><a href = "javascript:void(0)" path = "index.html" class = "awesomium-link"><i class = "fa fa-pencil icon"></i> {{ui.sidebox.new-note}}</a></li>
+						<li id = "nav-menu-diary"><a href = "javascript:void(0)" path = "view-notes.html" class = "awesomium-link"><i class = "fa fa-book icon"></i> {{ui.sidebox.open-diary}}</a></li>
+						<li id = "nav-menu-settings"><a href = "javascript:void(0)" path = "settings.html" class = "awesomium-link"><i class = "fa fa-cog icon"></i> {{ui.sidebox.settings}}</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -36,17 +36,17 @@
 
 		<footer class = "footer hidden-xs no-padder text-center-nav-xs">
 			<a href = "javascript:void(0)" class = "btn btn-icon icon-muted btn-inactive pull-right m-l-xs m-r-xs hidden-nav-xs on-btn-logout"
-			data-toggle = "tooltip" data-placement = "top" title = "Выйти из учётной записи">
+			data-toggle = "tooltip" data-placement = "top" title = "{{ui.sidebox.tooltip.logout}}">
 				<i class = "i i-logout"></i>
 			</a>
 
 			<a href = "javascript:void(0)" class = "btn btn-icon icon-muted btn-inactive pull-right m-l-xs m-r-xs hidden-nav-xs" onclick = "window.location.reload()"
-			data-toggle = "tooltip" data-placement = "top" title = "Обновить интерфейс">
+			data-toggle = "tooltip" data-placement = "top" title = "{{ui.sidebox.tooltip.refresh}}">
 				<i class = "fa fa-refresh"></i>
 			</a>								
 
 			<a href = "javascript:void(0)" class = "btn btn-icon icon-muted btn-inactive pull-right m-l-xs m-r-xs hidden-nav-xs" id = "on-btn-toggle-fullscreen"
-			data-toggle = "tooltip" data-placement = "top" title = "Полноэкранный режим">
+			data-toggle = "tooltip" data-placement = "top" title = "{{ui.sidebox.tooltip.fullscreen}}">
 				<i class = "fa fa-expand" id = "on-btn-toggle-fullscreen-icon"></i>
 			</a>		
 

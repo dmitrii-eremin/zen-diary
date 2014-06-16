@@ -2,7 +2,6 @@
 <html class = "app js no-touch no-android no-chrome firefox no-iemobile no-ie no-ie8 no-ie10 no-ie11 no-ios">
 	<head>
 		<meta http-equiv = "Content-Type" content = "charset=utf-8">
-		<title>ZenDiary | Вход в систему</title>
 
 		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
@@ -12,11 +11,11 @@
 	<body class = "">
 		<section id = "content" class = "m-t-lg wrapper-md animated fadeInUp">
 			<div class = "container aside-xl">
-				<a class = "navbar-brand block" href = "/signin.html"><img src = "img/logo.png" alt = "" id = "logo-image"> Zen Diary</a>
+				<a class = "navbar-brand block" href = "/signin.html"><img src = "img/logo.png" alt = "" id = "logo-image"> {{general.title}}</a>
 				<section class = "m-b-lg">
 					<header class = "wrapper text-center">
-						<strong class = "signin-form">Ваш личный зашифрованный дневник.</strong>
-						<strong class = "signup-form">Вы запустили программу в первый раз. Создайте свою учётную запись прямо сейчас.</strong>
+						<strong class = "signin-form">{{ui.signin.signin-form.title}}</strong>
+						<strong class = "signup-form">{{ui.signin.signup-form.title}}</strong>
 					</header>
 
 					<div class = "alerts-zone">
@@ -25,30 +24,30 @@
 					<form role = "form" class = "signin-form">
 						<div class = "list-group">
 							<div class = "list-group-item">
-								<input id = "signin-login" type = "text" placeholder = "Имя пользователя" class = "form-control no-border">
+								<input id = "signin-login" type = "text" placeholder = "{{ui.signin.signin-form.login}}" class = "form-control no-border">
 							</div>
 							<div class = "list-group-item">
-								<input id = "signin-password" type = "password" placeholder = "Пароль пользователя" class = "form-control no-border">
+								<input id = "signin-password" type = "password" placeholder = "{{ui.signin.signin-form.password}}" class = "form-control no-border">
 							</div>
 						</div>
 
-						<button id = "on-btn-signin" type = "button" class = "btn btn-lg btn-primary btn-block">Авторизироваться</button>						
+						<button id = "on-btn-signin" type = "button" class = "btn btn-lg btn-primary btn-block">{{ui.signin.signin-form.signin}}</button>
 					</form>
 
 					<form role = "form" class = "signup-form">
 						<div class = "list-group">
 							<div class = "list-group-item">
-								<input id = "signup-login" type = "text" placeholder = "Имя пользователя" class = "form-control no-border">
+								<input id = "signup-login" type = "text" placeholder = "{{ui.signin.signup-form.login}}" class = "form-control no-border">
 							</div>
 							<div class = "list-group-item">
-								<input id = "signup-password" type = "password" placeholder = "Пароль пользователя" class = "form-control no-border">
+								<input id = "signup-password" type = "password" placeholder = "{{ui.signin.signup-form.password}}" class = "form-control no-border">
 							</div>
 							<div class = "list-group-item">
-								<input id = "signup-password-confirm" type = "password" placeholder = "Подтвердите пароль пользователя" class = "form-control no-border">
+								<input id = "signup-password-confirm" type = "password" placeholder = "{{ui.signin.signup-form.password-confirm}}" class = "form-control no-border">
 							</div>
 						</div>
 
-						<button id = "on-btn-signup" type = "button" class = "btn btn-lg btn-primary btn-block">Создать учётную запись</button>						
+						<button id = "on-btn-signup" type = "button" class = "btn btn-lg btn-primary btn-block">{{ui.signin.signup-form.signup}}</button>
 					</form>
 				</section>
 			</div>
@@ -57,7 +56,7 @@
 		<footer id = "footer">
 			<div class = "text-center padder">
 				<p>
-					<small>Zen Diary &copy; 2014</small>
+					<small>{{general.title}} &copy; {{general.year}}</small>
 				</p>
 				<p class = "app-version">
 

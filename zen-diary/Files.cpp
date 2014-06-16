@@ -256,6 +256,24 @@ namespace ZenDiary
 
 				return filesize;
 			}
+
+			ZD_STATUS GetFiles(const std::string &path, std::vector<WIN32_FIND_DATA> &files, const std::string &mask)
+			{
+				std::stringstream fullpath;
+				fullpath << path << mask;
+
+				WIN32_FIND_DATA wf;
+				HANDLE hFind = FindFirstFile(fullpath.str().c_str(), &wf);
+				if (hFind != INVALID_HANDLE_VALUE)
+				{
+					do 
+					{
+						files.push_back(wf);
+					} while (FindNextFile(hFind, &wf));
+				}
+				FindClose(hFind);
+				return ZD_NOERROR;
+			}
 		}
 	}
 }

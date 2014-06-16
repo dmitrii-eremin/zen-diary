@@ -184,7 +184,7 @@ $(document).on("click", ".on-btn-show-note", function(e)
 		var dialog_message = zen.getTemplate("../media/httpdocs/templates/input-password.html");
 
 		var dialog = new BootstrapDialog({
-			title : "Заметка зашифрована",
+			title : "{{script.index.note-encrypted}}",
 			message : dialog_message,
 			type : BootstrapDialog.TYPE_DEFAULT,
 			buttons : [
@@ -210,7 +210,7 @@ $(document).on("click", ".on-btn-show-note", function(e)
 			if (result.success)
 			{
 				notes.setNote(result);
-				$.notify("Заметка расшифрована успешно.", 
+				$.notify("{{script.index.decrypted-successfully}}", 
 				{
 					position: "top right",
 					className : "success"
@@ -369,7 +369,7 @@ $(".on-btn-hide").click(function(e)
 
 			notes.current_note = 0;
 
-			$.notify("Заметка скрыта из дневника.", 
+			$.notify("{{script.view-notes.hidden-successfully}}", 
 			{
 				position: "top right",
 				className : "success"
@@ -410,7 +410,7 @@ $(".on-btn-show").click(function(e)
 
 			notes.current_note = 0;
 
-			$.notify("Заметка вновь показывается в дневнике.", 
+			$.notify("{{script.view-notes.shown-successfully}}", 
 			{
 				position: "top right",
 				className : "success"
@@ -457,7 +457,7 @@ $(".on-btn-delete").click(function(e)
 
 				notes.current_note = 0;
 
-				$.notify("Заметка удалена из дневника навсегда.", 
+				$.notify("{{script.view-notes.deleted-successfully}}", 
 				{
 					position: "top right",
 					className : "success"
@@ -474,8 +474,8 @@ $(".on-btn-delete").click(function(e)
 	};
 
 	new BootstrapDialog({
-		title : "Подтвердите действие",
-		message : "Вы уверены, что хотите удалить эту заметку? Это действие невозможно отменить.",
+		title : "{{script.view-notes.confirm}}",
+		message : "{{script.view-notes.do-you-really-want-to-delete}}",
 		type : BootstrapDialog.TYPE_DEFAULT,
 		closable : false,
 		data : {
@@ -483,7 +483,7 @@ $(".on-btn-delete").click(function(e)
 		},
 
 		buttons : [{
-			label : "Отмена",
+			label : "{{script.view-notes.cancel}}",
 			action : function(dlg)
 			{
 				dlg.close();

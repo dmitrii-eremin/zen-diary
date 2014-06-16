@@ -37,6 +37,7 @@ namespace ZenDiary
 			ZD_RETURN_IF_FAILED(InitializeDirectories());
 			ZD_RETURN_IF_FAILED(InitializeDatabase());			
 			ZD_RETURN_IF_FAILED(InitializeWindow());
+			ZD_RETURN_IF_FAILED(LoadLocalization());
 			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
 			
 			return ZD_NOERROR;
@@ -222,6 +223,7 @@ namespace ZenDiary
 			m_js_handlers.SetDatabase(&m_database);
 			m_js_handlers.SetUpdater(&m_updater);
 			m_js_handlers.SetSpellChecker(&m_spell_checker);
+			m_js_handlers.SetLocalization(&m_localization);
 			return ZD_NOERROR;
 		}
 
@@ -324,6 +326,35 @@ namespace ZenDiary
 					m_data_source.AddMimeType(key, value);
 				}
 			}			
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS ZenDiaryApp::LoadLocalization()
+		{
+			std::vector<WIN32_FIND_DATA> files;
+			ZD_STATUS status = Helpers::Files::GetFiles(m_locale_path, files, "*.json");
+
+			if (ZD_SUCCEEDED(status))
+			{
+				for (auto &i : files)
+				{
+					std::stringstream fullname;
+					fullname << m_locale_path << i.cFileName;
+
+					Language lang;
+					status = Helpers::Serialization::FromFile(lang, fullname.str());
+
+					if (ZD_SUCCEEDED(status))
+					{
+						const std::string &lang_name(lang.GetLanguage());
+						m_localization.AddLanguage(lang_name, std::make_shared<Language>(lang));
+					}
+				}
+			}
+
+			m_localization.SetCurrentLanguage(m_settings.GetLocaleSettings().GetLanguage());			
+
+			m_data_source.SetLocalization(&m_localization);
 			return ZD_NOERROR;
 		}
 

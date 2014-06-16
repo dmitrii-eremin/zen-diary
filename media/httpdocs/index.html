@@ -2,7 +2,6 @@
 <html class = "app">
 	<head>
 		<meta http-equiv = "Content-Type" content = "charset=utf-8">
-		<title>ZenDiary | Ваш личный дневник</title>
 
 		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />		
@@ -28,32 +27,32 @@
 							<section>
 								<section class = "vbox">
 									<section class = "scrollable padder">
-										<h1 id = "page-title">Новая заметка</h1>
+										<h1 id = "page-title">{{ui.index.page.title.new}}</h1>
 
 										<div class = "alerts-zone"></div>
 
 										<form class = "padder">
 											<div class = "form-group">				
-												<label>Заголовок заметки</label>
-												<input id = "title" type = "text" class = "form-control" placeholder = "Заголовок заметки">
+												<label>{{ui.index.page.note-title}}</label>
+												<input id = "title" type = "text" class = "form-control" placeholder = "{{ui.index.page.note-title}}">
 											</div>
 											<div class = "form-group">
 
 												<div class = "row">
 													<div class = "col-sm-6">
-														<label>Текст заметки</label>
+														<label>{{ui.index.page.note-text}}</label>
 													</div>
 													
 													<div class = "col-sm-6 text-right">
-														<label>Вы можете использовать синтаксис <a href = "javascript:void(0)" id = "on-btn-markdown-help">Markdown</a></label>
+														<label>{{ui.index.page.markdown}} <a href = "javascript:void(0)" id = "on-btn-markdown-help">Markdown</a></label>
 													</div>
 												</div>		
 
 												<div id = "format-buttons">
 													<div class = "format-buttons-group">
 														<div class = "btn-group">
-															<button type = "button" class = "btn btn-default" id = "on-btn-preview" data-toggle = "tooltip" data-placement = "top" title = "Предпросмотр"><span class = "fa fa-desktop"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-qsave" data-toggle = "tooltip" data-placement = "top" title = "Сохранить заметку"><span class = "fa fa-save"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-preview" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.preview}}"><span class = "fa fa-desktop"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-qsave" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.qsave}}"><span class = "fa fa-save"></span></button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -61,9 +60,9 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">
-															<button type = "button" class = "btn btn-default" id = "on-btn-link" data-toggle = "tooltip" data-placement = "top" title = "Вставить ссылку"><span class = "fa fa-link"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-image" data-toggle = "tooltip" data-placement = "top" title = "Вставить изображение"><span class = "fa fa-picture-o"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-youtube" data-toggle = "tooltip" data-placement = "top" title = "Вставить клип youtube"><span class = "fa fa-youtube"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-link" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.url}}"><span class = "fa fa-link"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-image" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.image}}"><span class = "fa fa-picture-o"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-youtube" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.youtube}}"><span class = "fa fa-youtube"></span></button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -71,12 +70,12 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">	
-															<button type = "button" class = "btn btn-default" id = "on-btn-h1" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 1-го уровня">H1</button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-h2" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 2-го уровня">H2</button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-h3" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 3-го уровня">H3</button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-h4" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 4-го уровня">H4</button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-h5" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 5-го уровня">H5</button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-h6" data-toggle = "tooltip" data-placement = "top" title = "Заголовок 6-го уровня">H6</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h1" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h1}}">H1</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h2" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h2}}">H2</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h3" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h3}}">H3</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h4" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h4}}">H4</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h5" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h5}}">H5</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-h6" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.h6}}">H6</button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -84,8 +83,8 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">	
-															<button type = "button" class = "btn btn-default" id = "on-btn-bold" data-toggle = "tooltip" data-placement = "top" title = "Жирный"><span class = "fa fa-bold"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-italic" data-toggle = "tooltip" data-placement = "top" title = "Курсив"><span class = "fa fa-italic"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-bold" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.bold}}"><span class = "fa fa-bold"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-italic" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.italic}}"><span class = "fa fa-italic"></span></button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -93,8 +92,8 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">	
-															<button type = "button" class = "btn btn-default" id = "on-btn-code" data-toggle = "tooltip" data-placement = "top" title = "Код"><span class = "fa fa-code"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-quote" data-toggle = "tooltip" data-placement = "top" title = "Цитата"><span class = "fa fa-quote-left"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-code" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.code}}"><span class = "fa fa-code"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-quote" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.quote}}"><span class = "fa fa-quote-left"></span></button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -102,9 +101,9 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">	
-															<button type = "button" class = "btn btn-default" id = "on-btn-ulist" data-toggle = "tooltip" data-placement = "top" title = "Несортированный список"><span class = "fa fa-list-ul"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-olist" data-toggle = "tooltip" data-placement = "top" title = "Сортированный список"><span class = "fa fa-list-ol"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-hr" data-toggle = "tooltip" data-placement = "top" title = "Горизонтальная линия">&mdash;</button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-ulist" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.ul}}"><span class = "fa fa-list-ul"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-olist" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.ol}}"><span class = "fa fa-list-ol"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-hr" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.hr}}">&mdash;</button>
 														</div>
 													</div>
 													<div class = "format-buttons-divider">
@@ -112,8 +111,8 @@
 													</div>
 													<div class = "format-buttons-group">
 														<div class = "btn-group">
-															<button type = "button" class = "btn btn-default" id = "on-btn-spellcheck" data-toggle = "tooltip" data-placement = "top" title = "Проверить правописание"><span class = "i i-file-check"></span></button>
-															<button type = "button" class = "btn btn-default" id = "on-btn-clear-spellcheck" data-toggle = "tooltip" data-placement = "top" title = "Пропустить все ошибки"><span class = "i i-file-remove"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-spellcheck" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.spellcheck}}"><span class = "i i-file-check"></span></button>
+															<button type = "button" class = "btn btn-default" id = "on-btn-clear-spellcheck" data-toggle = "tooltip" data-placement = "top" title = "{{ui.index.page.format-buttons.spellcheck-forget}}"><span class = "i i-file-remove"></span></button>
 														</div>
 													</div>
 												</div>
@@ -123,23 +122,23 @@
 											</div>
 
 											<div class = "form-group">
-												<label>Пароль заметки</label>
+												<label>{{ui.index.page.password.title}}</label>
 												<div class = "row">
 													<div class = "col-sm-6">
-														<input type = "password" id = "password" class = "form-control" placeholder = "Введите пароль (необязательно)">
+														<input type = "password" id = "password" class = "form-control" placeholder = "{{ui.index.page.password.password}}">
 													</div>
 													<div class = "col-sm-6">
-														<input type = "password" id = "password-confirm" class = "form-control" placeholder = "Повторите пароль (необязательно)">
+														<input type = "password" id = "password-confirm" class = "form-control" placeholder = "{{ui.index.page.password.password-confirm}}">
 													</div>
 												</div>
 											</div>
 
 											<div class = "row">
 												<div class = "col-sm-6">
-													<button type = "button" class = "btn btn-default" id = "on-btn-export-to-html"><i class = "fa fa-code icon"></i> Экспорт в HTML</button>
+													<button type = "button" class = "btn btn-default" id = "on-btn-export-to-html"><i class = "fa fa-code icon"></i> {{ui.index.page.export-html}}</button>
 												</div>
 												<div class = "col-sm-6 text-right">
-													<button type = "button" class = "btn btn-default" id = "on-btn-post"><i id = "on-btn-post-icon" class = "fa fa-save icon"></i> <span id = "on-btn-post-text">Сохранить заметку</span></button>
+													<button type = "button" class = "btn btn-default" id = "on-btn-post"><i id = "on-btn-post-icon" class = "fa fa-save icon"></i> <span id = "on-btn-post-text">{{ui.index.page.save}}</span></button>
 												</div>
 											</div>
 										</form>

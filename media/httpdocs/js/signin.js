@@ -20,7 +20,7 @@ $("#on-btn-signup").click(function(e)
 
 	if (login.length == 0)
 	{		
-		$.notify("Введите имя пользователя.", 
+		$.notify("{{script.signin.error.signup-form.empty-login}}", 
 		{
 			position: "top right"
 		});
@@ -30,7 +30,7 @@ $("#on-btn-signup").click(function(e)
 
 	if (password.length == 0)
 	{
-		$.notify("Введите пароль пользователя.", 
+		$.notify("{{script.signin.error.signup-form.empty-password}}", 
 		{
 			position: "top right"
 		});
@@ -40,7 +40,7 @@ $("#on-btn-signup").click(function(e)
 
 	if (password != password_confirm)
 	{
-		$.notify("Введённые вами пароли не совпадают.", 
+		$.notify("{{script.signin.error.signup-form.passwords-doesnt-match}}", 
 		{
 			position: "top right"
 		});
@@ -70,7 +70,7 @@ $("#on-btn-signin").click(function(e)
 	
 	if (login.length == 0)
 	{
-		$.notify("Введите имя пользователя.", 
+		$.notify("{{script.signin.error.signin-form.empty-login}}", 
 		{
 			position: "top right",			
 		});
@@ -81,7 +81,7 @@ $("#on-btn-signin").click(function(e)
 
 	if (password.length == 0)
 	{
-		$.notify("Введите пароль пользователя.", 
+		$.notify("{{script.signin.error.signin-form.empty-password}}", 
 		{
 			position: "top right",			
 		});

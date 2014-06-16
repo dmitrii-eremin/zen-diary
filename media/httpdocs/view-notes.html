@@ -2,7 +2,6 @@
 <html class = "app">
 	<head>
 		<meta http-equiv = "Content-Type" content = "charset=utf-8">
-		<title>ZenDiary | Ваш личный дневник</title>
 
 		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
 		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />
@@ -36,14 +35,14 @@
 										<div class = "btn-toolbar">
 											<div class = "btn-group select">
 												<button class = "btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle = "dropdown">
-													<span class = "dropdown-label filter-label" style = "width: 100px">Все</span> <span class = "caret"></span>
+													<span class = "dropdown-label filter-label" style = "width: 100px">{{ui.view-notes.filter.all}}</span> <span class = "caret"></span>
 												</button>
 
 												<ul class = "dropdown-menu text-left text-sm">
-													<li><a href = "javascript:void(0)" class = "on-btn-filter-all">Все</a></li>
-													<li><a href = "javascript:void(0)" class = "on-btn-only-plain">Только незашифрованные</a></li>
-													<li><a href = "javascript:void(0)" class = "on-btn-only-encrypted">Только зашифрованные</a></li>			
-													<li><a href = "javascript:void(0)" class = "on-btn-only-hidden">Только скрытые</a></li>
+													<li><a href = "javascript:void(0)" class = "on-btn-filter-all">{{ui.view-notes.filter.all}}</a></li>
+													<li><a href = "javascript:void(0)" class = "on-btn-only-plain">{{ui.view-notes.filter.plain}}</a></li>
+													<li><a href = "javascript:void(0)" class = "on-btn-only-encrypted">{{ui.view-notes.filter.encrypted}}</a></li>			
+													<li><a href = "javascript:void(0)" class = "on-btn-only-hidden">{{ui.view-notes.filter.hidden}}</a></li>
 												</ul>		
 											</div>											
 										</div>
@@ -57,7 +56,7 @@
 									<footer class = "footer dk clearfix">
 										<form class = "m-t-sm">
 											<div class = "input-group date" id = "datetimepicker1">
-												<input type = "text" class = "form-control" placeholder = "Выберите день..." id = "day-search">
+												<input type = "text" class = "form-control" placeholder = "{{ui.view-notes.choose-day}}" id = "day-search">
 												<span class = "input-group-addon">
 													<span class = "fa fa-calendar icon"></span>
 												</span>
@@ -90,10 +89,10 @@
 																<div class = "h3 m-t-xs m-b-xs" id = "note-title"></div>
 																<div id = "note-created-info">
 																	<div>
-																		<small>Создана: <em><span id = "note-created"></span></em></small>
+																		<small>{{ui.view-notes.created}}: <em><span id = "note-created"></span></em></small>
 																	</div>
 																	<div>
-																		<small>Обновлена: <em><span id = "note-updated"></span></em></small>
+																		<small>{{ui.view-notes.updated}}: <em><span id = "note-updated"></span></em></small>
 																	</div>
 																</div>
 															</div>
@@ -102,19 +101,19 @@
 
 													<div class = "list-group no-radius alt">
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-edit">
-															<i class = "fa fa-edit icon"></i> Редактировать заметку
+															<i class = "fa fa-edit icon"></i> {{ui.view-notes.menu.edit}}
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-hide">
-															<i class = "fa fa-eye-slash icon"></i> Скрыть заметку
+															<i class = "fa fa-eye-slash icon"></i> {{ui.view-notes.menu.hide}}
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-show">
-															<i class = "fa fa-eye icon"></i> Показывать заметку
+															<i class = "fa fa-eye icon"></i> {{ui.view-notes.menu.show}}
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-delete">
-															<i class = "fa fa-trash-o icon"></i> Удалить заметку
+															<i class = "fa fa-trash-o icon"></i> {{ui.view-notes.menu.delete}}
 														</a>
 														<a href = "javascript:void(0)" class = "list-group-item note-action on-btn-export-to-html">
-															<i class = "fa fa-code icon"></i> Экспорт в HTML
+															<i class = "fa fa-code icon"></i> {{ui.view-notes.menu.html}}
 														</a>
 													</div>
 												</section>

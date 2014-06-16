@@ -4,6 +4,7 @@
 #include "ZenDataSource.h"
 #include "CmdArguments.h"
 #include "SpellChecker.h"
+#include "Localization.h"
 #include "MenuHandler.h"
 #include "JSHandlers.h"
 #include "WebWindow.h"
@@ -41,6 +42,7 @@ namespace ZenDiary
 			ZD_STATUS BindMethods();
 
 			ZD_STATUS LoadMimeTypes();
+			ZD_STATUS LoadLocalization();
 			
 			ZD_STATUS InitializeCurrentDirectory();
 			
@@ -50,6 +52,8 @@ namespace ZenDiary
 			const std::string m_mimetypes_path = std::string("../media/settings/mime-types.json");
 			
 			const std::string m_database_initialization_path = std::string("../media/db/initialization.sql");
+
+			const std::string m_locale_path = std::string("../media/locale/");
 
 			ZD_BOOL_PROPERTY(m_logged_in, LoggedIn);
 
@@ -76,6 +80,7 @@ namespace ZenDiary
 			SQLiteDatabase m_database;
 
 			SpellChecker m_spell_checker;
+			Localization m_localization;
 		};
 	};
 };

@@ -34,6 +34,8 @@ namespace ZenDiary
 			ZD_STATUS SetSpellChecker(SpellChecker *spell_checker);
 			ZD_STATUS SetLocalization(Localization *localization);
 
+			ZD_STATUS AddMimeType(const std::string &key, const std::string &value);
+
 			/* Javascript function handlers */
 			Awesomium::JSValue OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
@@ -90,6 +92,8 @@ namespace ZenDiary
 			Awesomium::JSValue OnGetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnGetMimeType(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:			
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::string &message = std::string());
 
@@ -101,6 +105,8 @@ namespace ZenDiary
 			WebWindow *m_web_window;
 			SpellChecker *m_spell_checker;
 			Localization *m_localization;
+
+			std::map<std::string, std::string> m_mime_types;
 		};
 	}
 }

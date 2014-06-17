@@ -170,6 +170,8 @@ namespace ZenDiary
 			m_window = WebWindow::Create(window_settings.GetTitle(), 
 				window_settings.GetWidth(), window_settings.GetHeight(), m_web_session);
 
+			m_window->EnableDragnDrop(true);
+
 			Awesomium::WebView *view = m_window->GetWebView();
 
 			BindMethods();
@@ -304,6 +306,8 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("getPreviewWidth", &JSHandlers::OnGetPreviewWidth);
 			ZD_BIND_JS_HANDLER("setPreviewWidth", &JSHandlers::OnSetPreviewWidth);
+
+			ZD_BIND_JS_HANDLER("getMimeType", &JSHandlers::OnGetMimeType);
 			return ZD_NOERROR;
 		}
 
@@ -327,6 +331,7 @@ namespace ZenDiary
 					std::string value = i.second.getString();
 
 					m_data_source.AddMimeType(key, value);
+					m_js_handlers.AddMimeType(key, value);
 				}
 			}			
 			return ZD_NOERROR;

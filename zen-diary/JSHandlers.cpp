@@ -65,6 +65,17 @@ namespace ZenDiary
 			return ZD_NOERROR;
 		}
 
+		ZD_STATUS JSHandlers::AddMimeType(const std::string &key, const std::string &value)
+		{
+			if (m_mime_types.find(key) != m_mime_types.end())
+			{
+				return ZD_ERROR_ALREADY_EXIST;
+			}
+
+			m_mime_types[key] = value;
+			return ZD_NOERROR;
+		}
+
 		Awesomium::JSValue JSHandlers::OnToInt(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() == 0)
@@ -1362,6 +1373,26 @@ namespace ZenDiary
 			m_settings->GetEditorSettings().SetPreviewWidth(preview_width);
 
 			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetMimeType(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1 || !args.At(0).IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string fname = Awesomium::ToString(args.At(0).ToString());
+
+			std::string ext = std::string(".") + Helpers::String::ExtractExtension(fname);
+
+			auto mime_type = m_mime_types.find(ext);
+			if (mime_type == m_mime_types.end())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(Awesomium::WSLit(mime_type->second.c_str()));
 		}
 	}
 }

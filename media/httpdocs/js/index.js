@@ -134,6 +134,37 @@ var new_post = {
 	}
 };
 
+var zen_handlers = {
+	drag_n_drop : function(fname)
+	{		
+		var mime_type = zen.getMimeType(fname);
+		if (mime_type != undefined)
+		{
+			const image_type = "image/";
+			const text_type = "text/";
+
+			if (mime_type.length > image_type.length &&
+				mime_type.substr(0, image_type.length) == image_type)
+			{
+				fname = "asset://zen-diary/" + zen.uriEncode(fname);
+
+				var md_image = "![](" + fname + ")";
+
+				new_post.insertToEditor(md_image);
+			}
+			else if (mime_type.length > text_type.length &&
+				mime_type.substr(0, text_type.length) == text_type)
+			{
+				var filetext = zen.getFileContent(fname);
+				if (filetext != undefined)
+				{
+					new_post.insertToEditor(filetext);
+				}	
+			}				
+		}		
+	}
+};
+
 $(window).resize(function(e)
 {
 	var height = $(this).height();

@@ -12,6 +12,8 @@ namespace ZenDiary
 			WebWindow(const WebWindow &a) = delete;
 			WebWindow &operator = (const WebWindow &a) = delete;
 
+			ZD_STATUS EnableDragnDrop(bool enable = true);		
+
 			static WebWindow *Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session = nullptr);
 			Awesomium::WebView *GetWebView();
 
@@ -50,10 +52,11 @@ namespace ZenDiary
 
 			static void PlatformInit();
 			static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+			static LRESULT HandleDragnDrop(WPARAM wParam);
 
 		private:
 			static const std::string m_window_class;
-			static std::vector<Awesomium::WebView*> m_views;
+			static std::vector<Awesomium::WebView*> m_views;					
 
 			Awesomium::WebView *m_web_view;
 			HWND m_hwnd;

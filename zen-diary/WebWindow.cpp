@@ -20,6 +20,12 @@ namespace ZenDiary
 			m_web_view->Destroy();
 		}
 
+		ZD_STATUS WebWindow::EnableDragnDrop(bool enable)
+		{
+			DragAcceptFiles(m_hwnd, enable ? TRUE : FALSE);
+			return ZD_NOERROR;
+		}
+
 		WebWindow *WebWindow::Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session)
 		{
 			return new WebWindow(title, width, height, session);
@@ -145,7 +151,7 @@ namespace ZenDiary
 			m_web_view->set_parent_window(m_hwnd);
 
 			ShowWindow(m_hwnd, SW_SHOWNORMAL);
-			UpdateWindow(m_hwnd);
+			UpdateWindow(m_hwnd);			
 		}
 
 		void WebWindow::PlatformInit()
@@ -183,20 +189,49 @@ namespace ZenDiary
 				PostQuitMessage(0);
 				break;
 			case WM_SIZE:
-			{
-							int width = LOWORD(lParam);
-							int height = HIWORD(lParam);
+				{
+					int width = LOWORD(lParam);
+					int height = HIWORD(lParam);
 
-							for (auto &i : m_views)
-							{
-								i->Resize(width, height);
-							}
-			}
+					for (auto &i : m_views)
+					{
+						i->Resize(width, height);					
+					}
+				}
+				break;
+			case  WM_DROPFILES:
+				HandleDragnDrop(wParam);
 				break;
 			default:
 				break;
 			}
 			return DefWindowProc(hwnd, msg, wParam, lParam);
+		}
+
+		LRESULT WebWindow::HandleDragnDrop(WPARAM wParam)
+		{
+			HDROP hDrop = reinterpret_cast<HDROP>(wParam);
+			
+			int count = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
+
+			for (int i = 0; i < count; i++)
+			{
+				char cfname[MAX_PATH];
+				DragQueryFile(hDrop, i, cfname, MAX_PATH);
+
+				std::string fname(Helpers::String::Replace(cfname, "\\", "\\\\"));
+
+				std::stringstream js_handler;
+				js_handler << "zen_handlers.drag_n_drop(\"" << Helpers::String::ToUtf8(Helpers::String::strtowstr(fname)) << "\");";
+
+				for (auto &j : m_views)
+				{					
+					j->ExecuteJavascript(Awesomium::WSLit(js_handler.str().c_str()), Awesomium::WSLit(""));
+				}
+			}
+
+			DragFinish(hDrop);
+			return 0;
 		}
 	}
 }

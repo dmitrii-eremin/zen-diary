@@ -82,6 +82,42 @@ namespace ZenDiary
 			return Awesomium::JSValue(atoi(s.c_str()));
 		}
 
+		Awesomium::JSValue JSHandlers::OnSetFileContent(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() >= 2 && args.At(0).IsString() && args.At(1).IsString())
+			{
+				std::string fname = Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(args.At(0).ToString()));
+				std::string data = Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(args.At(1).ToString()));				
+
+				Helpers::Files::SetFileContent(fname, data);
+
+				return Awesomium::JSValue(true);
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetFileContent(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() < 1 || !args.At(0).IsString())
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			std::string fname = Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(args.At(0).ToString()));
+			
+			std::string data;
+			ZD_STATUS status = Helpers::Files::GetFileContent(fname, data);
+			if (ZD_FAILED(status))
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			data = Helpers::String::ToUtf8(Helpers::String::strtowstr(data));
+
+			return Awesomium::JSValue(Awesomium::WSLit(data.c_str()));
+		}
+
+
 		Awesomium::JSValue JSHandlers::OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() == 0)

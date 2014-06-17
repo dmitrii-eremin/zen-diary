@@ -560,3 +560,44 @@ $("#on-btn-hr").click(function(e)
 {
 	new_post.insertToEditor("-----");
 });
+
+$("#on-btn-save-as").click(function(e)
+{
+	var filename = zen.saveFileDialog("{{general.file-dialog.txt}}", "*.txt", "{{general.file-dialog.md}}", "*.md", "{{general.file-dialog.all}}", "*.*");
+	if (filename != undefined)
+	{
+		var md_text = new_post.editor.getValue();
+
+		md_text = zenapi.replaceAll("\n", "\r\n", md_text);
+
+		var result = zen.setFileContent(filename, md_text);
+		if (result != undefined)
+		{
+			$.notify("{{script.index.note-saved-as}} " + filename + ".", 
+			{
+				position : "top right",
+				className : "success"
+			});
+		}
+		else
+		{
+			$.notify("{{script.index.failed-to-export}} " + filename + ".", 
+			{
+				position : "top right"				
+			});
+		}
+	}
+});
+
+$("#on-btn-open-as").click(function(e)
+{
+	var filename = zen.openFileDialog("{{general.file-dialog.txt}}", "*.txt", "{{general.file-dialog.md}}", "*.md", "{{general.file-dialog.all}}", "*.*");
+	if (filename != undefined)
+	{
+		var filetext = zen.getFileContent(filename);
+		if (filetext != undefined)
+		{
+			new_post.editor.setValue(filetext);
+		}		
+	}
+});

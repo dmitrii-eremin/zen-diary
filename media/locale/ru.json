@@ -7,7 +7,13 @@
 	"locale" : {
 		"general" : {
 			"title" : "Zen Diary",
-			"year" : 2014
+			"year" : 2014,
+
+			"file-dialog" : {
+				"all" : "Все файлы (*.*)",
+				"txt" : "Текстовые файлы (*.txt)",
+				"md" : "Файлы Markdown (*.md)"
+			}
 		},
 
 		"ui" : {
@@ -42,6 +48,8 @@
 					"markdown" : "Вы можете использовать синтаксис",
 					"export-html" : "Экспорт в HTML",
 					"save" : "Сохранить заметку",
+					"save-as" : "Сохранить в файл",
+					"open-as" : "Открыть файл",
 
 					"title" : {
 						"new" : "Новая заметка",
@@ -176,7 +184,9 @@
 				"markdown-syntax" : "Синтаксис markdown",
 				"image-files" : "Файлы изображений",
 				"all-files" : "Все файлы (*.*)",
-				"youtube-insert" : "Вставка видеоклипа"
+				"youtube-insert" : "Вставка видеоклипа",
+				"note-saved-as" : "Заметка сохранена в файл",
+				"failed-to-export" : "Не удалось сохранить заметку в файл"
 			},
 
 			"view-notes" : {

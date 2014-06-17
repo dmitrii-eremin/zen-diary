@@ -1,4 +1,5 @@
-zen-diary
+Zen Diary
 =========
 
-Zen diary is a diary standalone application, that stores the entire database on the local computer in encrypted form.
+Zen Diary - это независимое от подключения к сети приложение, которое позволяет хранить заметки в зашифрованной форме.
+

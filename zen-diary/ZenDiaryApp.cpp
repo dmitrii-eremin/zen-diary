@@ -250,6 +250,9 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("toInt", &JSHandlers::OnToInt);
 
+			ZD_BIND_JS_HANDLER("setFileContent", &JSHandlers::OnSetFileContent);
+			ZD_BIND_JS_HANDLER("getFileContent", &JSHandlers::OnGetFileContent);
+
 			ZD_BIND_JS_HANDLER("toUpper", &JSHandlers::OnToUpper);
 			ZD_BIND_JS_HANDLER("toLower", &JSHandlers::OnToLower);
 

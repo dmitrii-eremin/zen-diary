@@ -31,10 +31,10 @@ namespace ZenDiary
 					what = Helpers::String::ToLower(_what);
 				}
 
-				size_t index = std::string::npos;
+				size_t index = 0;
 				do 
 				{
-					index = src.find(what);
+					index = src.find(what, index);
 					if (index == std::string::npos)
 					{
 						break;
@@ -48,6 +48,8 @@ namespace ZenDiary
 
 					src = left_src + to + right_src;
 					result = left_result + to + right_result;
+
+					index += to.length();
 
 				} while (index != std::string::npos);
 

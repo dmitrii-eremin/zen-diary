@@ -187,7 +187,11 @@ $(document).ready(function()
 		lineNumbers : zen.getShowLineNumbers(),
 		theme : "default",
 		extraKeys : {
-			"Enter" : "newlineAndIndentContinueMarkdownList"
+			"Enter" : "newlineAndIndentContinueMarkdownList",
+			"Ctrl-S" : function(cm)
+			{
+				$("#on-btn-qsave").click();
+			}
 		},
 		autoCloseBrackets: zen.isAutocloseBrackets()
 	});

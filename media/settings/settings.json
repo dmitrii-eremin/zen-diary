@@ -16,7 +16,7 @@
 				"path" : "C:\\Projects\\zen-diary\\media\\db\\test.sqlite3"
 			}
 		],
-		"path" : "C:\\Projects\\zen-diary\\media\\db\\test.sqlite3"
+		"path" : "../media/db/zen-diary.sqlite3"
 	},
 	"editor" : {
 		"autoclose_brackets" : false,

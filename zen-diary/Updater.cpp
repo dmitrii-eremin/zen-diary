@@ -37,42 +37,73 @@ namespace ZenDiary
 					JsonBox::Value root;
 					root.loadFromString(buf);
 
-					if (root["version"].isObject())
+					if (root["version-list"].isArray())
 					{
-						JsonBox::Object version = root["version"].getObject();
+						JsonBox::Array root_array = root["version-list"].getArray();
 
-						if (version["major"].isInteger() &&
-							version["middle"].isInteger() &&
-							version["minor"].isInteger() &&
-							version["link"].isString())
+						std::set<VersionInfo> versions;
+
+						for (auto &i : root_array)
 						{
-							int major = version["major"].getInt();
-							int middle = version["middle"].getInt();
-							int minor = version["minor"].getInt();
+							if (!i.isObject())
+							{
+								continue;
+							}
 
-							m_update_link = version["link"].getString();
+							VersionInfo version;
 
-							uint_t remote_version = ZD_MAKE_VERSION(major, middle, minor);
+							if (!i["major"].isInteger() ||
+								!i["middle"].isInteger() ||
+								!i["minor"].isInteger() ||
+								!i["link"].isString())
+							{
+								continue;
+							}
+
+							version.major = i["major"].getInt();
+							version.middle = i["middle"].getInt();
+							version.minor = i["minor"].getInt();
+							version.link = i["link"].getString();
+
+							if (i["changelog"].isString())
+							{
+								version.changelog = Helpers::String::ConvertUtf8ToMB(i["changelog"].getString());
+							}
+
+							versions.insert(version);
+						}
+
+						for (auto &i : versions)
+						{
+							uint_t remote_version = ZD_MAKE_VERSION(i.major, i.middle, i.minor);
 
 							if (remote_version > ZD_VERSION)
 							{
 								m_need_to_update = true;
-								
-								std::stringstream new_version_stream;
-								new_version_stream << major << "." << middle << "." << minor;
-
-								m_new_verson = new_version_stream.str();
+								if (i.changelog.length() > 0)
+								{
+									m_change_log += Helpers::String::ConvertUtf8ToMB(i.changelog);
+									m_change_log += std::string("\n");									
+								}
 							}
 						}
 
-						if (version["changelog"].isString())
+						if (m_need_to_update)
 						{
-							m_change_log = Helpers::String::ConvertUtf8ToMB(version["changelog"].getString());
+							std::set<VersionInfo>::iterator last_version = --versions.end();
+							
+							std::stringstream new_version_stream;
+							new_version_stream << static_cast<uint_t>(last_version->major) << "." << 
+								static_cast<uint_t>(last_version->middle) << "." << 
+								static_cast<uint_t>(last_version->minor);
+
+							m_new_verson = new_version_stream.str();
+							m_update_link = last_version->link;
 						}
-					}					
+					}														
 				}
 
-				delete[]buf;
+				delete []buf;
 			}
 			return ZD_NOERROR;
 		}
@@ -101,6 +132,14 @@ namespace ZenDiary
 		const std::string &Updater::GetChangeLog() const
 		{
 			return m_change_log;
+		}
+
+		bool Updater::VersionInfo::operator < (const Updater::VersionInfo &info) const
+		{
+			uint_t current_version = ZD_MAKE_VERSION(major, middle, minor);
+			uint_t remote_version = ZD_MAKE_VERSION(info.major, info.middle, info.minor);
+
+			return current_version < remote_version;
 		}
 	}
 }

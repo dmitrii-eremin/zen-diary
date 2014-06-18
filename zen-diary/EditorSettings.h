@@ -19,6 +19,7 @@ namespace ZenDiary
 		private:
 			ZD_PROPERTY(bool, m_show_line_numbers, ShowLineNumbers);
 			ZD_PROPERTY(int, m_preview_width, PreviewWidth);
+			ZD_BOOL_PROPERTY(m_autoclose_brackets, AutocloseBrackets);
 		};
 	};
 };

@@ -92,6 +92,9 @@ namespace ZenDiary
 			Awesomium::JSValue OnGetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnSetPreviewWidth(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnIsAutocloseBrackets(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetAutocloseBrackets(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 			Awesomium::JSValue OnGetMimeType(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 		private:			

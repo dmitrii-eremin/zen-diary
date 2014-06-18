@@ -58,7 +58,7 @@ namespace ZenDiary
 				if (m_updater.GetChangeLog().length() > 0)
 				{
 					update_message << ":" << std::endl << std::endl;
-					update_message << m_updater.GetChangeLog() << std::endl << std::endl;
+					update_message << m_updater.GetChangeLog() << std::endl;
 				}
 				else
 				{
@@ -306,6 +306,9 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("getPreviewWidth", &JSHandlers::OnGetPreviewWidth);
 			ZD_BIND_JS_HANDLER("setPreviewWidth", &JSHandlers::OnSetPreviewWidth);
+
+			ZD_BIND_JS_HANDLER("isAutocloseBrackets", &JSHandlers::OnIsAutocloseBrackets);
+			ZD_BIND_JS_HANDLER("setAutocloseBrackets", &JSHandlers::OnSetAutocloseBrackets);
 
 			ZD_BIND_JS_HANDLER("getMimeType", &JSHandlers::OnGetMimeType);
 			return ZD_NOERROR;

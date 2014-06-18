@@ -1375,6 +1375,29 @@ namespace ZenDiary
 			return Awesomium::JSValue::Undefined();
 		}
 
+		Awesomium::JSValue JSHandlers::OnIsAutocloseBrackets(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_settings)
+			{
+				return Awesomium::JSValue(m_settings->GetEditorSettings().IsAutocloseBrackets());
+			}
+
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetAutocloseBrackets(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_settings && args.size() > 0 && args.At(0).IsBoolean())
+			{
+				bool autoclose = args.At(0).ToBoolean();
+				m_settings->GetEditorSettings().SetAutocloseBrackets(autoclose);
+
+				return Awesomium::JSValue(autoclose);
+			}
+
+			return Awesomium::JSValue::Undefined();
+		}
+
 		Awesomium::JSValue JSHandlers::OnGetMimeType(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() < 1 || !args.At(0).IsString())

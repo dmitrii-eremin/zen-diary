@@ -15,6 +15,7 @@
 #include <thread>
 #include <mutex>
 #include <map>
+#include <set>
 
 #include <windows.h>
 #include <process.h>

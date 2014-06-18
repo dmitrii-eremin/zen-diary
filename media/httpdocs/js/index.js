@@ -189,7 +189,7 @@ $(document).ready(function()
 		extraKeys : {
 			"Enter" : "newlineAndIndentContinueMarkdownList"
 		},
-		autoCloseBrackets: false			// TODO: make checkbox in settings
+		autoCloseBrackets: zen.isAutocloseBrackets()
 	});
 
 	$(window).resize();
@@ -627,8 +627,8 @@ $("#on-btn-open-as").click(function(e)
 	{
 		var filetext = zen.getFileContent(filename);
 		if (filetext != undefined)
-		{
-			new_post.editor.setValue(filetext);
+		{			
+			new_post.insertToEditor(filetext);
 		}		
 	}
 });

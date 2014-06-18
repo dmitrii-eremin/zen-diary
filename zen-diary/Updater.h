@@ -25,6 +25,19 @@ namespace ZenDiary
 			const std::string &GetChangeLog() const;
 
 		private:
+			struct VersionInfo
+			{
+				uchar_t major;
+				uchar_t middle;
+				uchar_t minor;
+
+				std::string link;
+				std::string changelog;
+
+				bool operator < (const VersionInfo &info) const;
+			};
+
+		private:
 #ifdef _DEBUG
 			const std::string m_update_version_file_path = std::string("http://zendiary.dev/api/get-last-version.json");						
 #else

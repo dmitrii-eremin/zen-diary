@@ -9,6 +9,7 @@
 		"path" : "../media/db/zen-diary.sqlite3"
 	},
 	"editor" : {
+		"autoclose_brackets" : false,
 		"preview_width" : 800,
 		"show_line_numbers" : false
 	},

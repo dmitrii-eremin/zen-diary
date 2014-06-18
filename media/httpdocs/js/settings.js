@@ -6,6 +6,7 @@ $(document).ready(function()
 	$("#db-path").val(zen.getDatabasePath());
 	$("#on-check-use-scripts").prop("checked", zen.getUseJavascript());
 	$("#on-check-show-line-numbers").prop("checked", zen.getShowLineNumbers());
+	$("#on-check-autoclose-brackets").prop("checked", zen.isAutocloseBrackets());
 	$("#preview-width").val(zen.getPreviewWidth());
 });
 
@@ -22,6 +23,7 @@ $("#on-btn-save").click(function(e)
 
 	var use_javascript = $("#on-check-use-scripts").is(":checked");
 	var show_line_numbers = $("#on-check-show-line-numbers").is(":checked");
+	var autoclose_brackets = $("#on-check-autoclose-brackets").is(":checked");
 
 	var new_db_path = $("#db-path").val();	
 
@@ -111,6 +113,7 @@ $("#on-btn-save").click(function(e)
 	zen.setDatabasePath(new_db_path);
 	zen.setUseJavascript(use_javascript);
 	zen.setShowLineNumbers(show_line_numbers);
+	zen.setAutocloseBrackets(autoclose_brackets);
 	zen.setPreviewWidth(preview_width);
 
 	$.notify("{{script.settings.saved}}",

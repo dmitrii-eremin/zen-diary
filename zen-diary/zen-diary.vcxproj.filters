@@ -158,6 +158,12 @@
     <ClInclude Include="LocaleSettings.h">
       <Filter>Settings\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DatabaseList.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseListItem.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -252,6 +258,12 @@
     </ClCompile>
     <ClCompile Include="LocaleSettings.cpp">
       <Filter>Settings\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseList.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseListItem.cpp">
+      <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

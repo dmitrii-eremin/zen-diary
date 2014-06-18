@@ -87,6 +87,10 @@ $(function()
 	{
 		$("#nav-menu-settings").addClass("active");
 	}
+	else if (location.indexOf("/choose-diary.html") != -1)
+	{
+		$("#nav-menu-choose-diary").addClass("active");
+	}
 });
 
 $(".on-btn-logout").click(function(e)

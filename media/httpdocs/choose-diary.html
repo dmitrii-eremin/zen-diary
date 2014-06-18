@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class = "app">
+	<head>
+		<meta http-equiv = "Content-Type" content = "charset=utf-8">
+
+		<meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel = "stylesheet" href = "css/app.v1.css" type = "text/css" />		
+		<link rel = "stylesheet" href = "css/bootstrap-dialog.min.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/codemirror.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/style.css" type = "text/css" />
+		<link rel = "stylesheet" href = "css/choose-diary.css" type = "text/css" />
+	</head>
+
+	<body class = "">		
+
+		<section class = "vbox">
+			<section>
+				<section class = "hbox stretch">
+					
+					<script>
+						document.write(zen.getTemplate("../media/httpdocs/templates/sidebox.html"));
+					</script>
+
+					<section id="content">
+
+						<section class = "hbox stretch">
+							<section>
+								<section class = "vbox">
+									<section class = "scrollable padder">
+										<h1>
+											{{ui.choose-diary.title}}
+										</h1>										
+
+										<ul class = "list-group gutter list-group-lg list-group-sp" id = "diaries-list">
+											<li class = "list-group-item">
+												<a href = "javascript:void(0)">
+													<div class = "clear">
+														<form role = "form">
+															<div class = "form-group">
+																<label>{{ui.choose-diary.new-diary.label}}</label>
+																<div class = "input-group">
+																	<input type = "text" class = "form-control" id = "new-diary-name" placeholder = "{{ui.choose-diary.new-diary.label}}">
+																	<span class = "input-group-btn">
+																		<button type = "button" class = "btn btn-default" id = "on-btn-new-diary-view">{{general.file-dialog.view}}</button>
+																	</span>
+																</div>
+															</div>
+														</form>
+
+														<div class = "text-center">
+															<button type = "button" class = "btn btn-default" id = "on-btn-new-diary">{{ui.choose-diary.new-diary.create}}</button>
+														</div>
+													</div>
+												</a>
+											</li>											
+										</ul>
+									</section>
+								</section>
+							</section>
+						</section>     
+					</section>  
+				</section>
+			</section>
+		</section>
+
+		<script src = "js/jquery-1.11.0.min.js"></script>		
+		<script src = "js/app.v1.js"></script>
+		<script src = "js/app.plugin.js"></script>
+		<script src = "js/jquery.alert.js"></script>	
+		<script src = "js/Markdown.Converter.js"></script>	
+		<script src = "js/notify.min.js"></script>
+		<script src = "js/codemirror.js"></script>		
+		<script src = "js/mode/markdown/markdown.js"></script>
+		<script src = "js/addon/edit/closebrackets.js"></script>
+		<script src = "js/general.js"></script>		
+		<script src = "js/bootstrap-dialog.min.js"></script>
+		<script src = "js/choose-diary.js"></script>
+	</body>
+</html>

@@ -13,7 +13,8 @@ namespace ZenDiary
 			m_updater(nullptr),
 			m_web_window(nullptr),
 			m_spell_checker(nullptr),
-			m_localization(nullptr)
+			m_localization(nullptr),
+			m_db_list(nullptr)
 		{
 
 		}
@@ -62,6 +63,12 @@ namespace ZenDiary
 		ZD_STATUS JSHandlers::SetLocalization(Localization *localization)
 		{
 			m_localization = localization;
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS JSHandlers::SetDatabaseList(DatabaseList *db_list)
+		{
+			m_db_list = db_list;
 			return ZD_NOERROR;
 		}
 
@@ -128,6 +135,15 @@ namespace ZenDiary
 			return Awesomium::JSValue(Awesomium::WSLit(data.c_str()));
 		}
 
+		Awesomium::JSValue JSHandlers::OnDeleteFile(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() >= 1 && args.At(0).IsString())
+			{
+				std::string filename = Helpers::String::ConvertUtf8ToMB(Awesomium::ToString(args.At(0).ToString()));
+				DeleteFile(filename.c_str());
+			}
+			return Awesomium::JSValue::Undefined();
+		}
 
 		Awesomium::JSValue JSHandlers::OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
@@ -1416,6 +1432,71 @@ namespace ZenDiary
 			}
 
 			return Awesomium::JSValue(Awesomium::WSLit(mime_type->second.c_str()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			Awesomium::JSArray db_list;
+
+			if (m_db_list)
+			{
+				size_t count = m_db_list->GetItemsCount();
+				for (size_t i = 0; i < count; i++)
+				{
+					DatabaseListItem *item = m_db_list->GetItemAt(i);
+					if (!item)
+					{
+						continue;
+					}
+
+					Awesomium::JSObject js_item;
+					js_item.SetProperty(Awesomium::WSLit("filename"), Awesomium::JSValue(Awesomium::WSLit(item->GetPath().c_str())));
+					js_item.SetProperty(Awesomium::WSLit("name"), Awesomium::JSValue(Awesomium::WSLit(item->GetName().c_str())));
+
+					db_list.Push(js_item);
+				}
+			}
+
+			return db_list;
+		}
+
+		Awesomium::JSValue JSHandlers::OnGetDatabaseListSize(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (!m_db_list)
+			{
+				return Awesomium::JSValue::Undefined();
+			}
+
+			return Awesomium::JSValue(static_cast<int>(m_db_list->GetItemsCount()));
+		}
+
+		Awesomium::JSValue JSHandlers::OnAddItemToDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_db_list && args.size() >= 2)
+			{
+				Awesomium::JSValue js_path = args.At(0);
+				Awesomium::JSValue js_name = args.At(1);
+
+				if (js_path.IsString() && js_name.IsString())
+				{
+					std::string path = Awesomium::ToString(js_path.ToString());
+					std::string name = Awesomium::ToString(js_name.ToString());
+
+					m_db_list->AddItem(new DatabaseListItem(path, name));
+				}
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnRemoveItemFromDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_db_list && args.size() >= 1 && args.At(0).IsString())
+			{
+				std::string path = Awesomium::ToString(args.At(0).ToString());
+
+				m_db_list->RemoveItem(path);
+			}
+			return Awesomium::JSValue::Undefined();
 		}
 	}
 }

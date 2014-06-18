@@ -2,6 +2,7 @@
 #include "GlobalSettings.h"
 #include "MethodHandler.h"
 #include "ZenDataSource.h"
+#include "DatabaseList.h"
 #include "CmdArguments.h"
 #include "SpellChecker.h"
 #include "Localization.h"
@@ -45,15 +46,19 @@ namespace ZenDiary
 			ZD_STATUS LoadLocalization();
 			
 			ZD_STATUS InitializeCurrentDirectory();
+			ZD_STATUS InitializeDatabaseList();
 			
 		private:
 			const std::string m_httpdocs_path = std::string("../media/httpdocs/");
 			const std::string m_settings_path = std::string("../media/settings/settings.json");
 			const std::string m_mimetypes_path = std::string("../media/settings/mime-types.json");
 			
-			const std::string m_database_initialization_path = std::string("../media/db/initialization.sql");
+			const std::string m_database_initialization_path = std::string("../media/settings/initialization.sql");
 
 			const std::string m_locale_path = std::string("../media/locale/");
+
+			const std::string m_db_path = std::string("../media/db/");
+			const std::string m_db_mask = std::string("*.sqlite3");
 
 			ZD_BOOL_PROPERTY(m_logged_in, LoggedIn);
 
@@ -77,6 +82,7 @@ namespace ZenDiary
 
 			GlobalSettings m_settings;
 
+			DatabaseList m_db_list;
 			SQLiteDatabase m_database;
 
 			SpellChecker m_spell_checker;

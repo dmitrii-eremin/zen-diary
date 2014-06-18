@@ -63,7 +63,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TreatLinkerWarningAsErrors>false</TreatLinkerWarningAsErrors>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,6 +91,8 @@
     <ClInclude Include="ArgumentValue.h" />
     <ClInclude Include="AuthSettings.h" />
     <ClInclude Include="CmdArguments.h" />
+    <ClInclude Include="DatabaseList.h" />
+    <ClInclude Include="DatabaseListItem.h" />
     <ClInclude Include="DatabaseSettings.h" />
     <ClInclude Include="EditorSettings.h" />
     <ClInclude Include="GlobalSettings.h" />
@@ -127,6 +129,8 @@
     <ClCompile Include="AuthSettings.cpp" />
     <ClCompile Include="CmdArguments.cpp" />
     <ClCompile Include="Crypto.cpp" />
+    <ClCompile Include="DatabaseList.cpp" />
+    <ClCompile Include="DatabaseListItem.cpp" />
     <ClCompile Include="DatabaseSettings.cpp" />
     <ClCompile Include="EditorSettings.cpp" />
     <ClCompile Include="Files.cpp" />

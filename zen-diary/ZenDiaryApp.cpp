@@ -39,6 +39,7 @@ namespace ZenDiary
 			ZD_RETURN_IF_FAILED(InitializeWindow());
 			ZD_RETURN_IF_FAILED(LoadLocalization());
 			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
+			ZD_RETURN_IF_FAILED(InitializeDatabaseList());
 			
 			return ZD_NOERROR;
 		}
@@ -46,6 +47,19 @@ namespace ZenDiary
 		ZD_STATUS ZenDiaryApp::Deinitialize()
 		{
 			m_database.Close();
+
+			DatabaseSettings &db_settings = m_settings.GetDatabaseSettings();
+			size_t db_list_size = m_db_list.GetItemsCount();
+			db_settings.ClearDbItems();
+			for (size_t i = 0; i < db_list_size; i++)
+			{
+				DatabaseListItem *item = m_db_list.GetItemAt(i);
+				if (item)
+				{
+					db_settings.AddDbItem(*item);
+				}
+			}
+
 			Helpers::Serialization::ToFile(m_settings, m_settings_path);
 
 			FreeWindow();
@@ -54,7 +68,8 @@ namespace ZenDiary
 			{
 				std::stringstream update_message;
 
-				update_message << "Для Zen Diary доступна новая версия " << m_updater.GetNewVersion() << ". В этой версии появилось много полезных функций";
+				update_message << Helpers::String::ConvertUtf8ToMB(m_localization.Get("general.updater.update-available")) << " " << 
+					m_updater.GetNewVersion() << ". " << Helpers::String::ConvertUtf8ToMB(m_localization.Get("general.updater.many-new-features-available"));
 				if (m_updater.GetChangeLog().length() > 0)
 				{
 					update_message << ":" << std::endl << std::endl;
@@ -64,10 +79,10 @@ namespace ZenDiary
 				{
 					update_message << "." << std::endl;
 				}				
-				update_message << "Загрузить обновление сейчас?";
+				update_message << Helpers::String::ConvertUtf8ToMB(m_localization.Get("general.updater.download-now"));
 
 				int result = MessageBox(nullptr, update_message.str().c_str(),
-					"Доступно обновление для Zen Diary", MB_YESNO | MB_ICONQUESTION);
+					"Zen Diary", MB_YESNO | MB_ICONQUESTION);
 
 				if (result == IDYES)
 				{
@@ -120,7 +135,7 @@ namespace ZenDiary
 			if (ZD_SUCCEEDED(status))
 			{
 				int res = m_database.Execute(initialization_query);
-			}
+			}			
 			return ZD_NOERROR;
 		}
 
@@ -226,6 +241,7 @@ namespace ZenDiary
 			m_js_handlers.SetUpdater(&m_updater);
 			m_js_handlers.SetSpellChecker(&m_spell_checker);
 			m_js_handlers.SetLocalization(&m_localization);
+			m_js_handlers.SetDatabaseList(&m_db_list);
 			return ZD_NOERROR;
 		}
 
@@ -254,6 +270,8 @@ namespace ZenDiary
 
 			ZD_BIND_JS_HANDLER("setFileContent", &JSHandlers::OnSetFileContent);
 			ZD_BIND_JS_HANDLER("getFileContent", &JSHandlers::OnGetFileContent);
+
+			ZD_BIND_JS_HANDLER("deleteFile", &JSHandlers::OnDeleteFile);
 
 			ZD_BIND_JS_HANDLER("toUpper", &JSHandlers::OnToUpper);
 			ZD_BIND_JS_HANDLER("toLower", &JSHandlers::OnToLower);
@@ -311,6 +329,11 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("setAutocloseBrackets", &JSHandlers::OnSetAutocloseBrackets);
 
 			ZD_BIND_JS_HANDLER("getMimeType", &JSHandlers::OnGetMimeType);
+
+			ZD_BIND_JS_HANDLER("getDatabaseList", &JSHandlers::OnGetDatabaseList);
+			ZD_BIND_JS_HANDLER("getDatabaseListSize", &JSHandlers::OnGetDatabaseListSize);
+			ZD_BIND_JS_HANDLER("addItemToDatabaseList", &JSHandlers::OnAddItemToDatabaseList);
+			ZD_BIND_JS_HANDLER("removeItemFromDatabaseList", &JSHandlers::OnRemoveItemFromDatabaseList);
 			return ZD_NOERROR;
 		}
 
@@ -378,6 +401,17 @@ namespace ZenDiary
 
 			SetCurrentDirectory(app_path.c_str());
 			m_data_source.SetCurrentDirectory(app_path);
+			return ZD_NOERROR;
+		}
+
+		ZD_STATUS ZenDiaryApp::InitializeDatabaseList()
+		{
+			std::vector<DatabaseListItem> &db_items = m_settings.GetDatabaseSettings().GetDatabaseListItems();
+
+			for (auto &i : db_items)
+			{
+				m_db_list.AddItem(new DatabaseListItem(i.GetPath(), i.GetName()));
+			}
 			return ZD_NOERROR;
 		}
 	}

@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalSettings.h"
+#include "DatabaseList.h"
 #include "Localization.h"
 #include "SpellChecker.h"
 #include "WebWindow.h"
@@ -33,6 +34,7 @@ namespace ZenDiary
 			ZD_STATUS SetWebWindow(WebWindow *window);
 			ZD_STATUS SetSpellChecker(SpellChecker *spell_checker);
 			ZD_STATUS SetLocalization(Localization *localization);
+			ZD_STATUS SetDatabaseList(DatabaseList *database_list);
 
 			ZD_STATUS AddMimeType(const std::string &key, const std::string &value);
 
@@ -41,6 +43,8 @@ namespace ZenDiary
 
 			Awesomium::JSValue OnSetFileContent(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetFileContent(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
+			Awesomium::JSValue OnDeleteFile(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnToUpper(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnToLower(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -97,6 +101,11 @@ namespace ZenDiary
 
 			Awesomium::JSValue OnGetMimeType(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
+			Awesomium::JSValue OnGetDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnGetDatabaseListSize(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnAddItemToDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnRemoveItemFromDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
 		private:			
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::string &message = std::string());
 
@@ -108,6 +117,7 @@ namespace ZenDiary
 			WebWindow *m_web_window;
 			SpellChecker *m_spell_checker;
 			Localization *m_localization;
+			DatabaseList *m_db_list;
 
 			std::map<std::string, std::string> m_mime_types;
 		};

@@ -6,7 +6,17 @@
 		"salt" : "343b49e1ff19aa4760209279ffb1c5f2"
 	},
 	"database" : {
-		"path" : "../media/db/zen-diary.sqlite3"
+		"db" : [
+			{
+				"name" : "zen-diary.sqlite3",
+				"path" : "../media/db/zen-diary.sqlite3"
+			},
+			{
+				"name" : "test.sqlite3",
+				"path" : "C:\\Projects\\zen-diary\\media\\db\\test.sqlite3"
+			}
+		],
+		"path" : "C:\\Projects\\zen-diary\\media\\db\\test.sqlite3"
 	},
 	"editor" : {
 		"autoclose_brackets" : false,
@@ -16,7 +26,7 @@
 	"gui" : {
 		"window" : {
 			"height" : 720,
-			"title" : "Zen Diary | Ваш личный дневник",
+			"title" : "Zen Diary",
 			"width" : 1280
 		}
 	},

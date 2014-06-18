@@ -1,4 +1,5 @@
 #pragma once
+#include "DatabaseListItem.h"
 
 namespace ZenDiary
 {
@@ -16,8 +17,14 @@ namespace ZenDiary
 			virtual ZD_STATUS Serialize(JsonBox::Value &root) const override final;
 			virtual ZD_STATUS Deserialize(JsonBox::Value &root) override final;
 
+			ZD_STATUS ClearDbItems();
+			ZD_STATUS AddDbItem(const DatabaseListItem &item);
+			std::vector<DatabaseListItem> &GetDatabaseListItems();
+
 		private:
 			ZD_PROPERTY(std::string, m_path, Path);
+
+			std::vector<DatabaseListItem> m_db_items;
 		};
 	};
 };

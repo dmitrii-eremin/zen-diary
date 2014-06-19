@@ -25,9 +25,9 @@
 	},
 	"gui" : {
 		"window" : {
-			"height" : 720,
+			"height" : 760,
 			"title" : "Zen Diary",
-			"width" : 1280
+			"width" : 1300
 		}
 	},
 	"locale" : {

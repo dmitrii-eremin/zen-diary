@@ -138,8 +138,8 @@ namespace ZenDiary
 
 			HINSTANCE hInstance = GetModuleHandle(nullptr);
 
-			int window_width = width + 20;
-			int window_height = height + 40;
+			int window_width = width;
+			int window_height = height;
 
 			int window_left = GetSystemMetrics(SM_CXSCREEN) / 2 - window_width / 2;
 			int window_top = GetSystemMetrics(SM_CYSCREEN) / 2 - window_height / 2;

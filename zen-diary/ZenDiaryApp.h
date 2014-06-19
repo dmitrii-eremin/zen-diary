@@ -1,4 +1,5 @@
 #pragma once
+#include "DatabaseUpdater.h"
 #include "GlobalSettings.h"
 #include "MethodHandler.h"
 #include "ZenDataSource.h"
@@ -53,7 +54,7 @@ namespace ZenDiary
 			const std::string m_settings_path = std::string("../media/settings/settings.json");
 			const std::string m_mimetypes_path = std::string("../media/settings/mime-types.json");
 			
-			const std::string m_database_initialization_path = std::string("../media/settings/initialization.sql");
+			const std::string m_db_update_path = std::string("../media/settings/db-update.json");
 
 			const std::string m_locale_path = std::string("../media/locale/");
 

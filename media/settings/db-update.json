@@ -1,0 +1,13 @@
+{
+	"updates" : [
+		{
+			"version" : 0,
+			"file" : "../media/settings/db-update/update-0.sql"
+		},
+
+		{
+			"version" : 1,
+			"file" : "../media/settings/db-update/update-1.sql"
+		}
+	]
+}

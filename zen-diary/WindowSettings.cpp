@@ -6,8 +6,8 @@ namespace ZenDiary
 	namespace App
 	{
 		WindowSettings::WindowSettings() :
-			m_window_width(1280),
-			m_window_height(720),
+			m_window_width(1300),
+			m_window_height(760),
 			m_window_title("Zen Diary")
 		{
 

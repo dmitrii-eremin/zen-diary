@@ -1184,9 +1184,14 @@ namespace ZenDiary
 			ofn.lpstrFile = filename;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST;
-			ofn.lpstrDefExt = L"";
+			ofn.lpstrDefExt = L"";			
+
+			char current_directory[MAX_PATH];
+			GetCurrentDirectory(MAX_PATH, current_directory);
 
 			BOOL res = GetOpenFileNameW(&ofn);
+
+			SetCurrentDirectory(current_directory);
 
 			delete []filter;
 
@@ -1258,7 +1263,12 @@ namespace ZenDiary
 			ofn.Flags = OFN_EXPLORER;
 			ofn.lpstrDefExt = L"";
 
+			char current_directory[MAX_PATH];
+			GetCurrentDirectory(MAX_PATH, current_directory);
+
 			BOOL result = GetSaveFileNameW(&ofn);
+
+			SetCurrentDirectory(current_directory);
 
 			delete []filter;
 

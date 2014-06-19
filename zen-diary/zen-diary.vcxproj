@@ -94,6 +94,8 @@
     <ClInclude Include="DatabaseList.h" />
     <ClInclude Include="DatabaseListItem.h" />
     <ClInclude Include="DatabaseSettings.h" />
+    <ClInclude Include="DatabaseUpdater.h" />
+    <ClInclude Include="DatabaseVersionUpdate.h" />
     <ClInclude Include="EditorSettings.h" />
     <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="IApplication.h" />
@@ -132,6 +134,8 @@
     <ClCompile Include="DatabaseList.cpp" />
     <ClCompile Include="DatabaseListItem.cpp" />
     <ClCompile Include="DatabaseSettings.cpp" />
+    <ClCompile Include="DatabaseUpdater.cpp" />
+    <ClCompile Include="DatabaseVersionUpdate.cpp" />
     <ClCompile Include="EditorSettings.cpp" />
     <ClCompile Include="Files.cpp" />
     <ClCompile Include="GlobalSettings.cpp" />

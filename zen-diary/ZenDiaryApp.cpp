@@ -130,37 +130,21 @@ namespace ZenDiary
 				return ZD_ERROR_FAILED_TO_OPEN;
 			}
 
-			std::string initialization_query;
-			ZD_STATUS status = Helpers::Files::GetFileContent(m_database_initialization_path, initialization_query);
+			std::string db_update_settings;
+			ZD_STATUS status = Helpers::Files::GetFileContent(m_db_update_path, db_update_settings);
 			if (ZD_SUCCEEDED(status))
 			{
-				int res = m_database.Execute(initialization_query);
-			}			
-			return ZD_NOERROR;
-		}
+				JsonBox::Value root;
+				root.loadFromString(db_update_settings);
 
-
-		using namespace std;
-
-		string url_encode(const string &value) {
-			ostringstream escaped;
-			escaped.fill('0');
-			escaped << hex;
-
-			for (string::const_iterator i = value.begin(), n = value.end(); i != n; ++i) {
-				string::value_type c = (*i);
-				if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
-					escaped << c;
-				}
-				else if (c == ' ')  {
-					escaped << '+';
-				}
-				else {
-					escaped << '%' << setw(2) << ((int)c) << setw(0);
+				DatabaseUpdater db_updater;
+				status = db_updater.Update(m_database, root);
+				if (ZD_FAILED(status))
+				{
+					// TODO: Report that database initialization failed
 				}
 			}
-
-			return escaped.str();
+			return ZD_NOERROR;
 		}
 
 		ZD_STATUS ZenDiaryApp::InitializeWindow()

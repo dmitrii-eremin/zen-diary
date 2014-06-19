@@ -164,6 +164,12 @@
     <ClInclude Include="DatabaseListItem.h">
       <Filter>App\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DatabaseUpdater.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseVersionUpdate.h">
+      <Filter>App\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -263,6 +269,12 @@
       <Filter>App\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DatabaseListItem.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseUpdater.cpp">
+      <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseVersionUpdate.cpp">
       <Filter>App\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

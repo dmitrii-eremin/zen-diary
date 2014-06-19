@@ -2,10 +2,10 @@
 	// Only for backward compatibility. Needs to point to the last version.
 	"version" : {
 		"major" : 2,
-		"middle" : 2,
-		"minor" : 2,
+		"middle" : 3,
+		"minor" : 1,
 
-		"link" : "https://github.com/NeonMercury/zen-diary/releases/download/v2.2.2/zen-diary-2.2.2.zip"
+		"link" : "https://github.com/NeonMercury/zen-diary/releases/download/v2.3.1/zen-diary-2.3.1.zip"
 	},
 
 	"version-list" : [

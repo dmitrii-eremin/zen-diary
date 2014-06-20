@@ -569,9 +569,13 @@ namespace ZenDiary
 			if (js_password.IsString())
 			{
 				password = Awesomium::ToString(js_password.ToString());
+				password = Helpers::String::Replace(password, "'", "''");
 			}
 
 			bool use_password = password.length() > 0;
+
+			title = Helpers::String::Replace(title, "'", "''");
+			text = Helpers::String::Replace(text, "'", "''");			
 
 			std::string hash = Helpers::Crypto::md5(text);
 
@@ -643,9 +647,13 @@ namespace ZenDiary
 			if (js_password.IsString())
 			{
 				password = Awesomium::ToString(js_password.ToString());
+				password = Helpers::String::Replace(password, "'", "''");
 			}
 
 			bool use_password = password.length() > 0;
+
+			title = Helpers::String::Replace(title, "'", "''");
+			text = Helpers::String::Replace(text, "'", "''");
 
 			std::string hash = Helpers::Crypto::md5(text);
 

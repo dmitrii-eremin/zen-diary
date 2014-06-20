@@ -23,9 +23,7 @@ $("#on-btn-save").click(function(e)
 
 	var use_javascript = $("#on-check-use-scripts").is(":checked");
 	var show_line_numbers = $("#on-check-show-line-numbers").is(":checked");
-	var autoclose_brackets = $("#on-check-autoclose-brackets").is(":checked");
-
-	var new_db_path = $("#db-path").val();	
+	var autoclose_brackets = $("#on-check-autoclose-brackets").is(":checked");	
 
 	if (login.length == 0)
 	{
@@ -36,16 +34,6 @@ $("#on-btn-save").click(function(e)
 		$("#login").focus();
 		return;
 	}
-
-	if (new_db_path.length == 0)
-	{
-		$.notify("{{script.settings.empty-db}}",
-		{
-			position: "top right"
-		});
-		$("#db-path").focus();
-		return;
-	}	
 
 	if (new_password.length > 0)	
 	{
@@ -109,8 +97,7 @@ $("#on-btn-save").click(function(e)
 		$("#preview-width").focus();
 		return;	
 	}
-
-	zen.setDatabasePath(new_db_path);
+	
 	zen.setUseJavascript(use_javascript);
 	zen.setShowLineNumbers(show_line_numbers);
 	zen.setAutocloseBrackets(autoclose_brackets);

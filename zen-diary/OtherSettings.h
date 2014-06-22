@@ -17,7 +17,8 @@ namespace ZenDiary
 			virtual ZD_STATUS Deserialize(JsonBox::Value &root) override final;
 
 		private:
-			ZD_PROPERTY(bool, m_use_javascript, UseJavascript);			
+			ZD_PROPERTY(bool, m_use_javascript, UseJavascript);
+			ZD_BOOL_PROPERTY(m_signout_when_hide_to_tray, SignoutWhenHideToTray);
 		};
 	};
 };

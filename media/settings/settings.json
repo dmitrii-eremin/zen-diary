@@ -1,0 +1,36 @@
+{
+	"auth" : {
+		"first_run" : false,
+		"login" : "root",
+		"passhash" : "198c8c2832c3ac9be45377065b827929",
+		"salt" : "178a3e955c6a553c4319db1a31c8a831"
+	},
+	"database" : {
+		"db" : [
+			{
+				"name" : "zen-diary.sqlite3",
+				"path" : "../media/db/zen-diary.sqlite3"
+			}
+		],
+		"path" : "../media/db/zen-diary.sqlite3"
+	},
+	"editor" : {
+		"autoclose_brackets" : false,
+		"preview_width" : 800,
+		"show_line_numbers" : false
+	},
+	"gui" : {
+		"window" : {
+			"height" : 760,
+			"title" : "Zen Diary",
+			"width" : 1300
+		}
+	},
+	"locale" : {
+		"language" : "ru"
+	},
+	"other" : {
+		"signout_when_hide_to_tray" : false,
+		"use_javascript" : false
+	}
+}

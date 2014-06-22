@@ -170,6 +170,15 @@
     <ClInclude Include="DatabaseVersionUpdate.h">
       <Filter>App\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PopupItemBase.h">
+      <Filter>Helpers\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupItem.h">
+      <Filter>Helpers\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupDivider.h">
+      <Filter>Helpers\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -276,6 +285,15 @@
     </ClCompile>
     <ClCompile Include="DatabaseVersionUpdate.cpp">
       <Filter>App\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupItemBase.cpp">
+      <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupItem.cpp">
+      <Filter>Helpers\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupDivider.cpp">
+      <Filter>Helpers\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

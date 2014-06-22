@@ -6,7 +6,8 @@ namespace ZenDiary
 	namespace App
 	{
 		OtherSettings::OtherSettings() : 
-			m_use_javascript(false)
+			m_use_javascript(false),
+			m_signout_when_hide_to_tray(false)
 		{
 
 		}
@@ -18,7 +19,8 @@ namespace ZenDiary
 
 		ZD_STATUS OtherSettings::Serialize(JsonBox::Value &root) const
 		{
-			root["use_javascript"] = m_use_javascript;			
+			root["use_javascript"] = m_use_javascript;	
+			root["signout_when_hide_to_tray"] = m_signout_when_hide_to_tray;
 			return ZD_NOERROR;
 		}
 
@@ -28,6 +30,10 @@ namespace ZenDiary
 			{
 				m_use_javascript = root["use_javascript"].getBoolean();
 			}			
+			if (root["signout_when_hide_to_tray"].isBoolean())
+			{
+				m_signout_when_hide_to_tray = root["signout_when_hide_to_tray"].getBoolean();
+			}
 			return ZD_NOERROR;
 		}
 	}

@@ -1,4 +1,7 @@
 var zenapi = {
+	ZD_WM_SHOW_WINDOW : 1026,
+	ZD_WM_EXIT : 1027,
+
 	animation_duration : 200,
 
 	clearAlerts : function()
@@ -54,6 +57,21 @@ var zenapi = {
 			type : BootstrapDialog.TYPE_DEFAULT,
 			closable : true,			
 		}).open();	
+	}
+};
+
+var zen_handlers = {};
+
+zen_handlers.handle_popup_menu = function(message_id)
+{
+	if (message_id == zenapi.ZD_WM_SHOW_WINDOW)
+	{
+		zen.showWindow();
+		zen.deleteNotifyIcon();
+	}
+	else if (message_id == zenapi.ZD_WM_EXIT)
+	{
+		zen.terminate();
 	}
 };
 
@@ -182,4 +200,18 @@ $("#on-btn-toggle-fullscreen").click(function(e)
 	{
 		$("#on-btn-toggle-fullscreen-icon").attr("class", "fa fa-expand");
 	}
+});
+
+$("#on-btn-hide-to-tray").click(function(e)
+{
+	e.preventDefault();
+
+	if (zen.isSignoutWhenHideToTray())
+	{
+		zen.logoutUser();
+		window.location.href = "signin.html";
+	}
+
+	zen.hideWindow();
+	zen.showNotifyIcon();	
 });

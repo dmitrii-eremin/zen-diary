@@ -235,6 +235,12 @@ namespace ZenDiary
 			return Awesomium::JSValue::Undefined();
 		}
 
+		Awesomium::JSValue JSHandlers::OnTerminate(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			ZD_SAFE_CALL(m_zen_app)->Terminate();
+			return Awesomium::JSValue::Undefined();
+		}
+
 		Awesomium::JSValue JSHandlers::OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args)
 		{
 			if (args.size() > 0 && args.At(0).IsString())
@@ -1513,6 +1519,64 @@ namespace ZenDiary
 				std::string path = Awesomium::ToString(args.At(0).ToString());
 
 				m_db_list->RemoveItem(path);
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnHideWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			ZD_SAFE_CALL(m_web_window)->HideWindow();
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnShowWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			ZD_SAFE_CALL(m_web_window)->ShowWindow();
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetForegroundWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			ZD_SAFE_CALL(m_web_window)->SetForegroundWindow();
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnShowNotifyIcon(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_web_window)
+			{
+				Helpers::Win32::CreateNotifyIcon(m_web_window->GetHwnd(),
+					LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1)),
+					ZD_WM_NOTIFY_ICON, "Zen Diary");
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnDeleteNotifyIcon(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_web_window)
+			{
+				Helpers::Win32::DeleteNotifyIcon(m_web_window->GetHwnd());
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnIsSignoutWhenHideToTray(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (m_settings)
+			{
+				return Awesomium::JSValue(m_settings->GetOtherSettings().IsSignoutWhenHideToTray());
+			}
+			return Awesomium::JSValue::Undefined();
+		}
+
+		Awesomium::JSValue JSHandlers::OnSetSignoutWhenHideToTray(Awesomium::WebView *caller, const Awesomium::JSArray &args)
+		{
+			if (args.size() >= 1 && args.At(0).IsBoolean())
+			{
+				bool value = args.At(0).ToBoolean();
+
+				m_settings->GetOtherSettings().SetSignoutWhenHideToTray(value);
 			}
 			return Awesomium::JSValue::Undefined();
 		}

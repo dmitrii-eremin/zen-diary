@@ -5,10 +5,12 @@
 namespace ZenDiary
 {
 	namespace App
-	{
+	{		
 		const std::string WebWindow::m_window_class = "Zen diary Window Class";
 
 		std::vector<Awesomium::WebView*> WebWindow::m_views;
+		std::vector<WebWindow*> WebWindow::m_windows;
+		Localization *WebWindow::m_localization = nullptr;
 
 		WebWindow::~WebWindow()
 		{
@@ -18,6 +20,16 @@ namespace ZenDiary
 				m_views.erase(i);
 			}
 			m_web_view->Destroy();
+
+			m_windows.erase(std::remove_if(m_windows.begin(), m_windows.end(), 
+				[this](WebWindow *wnd) -> bool
+				{
+					if (wnd == this)
+					{
+						return true;
+					}
+					return false;
+				}), m_windows.end());
 		}
 
 		ZD_STATUS WebWindow::EnableDragnDrop(bool enable)
@@ -31,9 +43,20 @@ namespace ZenDiary
 			return new WebWindow(title, width, height, session);
 		}
 
+		ZD_STATUS WebWindow::SetLocalization(Localization *loc)
+		{
+			m_localization = loc;
+			return ZD_NOERROR;
+		}
+
 		Awesomium::WebView *WebWindow::GetWebView()
 		{
 			return m_web_view;
+		}
+
+		HWND WebWindow::GetHwnd()
+		{
+			return m_hwnd;
 		}
 
 		ZD_STATUS WebWindow::ToggleFullscreen()
@@ -94,6 +117,21 @@ namespace ZenDiary
 			return m_fullscreen;
 		}
 
+		void WebWindow::ShowWindow()
+		{
+			::ShowWindow(m_hwnd, SW_SHOWNORMAL);
+		}
+
+		void WebWindow::HideWindow()
+		{
+			::ShowWindow(m_hwnd, SW_HIDE);
+		}
+
+		void WebWindow::SetForegroundWindow()
+		{
+			::SetForegroundWindow(m_hwnd);
+		}
+
 		void WebWindow::OnChangeTitle(Awesomium::WebView* caller,
 			const Awesomium::WebString& title) { }
 
@@ -150,8 +188,10 @@ namespace ZenDiary
 
 			m_web_view->set_parent_window(m_hwnd);
 
-			ShowWindow(m_hwnd, SW_SHOWNORMAL);
-			UpdateWindow(m_hwnd);			
+			ShowWindow();
+			UpdateWindow(m_hwnd);		
+
+			m_windows.push_back(this);
 		}
 
 		void WebWindow::PlatformInit()
@@ -178,7 +218,7 @@ namespace ZenDiary
 			wc.lpszMenuName = nullptr;
 			wc.lpszClassName = m_window_class.c_str();
 
-			RegisterClassEx(&wc);
+			RegisterClassEx(&wc);			
 		}
 
 		LRESULT CALLBACK WebWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -202,9 +242,46 @@ namespace ZenDiary
 			case  WM_DROPFILES:
 				HandleDragnDrop(wParam);
 				break;
+			case WM_COMMAND:
+				HandlePopupMenu(LOWORD(wParam));
+				break;			
+			case ZD_WM_NOTIFY_ICON:
+				switch (lParam)
+				{
+				case WM_LBUTTONDBLCLK:
+					HandlePopupMenu(ZD_WM_SHOW_WINDOW);
+					break;
+				case WM_RBUTTONUP:
+					{
+						std::string show_window("Show window");
+						std::string exit("Exit");
+
+						if (m_localization)
+						{
+							show_window = Helpers::String::ConvertUtf8ToMB(m_localization->Get("ui.popup.show-window"));
+							exit = Helpers::String::ConvertUtf8ToMB(m_localization->Get("ui.popup.exit"));
+						}
+
+						for (auto &i : m_windows)
+						{
+							if (!i || !i->GetHwnd())
+							{
+								continue;
+							}
+
+							Helpers::Win32::PopupMenu(i->GetHwnd(), { new Helpers::Win32::PopupItem(ZD_WM_SHOW_WINDOW, show_window),
+								new Helpers::Win32::PopupDivider(), new Helpers::Win32::PopupItem(ZD_WM_EXIT, exit) });
+						}
+					}					
+					break;
+				default:
+					break;
+				}				
+				break;			
 			default:
 				break;
 			}
+		
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
@@ -231,6 +308,17 @@ namespace ZenDiary
 			}
 
 			DragFinish(hDrop);
+			return 0;
+		}	
+
+		LRESULT WebWindow::HandlePopupMenu(WORD message_id)
+		{
+			std::stringstream js_handler;
+			js_handler << "zen_handlers.handle_popup_menu(" << message_id << ");";
+			for (auto &j : m_views)
+			{
+				j->ExecuteJavascript(Awesomium::WSLit(js_handler.str().c_str()), Awesomium::WSLit(""));
+			}
 			return 0;
 		}
 	}

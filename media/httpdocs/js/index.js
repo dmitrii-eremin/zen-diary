@@ -134,35 +134,34 @@ var new_post = {
 	}
 };
 
-var zen_handlers = {
-	drag_n_drop : function(fname)
-	{		
-		var mime_type = zen.getMimeType(fname);
-		if (mime_type != undefined)
+
+zen_handlers.drag_n_drop = function(fname)
+{		
+	var mime_type = zen.getMimeType(fname);
+	if (mime_type != undefined)
+	{
+		const image_type = "image/";
+		const text_type = "text/";
+
+		if (mime_type.length > image_type.length &&
+			mime_type.substr(0, image_type.length) == image_type)
 		{
-			const image_type = "image/";
-			const text_type = "text/";
+			fname = "asset://zen-diary/" + zen.uriEncode(fname);
 
-			if (mime_type.length > image_type.length &&
-				mime_type.substr(0, image_type.length) == image_type)
+			var md_image = "![](" + fname + ")";
+
+			new_post.insertToEditor(md_image);
+		}
+		else if (mime_type.length > text_type.length &&
+			mime_type.substr(0, text_type.length) == text_type)
+		{
+			var filetext = zen.getFileContent(fname);
+			if (filetext != undefined)
 			{
-				fname = "asset://zen-diary/" + zen.uriEncode(fname);
-
-				var md_image = "![](" + fname + ")";
-
-				new_post.insertToEditor(md_image);
-			}
-			else if (mime_type.length > text_type.length &&
-				mime_type.substr(0, text_type.length) == text_type)
-			{
-				var filetext = zen.getFileContent(fname);
-				if (filetext != undefined)
-				{
-					new_post.insertToEditor(filetext);
-				}	
-			}				
-		}		
-	}
+				new_post.insertToEditor(filetext);
+			}	
+		}				
+	}		
 };
 
 $(window).resize(function(e)

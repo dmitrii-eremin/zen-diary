@@ -4,6 +4,7 @@
 #include "Localization.h"
 #include "SpellChecker.h"
 #include "WebWindow.h"
+#include "resource.h"
 #include "Updater.h"
 #include "SQLite.h"
 
@@ -53,6 +54,7 @@ namespace ZenDiary
 			Awesomium::JSValue OnUriDecode(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 			Awesomium::JSValue OnAlert(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnTerminate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnShellExecute(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetTemplate(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnGetVersionString(Awesomium::WebView *caller, const Awesomium::JSArray &args);
@@ -105,6 +107,16 @@ namespace ZenDiary
 			Awesomium::JSValue OnGetDatabaseListSize(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnAddItemToDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 			Awesomium::JSValue OnRemoveItemFromDatabaseList(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
+			Awesomium::JSValue OnHideWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnShowWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetForegroundWindow(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
+			Awesomium::JSValue OnShowNotifyIcon(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnDeleteNotifyIcon(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+
+			Awesomium::JSValue OnIsSignoutWhenHideToTray(Awesomium::WebView *caller, const Awesomium::JSArray &args);
+			Awesomium::JSValue OnSetSignoutWhenHideToTray(Awesomium::WebView *caller, const Awesomium::JSArray &args);
 
 		private:			
 			static Awesomium::JSObject CreateAnswerObject(bool success, const std::string &message = std::string());

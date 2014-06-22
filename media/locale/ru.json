@@ -26,7 +26,7 @@
 				"many-new-features-available" : "В этой версии появилось много полезных функций",
 				"download-now" : "Загрузить обновление сейчас?"
 			}
-		},		
+		},
 
 		"ui" : {
 			"sidebox" : {
@@ -40,8 +40,14 @@
 				"tooltip" : {
 					"logout" : "Выйти из учётной записи",
 					"refresh" : "Обновить интерфейс",
-					"fullscreen" : "Полноэкранный режим"					
+					"fullscreen" : "Полноэкранный режим",
+					"hide-to-tray" : "Свернуть в трей"
 				}
+			},
+
+			"popup" : {
+				"show-window" : "Показать окно",
+				"exit" : "Выйти из Zen Diary"
 			},
 
 			"input-link" : {
@@ -163,7 +169,8 @@
 
 				"other" : {
 					"title" : "Прочие настройки",
-					"use-javascript" : "Активировать javascript в заметках"
+					"use-javascript" : "Активировать javascript в заметках",
+					"signout-when-hide-to-tray" : "Выходить из аккаунта при сворачивании в системный трей"
 				},
 
 				"apply" : "Применить настройки"

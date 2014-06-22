@@ -1,4 +1,10 @@
 #pragma once
+#include "Localization.h"
+
+#define ZD_WM_NOTIFY_ICON				(WM_USER + 1)
+
+#define ZD_WM_SHOW_WINDOW				(WM_USER + 2)
+#define ZD_WM_EXIT						(WM_USER + 3)
 
 namespace ZenDiary
 {
@@ -12,13 +18,20 @@ namespace ZenDiary
 			WebWindow(const WebWindow &a) = delete;
 			WebWindow &operator = (const WebWindow &a) = delete;
 
-			ZD_STATUS EnableDragnDrop(bool enable = true);		
+			ZD_STATUS EnableDragnDrop(bool enable = true);				
 
 			static WebWindow *Create(const std::string &title, size_t width, size_t height, Awesomium::WebSession *session = nullptr);
+			static ZD_STATUS SetLocalization(Localization *loc);
 			Awesomium::WebView *GetWebView();
+
+			HWND GetHwnd();
 
 			ZD_STATUS ToggleFullscreen();
 			bool IsFullscreenMode() const;
+
+			void ShowWindow();
+			void HideWindow();
+			void SetForegroundWindow();
 
 			virtual void OnChangeTitle(Awesomium::WebView* caller,
 				const Awesomium::WebString& title) override final;
@@ -52,13 +65,16 @@ namespace ZenDiary
 
 			static void PlatformInit();
 			static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-			static LRESULT HandleDragnDrop(WPARAM wParam);
+			static LRESULT HandleDragnDrop(WPARAM wParam);	
+			static LRESULT HandlePopupMenu(WORD message_id);
 
 		private:
 			static const std::string m_window_class;
-			static std::vector<Awesomium::WebView*> m_views;					
+			static std::vector<Awesomium::WebView*> m_views;	
+			static std::vector<WebWindow*> m_windows;
 
 			Awesomium::WebView *m_web_view;
+			static Localization *m_localization;
 			HWND m_hwnd;
 
 			bool m_fullscreen;

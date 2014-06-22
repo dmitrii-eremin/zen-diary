@@ -7,6 +7,7 @@ $(document).ready(function()
 	$("#on-check-use-scripts").prop("checked", zen.getUseJavascript());
 	$("#on-check-show-line-numbers").prop("checked", zen.getShowLineNumbers());
 	$("#on-check-autoclose-brackets").prop("checked", zen.isAutocloseBrackets());
+	$("#on-check-signout-when-hide-to-tray").prop("checked", zen.isSignoutWhenHideToTray());
 	$("#preview-width").val(zen.getPreviewWidth());
 });
 
@@ -24,6 +25,7 @@ $("#on-btn-save").click(function(e)
 	var use_javascript = $("#on-check-use-scripts").is(":checked");
 	var show_line_numbers = $("#on-check-show-line-numbers").is(":checked");
 	var autoclose_brackets = $("#on-check-autoclose-brackets").is(":checked");	
+	var signout_when_hide_to_tray = $("#on-check-signout-when-hide-to-tray").is(":checked");
 
 	if (login.length == 0)
 	{
@@ -102,6 +104,7 @@ $("#on-btn-save").click(function(e)
 	zen.setShowLineNumbers(show_line_numbers);
 	zen.setAutocloseBrackets(autoclose_brackets);
 	zen.setPreviewWidth(preview_width);
+	zen.setSignoutWhenHideToTray(signout_when_hide_to_tray);
 
 	$.notify("{{script.settings.saved}}",
 	{

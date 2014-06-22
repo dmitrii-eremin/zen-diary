@@ -108,6 +108,9 @@
     <ClInclude Include="MenuHandler.h" />
     <ClInclude Include="MethodHandler.h" />
     <ClInclude Include="OtherSettings.h" />
+    <ClInclude Include="PopupDivider.h" />
+    <ClInclude Include="PopupItem.h" />
+    <ClInclude Include="PopupItemBase.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SpellChecker.h" />
     <ClInclude Include="SQLite.h" />
@@ -148,6 +151,9 @@
     <ClCompile Include="MenuHandler.cpp" />
     <ClCompile Include="MethodHandler.cpp" />
     <ClCompile Include="OtherSettings.cpp" />
+    <ClCompile Include="PopupDivider.cpp" />
+    <ClCompile Include="PopupItem.cpp" />
+    <ClCompile Include="PopupItemBase.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="SpellChecker.cpp" />
     <ClCompile Include="SQLite.cpp" />

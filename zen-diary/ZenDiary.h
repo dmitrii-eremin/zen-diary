@@ -1,4 +1,6 @@
 #pragma once
+#include "PopupItem.h"
+#include "PopupDivider.h"
 
 #define __STR2__(x) #x
 #define __STR1__(x) __STR2__(x)
@@ -49,10 +51,10 @@ typedef uint_t										version_t;
 #define ZD_PROPERTY_CONST_GETTER_BY_REF(T, O, N)	private: T O; public: const T &Get##N() const { return O; }
 
 #define ZD_SAFE_CALL(X)								if (X) X
-#define ZD_SAFE_DELETE(X)							if (X) { delete X; X = nullptr; }
-#define ZD_SAFE_DELETE_ARRAY(X)						if (X) { delete []X; X = nullptr; }
+#define ZD_SAFE_DELETE(X)							{ delete X; X = nullptr; }
+#define ZD_SAFE_DELETE_ARRAY(X)						{ delete []X; X = nullptr; }
 
-#define ZD_VERSION									ZD_MAKE_VERSION(2, 3, 1)
+#define ZD_VERSION									ZD_MAKE_VERSION(2, 3, 5)
 #define ZD_VERSION_STATUS							"Beta"
 
 #define ZD_AES_BLOCK_LEN							16
@@ -145,6 +147,10 @@ namespace ZenDiary
 		namespace Win32
 		{
 			ZD_STATUS SetClipboardText(const std::string &text);
+
+			ZD_STATUS CreateNotifyIcon(HWND hwnd, HICON hIcon, int message_id, const std::string &title = std::string());
+			ZD_STATUS DeleteNotifyIcon(HWND hwnd);
+			ZD_STATUS PopupMenu(HWND hwnd, const std::vector<PopupItemBase*> &items);
 		}
 	}
 }

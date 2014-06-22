@@ -39,7 +39,7 @@ namespace ZenDiary
 			ZD_RETURN_IF_FAILED(InitializeWindow());
 			ZD_RETURN_IF_FAILED(LoadLocalization());
 			ZD_RETURN_IF_FAILED(InitializeJsHandlers());
-			ZD_RETURN_IF_FAILED(InitializeDatabaseList());
+			ZD_RETURN_IF_FAILED(InitializeDatabaseList());					
 			
 			return ZD_NOERROR;
 		}
@@ -188,7 +188,12 @@ namespace ZenDiary
 		{				
 			ZD_SAFE_CALL(m_web_session)->Release();
 
-			ZD_SAFE_DELETE(m_window);
+			if (m_window)
+			{
+				Helpers::Win32::DeleteNotifyIcon(m_window->GetHwnd());
+				delete m_window;
+				m_window = nullptr;
+			}
 			Awesomium::WebCore::Shutdown();
 
 			return ZD_NOERROR;
@@ -264,6 +269,7 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("uriDecode", &JSHandlers::OnUriDecode);
 
 			ZD_BIND_JS_HANDLER("alert", &JSHandlers::OnAlert);
+			ZD_BIND_JS_HANDLER("terminate", &JSHandlers::OnTerminate);
 			ZD_BIND_JS_HANDLER("shellExecute", &JSHandlers::OnShellExecute);
 			ZD_BIND_JS_HANDLER("getTemplate", &JSHandlers::OnGetTemplate);
 			ZD_BIND_JS_HANDLER("getVersionString", &JSHandlers::OnGetVersionString);
@@ -318,6 +324,16 @@ namespace ZenDiary
 			ZD_BIND_JS_HANDLER("getDatabaseListSize", &JSHandlers::OnGetDatabaseListSize);
 			ZD_BIND_JS_HANDLER("addItemToDatabaseList", &JSHandlers::OnAddItemToDatabaseList);
 			ZD_BIND_JS_HANDLER("removeItemFromDatabaseList", &JSHandlers::OnRemoveItemFromDatabaseList);
+
+			ZD_BIND_JS_HANDLER("hideWindow", &JSHandlers::OnHideWindow);
+			ZD_BIND_JS_HANDLER("showWindow", &JSHandlers::OnShowWindow);
+			ZD_BIND_JS_HANDLER("setForegroundWindow", &JSHandlers::OnSetForegroundWindow);
+
+			ZD_BIND_JS_HANDLER("showNotifyIcon", &JSHandlers::OnShowNotifyIcon);
+			ZD_BIND_JS_HANDLER("deleteNotifyIcon", &JSHandlers::OnDeleteNotifyIcon);
+
+			ZD_BIND_JS_HANDLER("isSignoutWhenHideToTray", &JSHandlers::OnIsSignoutWhenHideToTray);
+			ZD_BIND_JS_HANDLER("setSignoutWhenHideToTray", &JSHandlers::OnSetSignoutWhenHideToTray);
 			return ZD_NOERROR;
 		}
 
@@ -373,6 +389,7 @@ namespace ZenDiary
 			m_localization.SetCurrentLanguage(m_settings.GetLocaleSettings().GetLanguage());			
 
 			m_data_source.SetLocalization(&m_localization);
+			WebWindow::SetLocalization(&m_localization);
 			return ZD_NOERROR;
 		}
 
